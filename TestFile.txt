@@ -14,3 +14,8 @@ Timotei Albu (timotei)
 Mickael Zerihoun (zerihoun or afroholic78)
 
 Shawn Anderson (swanders)
+
+
+
+Whoops, forgot it was supposed to be a .txt file when I first initialized the repo. Thanks Shawn.
+-Alain
