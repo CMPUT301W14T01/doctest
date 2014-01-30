@@ -9,6 +9,6 @@ edited by Alain Clark (aaclark)
 
 David Chau-Tran (chautran)
 
-Timotei Albu (timotei)
+Timotei Albu (timotei --eclass or zztimy --GitHub)
 
 Mickael Zerihoun (zerihoun or afroholic78)
