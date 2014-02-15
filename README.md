@@ -12,3 +12,5 @@ David Chau-Tran (chautran)
 Timotei Albu (timotei --eclass or zztimy --GitHub)
 
 Mickael Zerihoun (zerihoun or afroholic78)
+
+Shawn Anderson (swanders)
