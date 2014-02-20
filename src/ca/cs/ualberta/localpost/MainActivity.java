@@ -49,7 +49,9 @@ public class MainActivity extends FragmentActivity implements
 		
 		// Button that connects to the GoogleMaps View
 		viewGMaps = (Button) findViewById(R.id.open_map);
-		viewGMaps.setOnClickListener(new View.OnClickListener() {
+		
+		// The commented out code doesn't work. The intent is not set and there is a null exception. Still working on it
+		/*viewGMaps.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -57,7 +59,7 @@ public class MainActivity extends FragmentActivity implements
 				Intent intentGMaps = new Intent(MainActivity.this, GoogleMaps.class);
 				startActivity(intentGMaps);
 			}
-		});
+		});*/
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
