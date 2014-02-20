@@ -20,8 +20,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class GoogleMaps extends Activity {
 
-	//private final LatLng LOCATION_EDMONTON = new LatLng(53.5333, -113.5000);
-	
 	private GoogleMap map;
 	
 	@Override
@@ -29,9 +27,8 @@ public class GoogleMaps extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map_main);
 		
+		// Set the location of the map when it is started to the users location
 		MyLocation();
-		
-		//map.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(getLatitude(), getLongitude()), 14.0f) );
 	}
 
 	@Override
@@ -82,15 +79,6 @@ public class GoogleMaps extends Activity {
 			}
 		
 		}
-		
-	/*	map.setMyLocationEnabled(true);
-		Location location;
-		location = map.getMyLocation();
-		double lat = location.getLatitude();
-		double lng = location.getLongitude();
-		LatLng ll = new LatLng(lat, lng);
-		map.addMarker(new MarkerOptions().position(ll).title("I'm here!"));
-		map.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 20));*/
 	}
 	
 	@Override
