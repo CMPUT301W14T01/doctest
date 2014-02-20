@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+@SuppressWarnings("unused")
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
@@ -40,26 +41,14 @@ public class MainActivity extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	Button viewGMaps;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		// Button that connects to the GoogleMaps View
-		viewGMaps = (Button) findViewById(R.id.open_map);
 		
-		// The commented out code doesn't work. The intent is not set and there is a null exception. Still working on it
-		/*viewGMaps.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// When Button is clicked this new View is opened
-				Intent intentGMaps = new Intent(MainActivity.this, GoogleMaps.class);
-				startActivity(intentGMaps);
-			}
-		});*/
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -169,6 +158,7 @@ public class MainActivity extends FragmentActivity implements
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
 	 */
+	
 	public static class DummySectionFragment extends Fragment {
 		/**
 		 * The fragment argument representing the section number for this
@@ -184,6 +174,19 @@ public class MainActivity extends FragmentActivity implements
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_main_dummy,
 					container, false);
+			
+			// Button that connects to the GoogleMaps View
+			Button viewGMaps = (Button) rootView.findViewById(R.id.open_map);
+			viewGMaps.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// When Button is clicked this new View is opened
+					Intent intentGMaps = new Intent(getActivity(), GoogleMaps.class);
+					getActivity().startActivity(intentGMaps);
+				}
+			});
+			
 			TextView dummyTextView = (TextView) rootView
 					.findViewById(R.id.section_label);
 			dummyTextView.setText(Integer.toString(getArguments().getInt(
