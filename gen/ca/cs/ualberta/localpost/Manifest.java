@@ -5,10 +5,10 @@
  * should not be modified by hand.
  */
 
-package cs.ca.ualberta.localpost;
+package ca.cs.ualberta.localpost;
 
 public final class Manifest {
     public static final class permission {
-        public static final String MAPS_RECEIVE="ca.cs.ualberta.Localpost.permission.MAPS_RECEIVE";
+        public static final String MAPS_RECEIVE="ca.cs.ualberta.localpost.permission.MAPS_RECEIVE";
     }
 }

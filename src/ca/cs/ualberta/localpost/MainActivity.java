@@ -1,9 +1,6 @@
 package ca.cs.ualberta.localpost;
 
 import java.util.Locale;
-
-import cs.ca.ualberta.localpost.R;
-
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -48,8 +45,6 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		
-
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

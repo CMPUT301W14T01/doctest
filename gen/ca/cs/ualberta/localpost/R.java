@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package cs.ca.ualberta.localpost;
+package ca.cs.ualberta.localpost;
 
 public final class R {
     public static final class attr {
@@ -380,11 +380,11 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #AdsAttrs_adSize cs.ca.ualberta.localpost:adSize}</code></td><td>
+           <tr><td><code>{@link #AdsAttrs_adSize ca.cs.ualberta.localpost:adSize}</code></td><td>
     The size of the ad.</td></tr>
-           <tr><td><code>{@link #AdsAttrs_adSizes cs.ca.ualberta.localpost:adSizes}</code></td><td>
+           <tr><td><code>{@link #AdsAttrs_adSizes ca.cs.ualberta.localpost:adSizes}</code></td><td>
     A comma-separated list of the supported ad sizes.</td></tr>
-           <tr><td><code>{@link #AdsAttrs_adUnitId cs.ca.ualberta.localpost:adUnitId}</code></td><td> The ad unit ID.</td></tr>
+           <tr><td><code>{@link #AdsAttrs_adUnitId ca.cs.ualberta.localpost:adUnitId}</code></td><td> The ad unit ID.</td></tr>
            </table>
            @see #AdsAttrs_adSize
            @see #AdsAttrs_adSizes
@@ -410,7 +410,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name cs.ca.ualberta.localpost:adSize
+          @attr name ca.cs.ualberta.localpost:adSize
         */
         public static final int AdsAttrs_adSize = 0;
         /**
@@ -430,7 +430,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name cs.ca.ualberta.localpost:adSizes
+          @attr name ca.cs.ualberta.localpost:adSizes
         */
         public static final int AdsAttrs_adSizes = 1;
         /**
@@ -446,7 +446,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name cs.ca.ualberta.localpost:adUnitId
+          @attr name ca.cs.ualberta.localpost:adUnitId
         */
         public static final int AdsAttrs_adUnitId = 2;
         /** Attributes that can be used with a MapAttrs.
@@ -455,20 +455,20 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #MapAttrs_cameraBearing cs.ca.ualberta.localpost:cameraBearing}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_cameraTargetLat cs.ca.ualberta.localpost:cameraTargetLat}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_cameraTargetLng cs.ca.ualberta.localpost:cameraTargetLng}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_cameraTilt cs.ca.ualberta.localpost:cameraTilt}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_cameraZoom cs.ca.ualberta.localpost:cameraZoom}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_mapType cs.ca.ualberta.localpost:mapType}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiCompass cs.ca.ualberta.localpost:uiCompass}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiRotateGestures cs.ca.ualberta.localpost:uiRotateGestures}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiScrollGestures cs.ca.ualberta.localpost:uiScrollGestures}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiTiltGestures cs.ca.ualberta.localpost:uiTiltGestures}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiZoomControls cs.ca.ualberta.localpost:uiZoomControls}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiZoomGestures cs.ca.ualberta.localpost:uiZoomGestures}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_useViewLifecycle cs.ca.ualberta.localpost:useViewLifecycle}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_zOrderOnTop cs.ca.ualberta.localpost:zOrderOnTop}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_cameraBearing ca.cs.ualberta.localpost:cameraBearing}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_cameraTargetLat ca.cs.ualberta.localpost:cameraTargetLat}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_cameraTargetLng ca.cs.ualberta.localpost:cameraTargetLng}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_cameraTilt ca.cs.ualberta.localpost:cameraTilt}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_cameraZoom ca.cs.ualberta.localpost:cameraZoom}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_mapType ca.cs.ualberta.localpost:mapType}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiCompass ca.cs.ualberta.localpost:uiCompass}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiRotateGestures ca.cs.ualberta.localpost:uiRotateGestures}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiScrollGestures ca.cs.ualberta.localpost:uiScrollGestures}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiTiltGestures ca.cs.ualberta.localpost:uiTiltGestures}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiZoomControls ca.cs.ualberta.localpost:uiZoomControls}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiZoomGestures ca.cs.ualberta.localpost:uiZoomGestures}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_useViewLifecycle ca.cs.ualberta.localpost:useViewLifecycle}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_zOrderOnTop ca.cs.ualberta.localpost:zOrderOnTop}</code></td><td></td></tr>
            </table>
            @see #MapAttrs_cameraBearing
            @see #MapAttrs_cameraTargetLat
@@ -492,7 +492,7 @@ containing a value of this type.
             0x7f01000f, 0x7f010010
         };
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#cameraBearing}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#cameraBearing}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -502,11 +502,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:cameraBearing
+          @attr name ca.cs.ualberta.localpost:cameraBearing
         */
         public static final int MapAttrs_cameraBearing = 1;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#cameraTargetLat}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#cameraTargetLat}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -516,11 +516,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:cameraTargetLat
+          @attr name ca.cs.ualberta.localpost:cameraTargetLat
         */
         public static final int MapAttrs_cameraTargetLat = 2;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#cameraTargetLng}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#cameraTargetLng}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -530,11 +530,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:cameraTargetLng
+          @attr name ca.cs.ualberta.localpost:cameraTargetLng
         */
         public static final int MapAttrs_cameraTargetLng = 3;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#cameraTilt}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#cameraTilt}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -544,11 +544,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:cameraTilt
+          @attr name ca.cs.ualberta.localpost:cameraTilt
         */
         public static final int MapAttrs_cameraTilt = 4;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#cameraZoom}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#cameraZoom}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -558,11 +558,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:cameraZoom
+          @attr name ca.cs.ualberta.localpost:cameraZoom
         */
         public static final int MapAttrs_cameraZoom = 5;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#mapType}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#mapType}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -578,11 +578,11 @@ containing a value of this type.
 <tr><td><code>terrain</code></td><td>3</td><td></td></tr>
 <tr><td><code>hybrid</code></td><td>4</td><td></td></tr>
 </table>
-          @attr name cs.ca.ualberta.localpost:mapType
+          @attr name ca.cs.ualberta.localpost:mapType
         */
         public static final int MapAttrs_mapType = 0;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#uiCompass}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#uiCompass}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -592,11 +592,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:uiCompass
+          @attr name ca.cs.ualberta.localpost:uiCompass
         */
         public static final int MapAttrs_uiCompass = 6;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#uiRotateGestures}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#uiRotateGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -606,11 +606,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:uiRotateGestures
+          @attr name ca.cs.ualberta.localpost:uiRotateGestures
         */
         public static final int MapAttrs_uiRotateGestures = 7;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#uiScrollGestures}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#uiScrollGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -620,11 +620,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:uiScrollGestures
+          @attr name ca.cs.ualberta.localpost:uiScrollGestures
         */
         public static final int MapAttrs_uiScrollGestures = 8;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#uiTiltGestures}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#uiTiltGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -634,11 +634,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:uiTiltGestures
+          @attr name ca.cs.ualberta.localpost:uiTiltGestures
         */
         public static final int MapAttrs_uiTiltGestures = 9;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#uiZoomControls}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#uiZoomControls}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -648,11 +648,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:uiZoomControls
+          @attr name ca.cs.ualberta.localpost:uiZoomControls
         */
         public static final int MapAttrs_uiZoomControls = 10;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#uiZoomGestures}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#uiZoomGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -662,11 +662,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:uiZoomGestures
+          @attr name ca.cs.ualberta.localpost:uiZoomGestures
         */
         public static final int MapAttrs_uiZoomGestures = 11;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#useViewLifecycle}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#useViewLifecycle}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -676,11 +676,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:useViewLifecycle
+          @attr name ca.cs.ualberta.localpost:useViewLifecycle
         */
         public static final int MapAttrs_useViewLifecycle = 12;
         /**
-          <p>This symbol is the offset where the {@link cs.ca.ualberta.localpost.R.attr#zOrderOnTop}
+          <p>This symbol is the offset where the {@link ca.cs.ualberta.localpost.R.attr#zOrderOnTop}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -690,7 +690,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name cs.ca.ualberta.localpost:zOrderOnTop
+          @attr name ca.cs.ualberta.localpost:zOrderOnTop
         */
         public static final int MapAttrs_zOrderOnTop = 13;
     };
