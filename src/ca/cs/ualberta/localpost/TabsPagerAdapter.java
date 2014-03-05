@@ -1,4 +1,4 @@
-package com.example.project;
+package ca.cs.ualberta.localpost;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

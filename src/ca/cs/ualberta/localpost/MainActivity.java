@@ -1,4 +1,4 @@
-package com.example.project;
+package ca.cs.ualberta.localpost
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
