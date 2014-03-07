@@ -8,18 +8,6 @@ import java.util.UUID;
 import ca.cs.ualberta.localpost.model.UserModel;
 
 public abstract class CommentModel {
-
-	public CommentModel(String content, android.location.Location location){
-		this.content = content;
-		this.radish = 0;
-		this.postId = UUID.randomUUID();
-		this.location = location;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
-		this.timestamp = dateFormat.format(date);
-		//this.author = UserModel.getAuthor();
-		
-	}
 	
 	//TODO change timestamp to string in UML
 	public String content;
@@ -29,5 +17,55 @@ public abstract class CommentModel {
 	private String timestamp;
 	private java.util.UUID postId;
 	private int radish;
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+	public CommentModel(String content, android.location.Location location){
+		this.content = content;
+		this.radish = 0;
+		this.postId = UUID.randomUUID();
+		this.location = location;
+		Date date = new Date();
+		this.timestamp = dateFormat.format(date);
+		//this.author = UserModel.getAuthor();
+		
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public android.location.Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(android.location.Location location) {
+		this.location = location;
+	}
+
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(String timestamp) {
+		Date date = new Date();
+		this.timestamp = dateFormat.format(date);
+	}
+
+	public int getRadish() {
+		return radish;
+	}
+
+	public void incRadish(int radish) {
+		this.radish += 1;
+	}
+	
+	public void decRadish(int radish) {
+		this.radish -= 1;
+	}
+
 	
 }

@@ -6,7 +6,4 @@ public class ChildCommentModel extends CommentModel {
 	public ChildCommentModel(String content, android.location.Location location) {
 		super(content, location);
 	}
-	
-	
-
 }
