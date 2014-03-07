@@ -1,26 +1,33 @@
 package ca.cs.ualberta.localpost.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+import ca.cs.ualberta.localpost.model.UserModel;
 
 public abstract class CommentModel {
 
-	public CommentModel(String content){
+	public CommentModel(String content, android.location.Location location){
 		this.content = content;
-		//this.author = "anonymous";
+		this.radish = 0;
+		this.postId = UUID.randomUUID();
+		this.location = location;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		this.timestamp = dateFormat.format(date);
+		//this.author = UserModel.getAuthor();
+		
 	}
 	
-	public CommentModel(String content, String author){
-		this.content = content;
-		//this.author = author;
-	}
+	//TODO change timestamp to string in UML
 	public String content;
 	public android.location.Location location;
 	private UserModel author;
 	private ArrayList<CommentModel> children = new ArrayList<CommentModel>();
-	private Date timestamp;
-	private java.util.UUID postId = UUID.randomUUID();
-	
+	private String timestamp;
+	private java.util.UUID postId;
+	private int radish;
 	
 }
