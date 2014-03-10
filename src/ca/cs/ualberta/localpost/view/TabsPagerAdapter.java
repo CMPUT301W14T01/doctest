@@ -1,4 +1,4 @@
-package ca.cs.ualberta.localpost;
+package ca.cs.ualberta.localpost.view;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,11 +13,11 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 	public Fragment getItem(int arg0) {
 		switch(arg0){
 		case 0:
-			return new Tab1();
+			return new FreshestTabView();
 		case 1:
-			return new Tab2();
+			return new GreatestTabView();
 		case 2:
-			return new Tab3();
+			return new LastestTabView();
 		}
 		return null;
 	}
