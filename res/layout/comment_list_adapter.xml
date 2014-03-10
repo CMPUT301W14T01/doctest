@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    android:id="@+id/custom_adapter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/commentTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text = "ddddd" />
+
+    <TextView
+        android:id="@+id/CommentUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/commentTitle"
+        android:layout_below="@+id/commentTitle"
+        android:textSize="10sp"/>
+
+	<TextView
+	    android:id="@+id/commentDate"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBaseline="@+id/CommentUsername"
+	    android:layout_alignBottom="@+id/CommentUsername"
+	    android:layout_marginLeft="18dp"
+	    android:layout_toRightOf="@+id/CommentUsername"
+	    android:textSize="10sp" />
+
+	<TextView
+	    android:id="@+id/CommentLocation"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBaseline="@+id/commentDate"
+	    android:layout_alignBottom="@+id/commentDate"
+	    android:layout_marginLeft="14dp"
+	    android:layout_toRightOf="@+id/commentDate"
+	    android:textSize="10sp" />
+
+	<TextView
+	    android:id="@+id/CommentTurnip"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBaseline="@+id/CommentLocation"
+	    android:layout_alignBottom="@+id/CommentLocation"
+	    android:layout_marginLeft="22dp"
+	    android:layout_toRightOf="@+id/CommentLocation"
+	    android:textSize="10sp" />
+ />
+</RelativeLayout>
