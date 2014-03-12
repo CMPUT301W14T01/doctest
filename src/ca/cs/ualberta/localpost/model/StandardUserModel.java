@@ -6,8 +6,6 @@ import java.security.NoSuchAlgorithmException;
 
 public class StandardUserModel extends UserModel {
 	
-	public String username;
-	public String tripcode;
 	
 	
 	public StandardUserModel() throws InvalidKeyException,
