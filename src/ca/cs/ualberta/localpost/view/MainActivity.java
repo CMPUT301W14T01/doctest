@@ -8,6 +8,7 @@ import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -23,6 +24,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
 	private String [] tabs = {"Fresh","Lastest","Greatest"};
+	public Bitmap picture;
 	
 	@SuppressLint("NewApi")
 	@Override
@@ -70,7 +72,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		String provider = locationManager.getBestProvider(criteria, false);
 	    Location location = locationManager.getLastKnownLocation(provider);
 		
-		RootCommentModel test1 = new RootCommentModel("HELLO WORLD TESTING123", location);
+		RootCommentModel test1 = new RootCommentModel("HELLO WORLD TESTING123", location, picture);
 	}
 
 	@Override
