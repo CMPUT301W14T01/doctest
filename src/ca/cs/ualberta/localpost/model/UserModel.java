@@ -7,6 +7,7 @@ public abstract class UserModel {
 	
 	public UserModel(){
 		this.username = "anonymous";
+		this.tripcode = "test1";
 	}
 	
 	//TODO add the return statement

@@ -1,10 +1,16 @@
 package ca.cs.ualberta.localpost.view;
 
+import ca.cs.ualberta.localpost.controller.ASyncTaskTest;
+import ca.cs.ualberta.localpost.model.RootCommentModel;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -23,6 +29,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		//ASyncTask
+		ASyncTaskTest task = new ASyncTaskTest();
+		task.execute(1);
 		
 		//Tab Views
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -52,7 +62,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		    @Override
 		    public void onPageScrollStateChanged(int arg0) {
 		    }
-		});		
+		});	
+		LocationManager locationManager = (LocationManager) MainActivity.this
+				.getSystemService(Context.LOCATION_SERVICE);
+		
+		Criteria criteria = new Criteria();
+		String provider = locationManager.getBestProvider(criteria, false);
+	    Location location = locationManager.getLastKnownLocation(provider);
+		
+		RootCommentModel test1 = new RootCommentModel("HELLO WORLD TESTING123", location);
 	}
 
 	@Override
