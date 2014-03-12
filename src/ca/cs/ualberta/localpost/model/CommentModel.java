@@ -22,6 +22,18 @@ public abstract class CommentModel {
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	public Bitmap picture;
 
+	
+	public CommentModel(String content){
+		this.content = content;
+		this.radish = 0;
+		this.postId = UUID.randomUUID();
+		//this.location = location;
+		Date date = new Date();
+		this.timestamp = dateFormat.format(date);
+		//this.picture = picture;
+		//this.author = UserModel.getAuthor();
+		
+	}
 	public CommentModel(String content, android.location.Location location, Bitmap picture){
 		this.content = content;
 		this.radish = 0;
