@@ -65,6 +65,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		    public void onPageScrollStateChanged(int arg0) {
 		    }
 		});	
+		
+		// The following code up to the end of this method is for testing purposes. Mainly developed by chautran
 		LocationManager locationManager = (LocationManager) MainActivity.this
 				.getSystemService(Context.LOCATION_SERVICE);
 		
@@ -73,6 +75,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	    Location location = locationManager.getLastKnownLocation(provider);
 		
 		RootCommentModel test1 = new RootCommentModel("HELLO WORLD TESTING123", location, picture);
+		
+		
 	}
 
 	@Override
