@@ -9,4 +9,10 @@ public class RootCommentModelList {
 	public void addParent(CommentModel new_root){
 		list.add(new_root);
 	}
+
+	public ArrayList<CommentModel> getList() {
+		return list;
+	}
+	
+	
 }
