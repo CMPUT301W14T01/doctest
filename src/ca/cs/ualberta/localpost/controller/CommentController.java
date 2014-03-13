@@ -48,7 +48,36 @@ public class CommentController {
 	}
 	
 	public boolean updateContent(String newText, UserModel editedBy, String author){
-		return false;
+		Boolean update = true;
+		Boolean delete = true;
+		Boolean insert = true;
+		Boolean get = true;
+		
+		if (update){
+			try {
+				updateComment(newText);
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return true;
+		}
+		if (delete){
+			deleteComment();
+			return true;
+		}
+		/*if (insert){
+			pushComment(newText, author);
+			return true;
+		}
+		if (get){
+			updateComment(model, author);
+			return true;
+		}*/
+		return true;
 	}
 		
 	
@@ -173,7 +202,7 @@ public class CommentController {
 		return null;*/
 	}
 	
-	public void updateComment(CommentModel comment, String str) throws ClientProtocolException, IOException{
+	public void updateComment(String str) throws ClientProtocolException, IOException{
 		HttpPost updateComment = new HttpPost(URL + String.valueOf(model.getPostId()) +"_update");
 		String query = 	"{\"script\" : \"ctx._source." + str + "}";
 		StringEntity stringentity = new StringEntity(query);
