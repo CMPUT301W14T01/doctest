@@ -21,14 +21,14 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 public class FreshestTabView extends Fragment {
 	private ListView listView;
-	ArrayList<RootCommentModel> model;
+	ArrayList<RootCommentModel> model = new ArrayList<RootCommentModel>();
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
 			Bundle savedInstanceState){
 		
 		View rootView = inflater.inflate(R.layout.tab, container,false);
-		
+		updateCommentArray();
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
 		listView.setAdapter(adapter);

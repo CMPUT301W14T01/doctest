@@ -1,21 +1,23 @@
 package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
-import ca.cs.ualberta.localpost.model.RootCommentModel;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+import ca.cs.ualberta.localpost.controller.BrowseLatestComments;
+import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 public class LastestTabView extends Fragment {
 	private ListView listView;
@@ -26,7 +28,7 @@ public class LastestTabView extends Fragment {
 			Bundle savedInstanceState){
 		
 		View rootView = inflater.inflate(R.layout.tab, container,false);
-		
+		updateCommentArray();
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
 		listView.setAdapter(adapter); 
@@ -75,6 +77,10 @@ public class LastestTabView extends Fragment {
 				return true;
 		}
 		return super.onContextItemSelected(item);
+	}
+	public void updateCommentArray(){
+		BrowseLatestComments browse = new BrowseLatestComments();
+		this.model = browse.passSortedRootComments();
 	}
 
 }
