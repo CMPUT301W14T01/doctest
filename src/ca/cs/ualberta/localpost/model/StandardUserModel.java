@@ -14,13 +14,13 @@ public class StandardUserModel extends UserModel {
 		this.tripcode = genTripcode();
 }
 
-
+	/*
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
 		return super.getUsername();
 	}
-
+	*/
 
 	@Override
 	public void setUsername(String username) throws InvalidKeyException,

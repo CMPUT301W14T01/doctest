@@ -11,17 +11,17 @@ import ca.cs.ualberta.localpost.model.UserModel;
 
 public abstract class CommentModel {
 	
-	//TODO change timestamp to string in UML
+	//TODO put title in rootcomment model?
+	public String title;
 	public String content;
 	public android.location.Location location;
-	private UserModel author;
+	private String author;
 	private ArrayList<CommentModel> children = new ArrayList<CommentModel>();
 	private String timestamp;
 	private java.util.UUID postId;
 	private int radish;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	public Bitmap picture;
-
 	
 	
 
@@ -44,8 +44,21 @@ public abstract class CommentModel {
 		Date date = new Date();
 		this.timestamp = dateFormat.format(date);
 		this.picture = picture;
-		//this.author = UserModel.getAuthor();
+		this.author = UserModel.getUsername();
 		
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	public String getAuthor() {
+		return author;
+	}
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Bitmap getPicture(){
