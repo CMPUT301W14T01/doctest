@@ -29,11 +29,11 @@ public abstract class CommentModel {
 		this.content = content;
 		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
-		//this.location = location;
+		this.location = null;
 		Date date = new Date();
-		this.timestamp = dateFormat.format(date);
-		//this.picture = picture;
-		//this.author = UserModel.getAuthor();
+		this.timestamp = dateFormat.format(date).toString();
+		this.picture = null;
+		this.author = UserModel.getUsername();
 		
 	}
 	public CommentModel(String content, android.location.Location location, Bitmap picture){
