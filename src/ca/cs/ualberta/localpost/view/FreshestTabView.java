@@ -1,25 +1,27 @@
 package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+import ca.cs.ualberta.localpost.controller.BrowseFreshestComments;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 public class FreshestTabView extends Fragment {
 	private ListView listView;
-	ArrayList<RootCommentModel> model = new ArrayList<RootCommentModel>();
+	ArrayList<RootCommentModel> model;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
@@ -74,5 +76,11 @@ public class FreshestTabView extends Fragment {
 				return true;
 		}
 		return super.onContextItemSelected(item);
+	}
+	
+	//Use updateCommentArray() on like onResume or something or on Refresh or something
+	public void updateCommentArray(){
+		BrowseFreshestComments browse = new BrowseFreshestComments();
+		this.model = browse.passSortedRootComments();
 	}
 }
