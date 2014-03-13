@@ -2,11 +2,11 @@ package ca.cs.ualberta.localpost.controller;
 
 import java.util.ArrayList;
 
-import ca.cs.ualberta.localpost.model.CommentModel;
+import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModelList;
 
 public class BrowseLatestComments implements BrowseTopLevelComments {
-	ArrayList<CommentModel> rootComments;
+	ArrayList<RootCommentModel> rootComments;
 
 	@Override
 	public void getRootComments() {
@@ -15,14 +15,16 @@ public class BrowseLatestComments implements BrowseTopLevelComments {
 	}
 
 	@Override
-	public RootCommentModelList sortRootComments(RootCommentModelList comments) {
-		// TODO Sort By Date
-		return null;
+	public ArrayList<RootCommentModel> sortRootComments(ArrayList<RootCommentModel> comments) {
+		// TODO SortByLatest
+		return comments;
 	}
 
 	@Override
-	public ArrayList<CommentModel> passSortedRootComments(ArrayList<CommentModel> comments) {
-			return rootComments;
+	public ArrayList<RootCommentModel> passSortedRootComments() {
+		getRootComments();
+		sortRootComments(rootComments);
+		return rootComments;
 	}
 
 }
