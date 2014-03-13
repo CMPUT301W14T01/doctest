@@ -11,7 +11,7 @@ import ca.cs.ualberta.localpost.model.UserModel;
 
 public abstract class CommentModel {
 	
-	//TODO change timestamp to string in UML
+	//TODO put title in rootcomment model?
 	public String title;
 	public String content;
 	public android.location.Location location;
