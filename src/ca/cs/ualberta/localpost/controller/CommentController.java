@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.UUID;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,6 +23,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.app.Activity;
+import android.content.Context;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.view.View;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
@@ -40,9 +49,9 @@ public class CommentController {
 	public HttpClient httpclient = new DefaultHttpClient();
 	
 	private RootCommentModel model;
-	private MainActivity activity;
+	private Activity activity;
 
-	public CommentController(RootCommentModel model, MainActivity activity){
+	public CommentController(RootCommentModel model, Activity activity){
 		this.model = model;
 		this.activity = activity;
 	}
@@ -65,10 +74,6 @@ public class CommentController {
 			}
 			return true;
 		}
-		if (delete){
-			deleteComment();
-			return true;
-		}
 		/*if (insert){
 			pushComment(newText, author);
 			return true;
@@ -88,6 +93,21 @@ public class CommentController {
 	// pushComment(), getComment(), updateComment(), deleteComment(), getEntityContent source code from:
 	// https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
 	public void pushComment(CommentModel comment) throws IllegalStateException, IOException{
+		
+		// Test variables in place until we are able to communicate with th views
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss",Locale.CANADA);
+		UUID author = UUID.randomUUID();
+		Date date = new Date();
+		
+		comment.setAuthor("anon4" + author.toString());
+		comment.setContent("Content test");
+		comment.setLocation(null);
+		comment.setPicture(null);
+		comment.setPostId(author);		
+		comment.setTimestamp(dateFormat.format(date).toString());
+		comment.setTitle("Title test");	
+		// <-- End of test variables
+		
 		HttpPost pushRequest = new HttpPost(URL + String.valueOf(comment.getPostId()));		
 		StringEntity stringentity = null;
 		try {
@@ -219,7 +239,7 @@ public class CommentController {
 		updateComment.abort();
 	}
 	
-	public void deleteComment(){
+	/*public void deleteComment(){
 		HttpDelete deleteComment = new HttpDelete(URL + String.valueOf(model.getPostId()));
 		
 		deleteComment.addHeader("Accept","application/json");
@@ -250,7 +270,7 @@ public class CommentController {
 
 		deleteComment.abort();
 		
-		/*try {
+		try {
 			HttpResponse response = httpclient.execute(deleteComment);
 			HttpEntity entity = response.getEntity();
 			
@@ -263,9 +283,9 @@ public class CommentController {
 				} 
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}//End deleteComment
-	
+*/	
 	String getEntityContent(HttpResponse response) throws IOException {
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader((response.getEntity().getContent())));
@@ -282,7 +302,20 @@ public class CommentController {
 
 //Main Test
 	public static void main(String [] args){
-
-		//CommentController client = new CommentController(model, activity);
+		
+		Activity activity = new Activity();
+		RootCommentModel model = new RootCommentModel(null, null, null);
+		
+		CommentController client = new CommentController(model, activity);
+		try {
+			client.pushComment(model);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
