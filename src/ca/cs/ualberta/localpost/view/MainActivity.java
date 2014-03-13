@@ -34,7 +34,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		ThreadList list = new ThreadList(this);
+		//ThreadList list = new ThreadList(this);
 		
 		//ASyncTask
 		ASyncTaskTest task = new ASyncTaskTest();
