@@ -20,9 +20,9 @@ public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
     private class ViewHolder {
         TextView username;
         TextView title;
-        TextView turnip;
+        TextView radish;
         TextView location;
-        TextView date;
+        TextView timestamp;
     }
 	
     public View getView(int position,View convertView, ViewGroup parent){
@@ -35,19 +35,19 @@ public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
 			holder = new ViewHolder();
 			holder.username = (TextView) convertView.findViewById(R.id.CommentUsername);
 			holder.title = (TextView) convertView.findViewById(R.id.commentTitle);
-			holder.turnip = (TextView) convertView.findViewById(R.id.CommentTurnip);
+			holder.radish = (TextView) convertView.findViewById(R.id.CommentTurnip);
 			holder.location = (TextView) convertView.findViewById(R.id.CommentLocation);
-			holder.date = (TextView) convertView.findViewById(R.id.commentDate);
+			holder.timestamp = (TextView) convertView.findViewById(R.id.commentDate);
 			convertView.setTag(holder);
 		}
 		else{
 			holder = (ViewHolder) convertView.getTag();
 		}
-//		holder.title.setText(model.getTitle());
-//		holder.username.setText("Posted by " + model.getUserName());
-//		holder.turnip.setText(model.getTurnip());
-//		holder.location.setText("At " + model.getLocation());
-//		holder.date.setText("On " + model.getDate());		
+		holder.title.setText(model.getTitle());
+		holder.username.setText("Posted by " + model.getAuthor());
+		holder.radish.setText(model.getRadish());
+		holder.location.setText("At " + model.getLocation());
+		holder.timestamp.setText("On " + model.getTimestamp());		
 		return convertView;
 	}
 }

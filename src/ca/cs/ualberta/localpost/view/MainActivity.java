@@ -1,8 +1,13 @@
 package ca.cs.ualberta.localpost.view;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
 import ca.cs.ualberta.localpost.controller.ASyncTaskTest;
 import ca.cs.ualberta.localpost.model.CommentModelList;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 import ca.cs.ualberta.localpost.model.ThreadList;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -27,14 +32,39 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ActionBar actionBar;
 	private String [] tabs = {"Fresh","Lastest","Greatest"};
 	public Bitmap picture;
+	private static StandardUserModel model;
+	private static ThreadList list;
 	
+	public static ThreadList getList() {
+		return list;
+	}
+
+	public static StandardUserModel getModel() {
+		return model;
+	}
+
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		ThreadList list = new ThreadList(this);
+		if(model == null){
+		try {
+			 model = new StandardUserModel();
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+		
+		list = new ThreadList(this);
 		
 		//ASyncTask
 		ASyncTaskTest task = new ASyncTaskTest();

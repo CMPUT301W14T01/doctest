@@ -16,19 +16,19 @@ import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
 
 public abstract class UserModel {
 
-	public String username;
+	public static String username;
 	public String tripcode;
 	
 	//Constructors
 	public UserModel() throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		this.username = "anonymous";
-		this.tripcode = genTripcode();
+		//this.tripcode = genTripcode();
 	}
 	
 	//////
 	
 	//GET USERNAME
-	public String getUsername() {
+	public static String getUsername() {
 		return username;
 	}
 

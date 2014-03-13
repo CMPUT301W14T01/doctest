@@ -21,7 +21,7 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 public class FreshestTabView extends Fragment {
 	private ListView listView;
-	ArrayList<RootCommentModel> model;
+	ArrayList<RootCommentModel> model = new ArrayList<RootCommentModel>();
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
