@@ -99,7 +99,7 @@ public class CommentController {
 		UUID author = UUID.randomUUID();
 		Date date = new Date();
 		
-		comment.setAuthor("anon4" + author.toString());
+		comment.setAuthor("anon5" + author.toString());
 		comment.setContent("Content test");
 		comment.setLocation(null);
 		comment.setPicture(null);
