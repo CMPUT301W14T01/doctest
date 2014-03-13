@@ -1,7 +1,9 @@
 package ca.cs.ualberta.localpost.view;
 
 import ca.cs.ualberta.localpost.controller.ASyncTaskTest;
+import ca.cs.ualberta.localpost.model.CommentModelList;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
+import ca.cs.ualberta.localpost.model.ThreadList;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -31,6 +33,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		ThreadList list = new ThreadList(this);
 		
 		//ASyncTask
 		ASyncTaskTest task = new ASyncTaskTest();

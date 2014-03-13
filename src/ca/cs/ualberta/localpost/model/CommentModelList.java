@@ -12,15 +12,23 @@ public class CommentModelList {
 
 	private ArrayList<CommentModel> list;
 	
-	public CommentModelList(String content, android.location.Location location, Bitmap picture) {
-		this.list = new ArrayList<CommentModel>();
-		CommentModel new_root = new RootCommentModel(content, location, picture);
+	public ArrayList<CommentModel> getList() {
+		return list;
+	}
+
+	public void setList(ArrayList<CommentModel> list) {
+		this.list = list;
+	}
+
+	public CommentModelList(RootCommentModel new_root){
 		list.add(new_root);
-		//TODO send new list to elastic search?
+		//TODO call from activity
+		//ThreadList.updatingThreadlist(this);
 	}
 	
-	public void AddchildComment(String content, android.location.Location location, Bitmap picture){
-		CommentModel new_comment = new ChildCommentModel(content, location, picture);
-		list.add(new_comment);
+	public void AddchildComment(ChildCommentModel new_child, java.util.UUID postId){
+		//TODO for loop over Threadlist (in Threadlist) look for which prefix corresponds to this child
+		// and add it there.
+		list.add(new_child);
 	}
 }
