@@ -16,7 +16,7 @@ import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
 
 public abstract class UserModel {
 
-	public String username;
+	public static String username;
 	public String tripcode;
 	
 	//Constructors
@@ -28,7 +28,7 @@ public abstract class UserModel {
 	//////
 	
 	//GET USERNAME
-	public String getUsername() {
+	public static String getUsername() {
 		return username;
 	}
 
