@@ -26,7 +26,7 @@ public abstract class CommentModel {
 	public CommentModel(String content){
 		this.content = content;
 		this.radish = 0;
-		this.postId = UUID.randomUUID();
+		this.setPostId(UUID.randomUUID());
 		//this.location = location;
 		Date date = new Date();
 		this.timestamp = dateFormat.format(date);
@@ -37,7 +37,7 @@ public abstract class CommentModel {
 	public CommentModel(String content, android.location.Location location, Bitmap picture){
 		this.content = content;
 		this.radish = 0;
-		this.postId = UUID.randomUUID();
+		this.setPostId(UUID.randomUUID());
 		this.location = location;
 		Date date = new Date();
 		this.timestamp = dateFormat.format(date);
@@ -88,6 +88,18 @@ public abstract class CommentModel {
 	
 	public void decRadish(int radish) {
 		this.radish -= 1;
+	}
+	/**
+	 * @return the postId
+	 */
+	public java.util.UUID getPostId() {
+		return postId;
+	}
+	/**
+	 * @param postId the postId to set
+	 */
+	public void setPostId(java.util.UUID postId) {
+		this.postId = postId;
 	}
 
 	
