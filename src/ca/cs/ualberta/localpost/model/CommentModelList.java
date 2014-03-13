@@ -21,6 +21,7 @@ public class CommentModelList {
 	}
 
 	public CommentModelList(RootCommentModel new_root){
+		this.list = new ArrayList<CommentModel>();
 		list.add(new_root);
 		//TODO call from activity
 		//ThreadList.updatingThreadlist(this);

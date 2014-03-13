@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import android.graphics.Bitmap;
 import ca.cs.ualberta.localpost.model.UserModel;
+import ca.cs.ualberta.localpost.view.MainActivity;
 
 public abstract class CommentModel {
 	
@@ -25,7 +26,8 @@ public abstract class CommentModel {
 	
 	
 
-	public CommentModel(String content){
+	public CommentModel(String content, String title){
+		this.title = title;
 		this.content = content;
 		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
@@ -33,7 +35,7 @@ public abstract class CommentModel {
 		Date date = new Date();
 		this.timestamp = dateFormat.format(date);
 		//this.picture = picture;
-		//this.author = UserModel.getAuthor();
+		this.author = MainActivity.getModel().getUsername();
 		
 	}
 	public CommentModel(String content, android.location.Location location, Bitmap picture){
