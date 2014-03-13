@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class RootCommentModelList {
 
 
-	private ArrayList<RootCommentModel> list;
+	private static ArrayList<RootCommentModel> list;
 	
 
-	public ArrayList<RootCommentModel> getList() {
+	public static ArrayList<RootCommentModel> getList() {
 		for (int i = 0; i < ThreadList.getThreadlist().size(); ++i ){
 			list.add((RootCommentModel) ThreadList.getThreadlist().get(i).getList().get(1));
 		}
