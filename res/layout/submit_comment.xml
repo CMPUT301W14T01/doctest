@@ -39,7 +39,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="43dp"
         android:text="Post Comment"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText" 
+        android:onClick = "add_root"/>
 
     <ImageButton
         android:id="@+id/mapView"

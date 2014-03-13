@@ -22,7 +22,7 @@ public abstract class UserModel {
 	//Constructors
 	public UserModel() throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		this.username = "anonymous";
-		this.tripcode = genTripcode();
+		//this.tripcode = genTripcode();
 	}
 	
 	//////
