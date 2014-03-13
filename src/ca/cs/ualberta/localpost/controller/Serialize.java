@@ -29,7 +29,7 @@ public class Serialize {
 	
 		
 	//Load the list of counters into an ArrayList<CommentModelList> named comment_thread
-	private ArrayList<CommentModelList> loadFromFile(Activity mainactivity){
+	public static ArrayList<CommentModelList> loadFromFile(Activity mainactivity){
 		ArrayList<CommentModelList> comment_thread = new ArrayList<CommentModelList>();
 		try{
 			FileInputStream fis = mainactivity.openFileInput(FILENAME);
@@ -60,31 +60,31 @@ public class Serialize {
 	}
 	
 	
-		//Save the array list to FILENAME when doing so over write everything
-		public static void SaveInFile(ArrayList<CommentModelList> commentlist, Activity mainactivity){
-			try{
-				FileOutputStream fos = mainactivity.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-				CommentModelList count;
-				for(int i = 0; i < comment_list.size(); ++i){
-			    	count = comment_list.get(i);
-			    	fos.write((serialize(count) + "\n").getBytes());	    	
-				
-				}
-				fos.close();
-			} catch (FileNotFoundException e){
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+	//Save the array list to FILENAME when doing so over write everything
+	public static void SaveInFile(ArrayList<CommentModelList> commentlist, Activity mainactivity){
+		try{
+			FileOutputStream fos = mainactivity.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+			CommentModelList count;
+			for(int i = 0; i < comment_list.size(); ++i){
+		    	count = comment_list.get(i);
+		    	fos.write((serialize(count) + "\n").getBytes());	    	
+			
 			}
+			fos.close();
+		} catch (FileNotFoundException e){
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		//Serialize for saving purposes
-		private static String serialize(CommentModelList commentlist){
-			Gson new_item = new Gson();
-			String item = new_item.toJson(commentlist);
-			return item;
-		}
-		
+	}
+	
+	//Serialize for saving purposes
+	private static String serialize(CommentModelList commentlist){
+		Gson new_item = new Gson();
+		String item = new_item.toJson(commentlist);
+		return item;
+	}
+	
 
 		
 	}

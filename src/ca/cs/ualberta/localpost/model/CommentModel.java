@@ -23,6 +23,8 @@ public abstract class CommentModel {
 	public Bitmap picture;
 
 	
+	
+
 	public CommentModel(String content){
 		this.content = content;
 		this.radish = 0;
@@ -90,5 +92,7 @@ public abstract class CommentModel {
 		this.radish -= 1;
 	}
 
-	
+	public java.util.UUID getPostId() {
+		return postId;
+	}
 }

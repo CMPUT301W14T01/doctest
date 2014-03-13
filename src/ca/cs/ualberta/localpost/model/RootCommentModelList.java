@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class RootCommentModelList {
 
-	private ArrayList<CommentModel> list;
+	private ArrayList<RootCommentModel> list;
 	
-	public void addParent(CommentModel new_root){
-		list.add(new_root);
-	}
 
-	public ArrayList<CommentModel> getList() {
+	public ArrayList<RootCommentModel> getList() {
+		for (int i = 0; i < ThreadList.getThreadlist().size(); ++i ){
+			list.add((RootCommentModel) ThreadList.getThreadlist().get(i).getList().get(1));
+		}
 		return list;
 	}
 	
