@@ -104,7 +104,4 @@ public abstract class CommentModel {
 		this.postId = postId;
 	}
 
-	public java.util.UUID getPostId() {
-		return postId;
-	}
 }
