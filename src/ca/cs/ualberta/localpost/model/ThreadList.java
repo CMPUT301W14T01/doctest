@@ -15,11 +15,13 @@ public class ThreadList {
 		return threadlist;
 	}
 	public void updatingThreadlist(CommentModelList new_thread) {
-		for(int i = 0; i < threadlist.size(); ++i){
+		/* TODO re-add check when changing a child
+		for(int i = 0; i <= threadlist.size(); ++i){
 			if (((new_thread.getList()).get(1)).getPostId().equals((threadlist.get(i)).getList().get(1).getPostId() )  ){
 				threadlist.remove(i);
 			}
 		}
+		*/
 		threadlist.add(new_thread);
 		//TODO call from activity
 		//Serialize.SaveInFile(threadlist, this);

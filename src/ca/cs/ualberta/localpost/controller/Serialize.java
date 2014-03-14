@@ -19,7 +19,12 @@ import com.google.gson.Gson;
 
 public class Serialize {
 
-	public static ArrayList<CommentModelList> comment_list;
+	private static ArrayList<CommentModelList> comment_list;
+	
+	public static ArrayList<CommentModelList> getComment_list() {
+		return comment_list;
+	}
+
 	public static final String FILENAME = "comfile.save";
 	
 	public Serialize(Activity mainactivity){
@@ -65,8 +70,8 @@ public class Serialize {
 		try{
 			FileOutputStream fos = mainactivity.openFileOutput(FILENAME, Context.MODE_PRIVATE);
 			CommentModelList count;
-			for(int i = 0; i < comment_list.size(); ++i){
-		    	count = comment_list.get(i);
+			for(int i = 0; i < commentlist.size(); ++i){
+		    	count = commentlist.get(i);
 		    	fos.write((serialize(count) + "\n").getBytes());	    	
 			
 			}
