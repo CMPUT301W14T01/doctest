@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 import android.graphics.Bitmap;
@@ -21,19 +22,23 @@ public abstract class CommentModel {
 	private String timestamp;
 	private java.util.UUID postId;
 	private int radish;
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-	public Bitmap picture;
+	private Bitmap picture;
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.CANADA);
 	
+	private Date date = new Date();
 	
 
+	public CommentModel(){
+		super();
+	}
 	public CommentModel(String content, String title){
 		this.title = title;
 		this.content = content;
 		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
 		//this.location = location;
-		Date date = new Date();
-		this.timestamp = dateFormat.format(date);
+		
+		this.timestamp = dateFormat.format(date).toString();
 		//this.picture = picture;
 		this.author = MainActivity.getModel().getUsername();
 		

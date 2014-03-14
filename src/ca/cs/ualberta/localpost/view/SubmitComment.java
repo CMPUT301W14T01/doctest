@@ -1,15 +1,19 @@
 package ca.cs.ualberta.localpost.view;
 
+import java.util.Date;
+
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.CommentModelList;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 
 public class SubmitComment extends Activity {
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,11 @@ public class SubmitComment extends Activity {
 		String content = contentView.getText().toString();
 		RootCommentModel new_root = new RootCommentModel(content, title);
 		CommentModelList new_thread = new CommentModelList(new_root);
+		Log.e("301", "gets before");
 		MainActivity.getList().updatingThreadlist(new_thread);
-		Serialize.SaveInFile(MainActivity.getList().getThreadlist(), this);
+		Log.e("301", "gets after");
+		Log.e("301", new_thread.toString());
+		//Serialize.SaveInFile(MainActivity.getList().getThreadlist(), this);
 	}
 
 }
