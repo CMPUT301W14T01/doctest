@@ -36,10 +36,7 @@ public class SubmitComment extends Activity {
 		String content = contentView.getText().toString();
 		RootCommentModel new_root = new RootCommentModel(content, title);
 		CommentModelList new_thread = new CommentModelList(new_root);
-		Log.e("301", "gets before");
 		MainActivity.getList().updatingThreadlist(new_thread);
-		Log.e("301", "gets after");
-		Log.e("301", new_thread.toString());
 		//Serialize.SaveInFile(MainActivity.getList().getThreadlist(), this);
 	}
 

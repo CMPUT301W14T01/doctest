@@ -20,16 +20,17 @@ public class ThreadList {
 		return threadlist;
 	}
 	public void updatingThreadlist(CommentModelList new_thread) {
-		/* TODO re-add check when changing a child
-		for(int i = 0; i <= threadlist.size(); ++i){
-			if (((new_thread.getList()).get(1)).getPostId().equals((threadlist.get(i)).getList().get(1).getPostId() )  ){
+		
+		// TODO re-add check when changing a child
+		for(int i = 0; i < threadlist.size(); ++i){
+			if (((new_thread.getList()).get(0)).getPostId().equals((threadlist.get(i)).getList().get(0).getPostId() )  ){
 				threadlist.remove(i);
 			}
 		}
-		*/
-		Log.e("301", "gets here");
+		
+		
 		threadlist.add(new_thread);
-		Log.e("301", "gets there");
+		
 		//TODO call from activity
 		//Serialize.SaveInFile(threadlist, this);
 	}

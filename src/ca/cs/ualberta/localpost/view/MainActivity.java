@@ -67,8 +67,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		list = new ThreadList(this);
 		
 		//ASyncTask
-		ASyncTaskTest task = new ASyncTaskTest();
-		task.execute(1);
+		//ASyncTaskTest task = new ASyncTaskTest();
+		//task.execute(1);
 		
 		//Tab Views
 		viewPager = (ViewPager) findViewById(R.id.pager);
