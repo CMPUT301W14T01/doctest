@@ -10,12 +10,14 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.CommentModelList;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Serialize {
 
@@ -40,13 +42,14 @@ public class Serialize {
 			FileInputStream fis = mainactivity.openFileInput(FILENAME);
 	        BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 	        String line = in.readLine();      
-	                
+	        /*        
 	        while (line != null) {
 	        		CommentModelList new_thread = deserialize(line);
 	                comment_thread.add(new_thread);
 	                line = in.readLine();
 	        }
-
+			*/
+	        ArrayList<CommentModelList> new_thread = deserialize(line);
 	} catch (FileNotFoundException e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
@@ -58,23 +61,29 @@ public class Serialize {
 		}
 	
 	//Deserialize for loading
-	private static CommentModelList deserialize(String retrieved_item){
+	private static ArrayList<CommentModelList> deserialize(String retrieved_item){
 		Gson new_item = new Gson();
-		CommentModelList commentlist_retrieved = new_item.fromJson(retrieved_item, CommentModelList.class);
-		return commentlist_retrieved;
+		Log.e("301", retrieved_item);
+		ArrayList<CommentModelList> model = new ArrayList<CommentModelList>();
+		//model = new_item.fromJson(retrieved_item, ArrayList<CommentModelList>);
+		return model;
 	}
 	
 	
 	//Save the array list to FILENAME when doing so over write everything
-	public static void SaveInFile(ArrayList<CommentModelList> commentlist, Activity mainactivity){
+	public static void SaveInFile(ArrayList<CommentModelList> arrayList, Activity mainactivity){
 		try{
 			FileOutputStream fos = mainactivity.openFileOutput(FILENAME, Context.MODE_PRIVATE);
 			CommentModelList count;
-			for(int i = 0; i < commentlist.size(); ++i){
-		    	count = commentlist.get(i);
+			/*
+			for(int i = 0; i < arrayList.size(); ++i){
+		    	count = arrayList.get(i);
 		    	fos.write((serialize(count) + "\n").getBytes());	    	
-			
+		    	
 			}
+			*/
+			
+	    	fos.write((serialize(arrayList) + "\n").getBytes());
 			fos.close();
 		} catch (FileNotFoundException e){
 			e.printStackTrace();
@@ -84,9 +93,10 @@ public class Serialize {
 	}
 	
 	//Serialize for saving purposes
-	private static String serialize(CommentModelList commentlist){
+	private static String serialize(ArrayList<CommentModelList> arrayList){
 		Gson new_item = new Gson();
-		String item = new_item.toJson(commentlist);
+		String item = new_item.toJson(arrayList);
+		Log.e("301", item);
 		return item;
 	}
 	

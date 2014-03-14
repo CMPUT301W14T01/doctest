@@ -19,6 +19,10 @@ public class CommentModelList {
 	public void setList(ArrayList<CommentModel> list) {
 		this.list = list;
 	}
+	
+	public CommentModelList(){
+		super();
+	}
 
 	public CommentModelList(RootCommentModel new_root){
 		this.list = new ArrayList<CommentModel>();

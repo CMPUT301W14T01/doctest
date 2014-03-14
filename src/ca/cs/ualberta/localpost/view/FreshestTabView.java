@@ -27,8 +27,9 @@ public class FreshestTabView extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
 			Bundle savedInstanceState){
 		
+		updateCommentArray();
 		View rootView = inflater.inflate(R.layout.tab, container,false);
-		
+		updateCommentArray();
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
 		listView.setAdapter(adapter);

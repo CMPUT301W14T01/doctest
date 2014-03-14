@@ -21,20 +21,37 @@ public abstract class CommentModel {
 	private String timestamp;
 	private java.util.UUID postId;
 	private int radish;
+<<<<<<< HEAD
 	public Bitmap picture;
+=======
+	private Bitmap picture;
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.CANADA);
+>>>>>>> 8095561eace36f307142dfb7d64ba47bdccf237d
 	
+	private Date date = new Date();
 	
 
+	public CommentModel(){
+		super();
+	}
 	public CommentModel(String content, String title){
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss",Locale.CANADA);
 		this.content = content;
 		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
+<<<<<<< HEAD
 		this.location = null;
 		Date date = new Date();
 		this.timestamp = dateFormat.format(date).toString();
 		this.picture = null;
 		this.author = UserModel.getUsername();
+=======
+		//this.location = location;
+		
+		this.timestamp = dateFormat.format(date).toString();
+		//this.picture = picture;
+		this.author = MainActivity.getModel().getUsername();
+>>>>>>> 8095561eace36f307142dfb7d64ba47bdccf237d
 		
 	}
 	public CommentModel(String content, android.location.Location location, Bitmap picture){

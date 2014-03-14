@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 public class ChildCommentModel extends CommentModel {
 
 	protected CommentModel parent;
+	
+	public ChildCommentModel(){
+		super();
+	}
 	public ChildCommentModel(String content, String title) {
 		super(content, title);
 	}
