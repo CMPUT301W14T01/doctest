@@ -74,6 +74,9 @@ public class ASyncTaskTest extends AsyncTask<Object, Integer, ArrayList<CommentM
 		if (update){
 			try {
 				updateComment(newText, editedByID);
+				/*DeleteResponse response = client.prepareDelete("testing", "t01", "")
+				        .execute()
+				        .actionGet();*/
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -106,13 +109,13 @@ public class ASyncTaskTest extends AsyncTask<Object, Integer, ArrayList<CommentM
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss",Locale.CANADA);
 		UUID author = UUID.randomUUID();
 		Date date = new Date();
-		CommentModel comment = new RootCommentModel("test", null, null);
+		CommentModel comment = new RootCommentModel("test", null);
 		
 		comment.setAuthor("anon2" + author.toString());
 		comment.setContent("Content test");
 		comment.setLocation(null);
 		comment.setPicture(null);
-		comment.setPostId(UUID.randomUUID());
+		comment.setPostId(author);
 		comment.setTimestamp(date.toString());
 		comment.setTitle("Title test");		
 		
