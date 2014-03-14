@@ -29,7 +29,7 @@ public class FreshestTabView extends Fragment {
 		
 		updateCommentArray();
 		View rootView = inflater.inflate(R.layout.tab, container,false);
-		
+		updateCommentArray();
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
 		listView.setAdapter(adapter);
