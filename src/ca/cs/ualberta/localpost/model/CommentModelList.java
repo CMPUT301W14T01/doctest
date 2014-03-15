@@ -6,8 +6,6 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 
-
-
 public class CommentModelList {
 
 	private ArrayList<CommentModel> list;
@@ -20,10 +18,6 @@ public class CommentModelList {
 		this.list = list;
 	}
 	
-	public CommentModelList(){
-		super();
-	}
-
 	public CommentModelList(RootCommentModel new_root){
 		this.list = new ArrayList<CommentModel>();
 		list.add(new_root);

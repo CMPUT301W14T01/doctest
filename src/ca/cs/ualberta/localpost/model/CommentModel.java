@@ -4,77 +4,74 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 import java.util.UUID;
 
 import android.graphics.Bitmap;
 import ca.cs.ualberta.localpost.model.UserModel;
-import ca.cs.ualberta.localpost.view.MainActivity;
 
 public abstract class CommentModel {
-	
-	//TODO put title in rootcomment model?
 	public String title;
 	public String content;
 	public android.location.Location location;
 	private String author;
 	private ArrayList<CommentModel> children = new ArrayList<CommentModel>();
-	private String timestamp;
+	private long timestamp;
 	private java.util.UUID postId;
 	private int radish;
 	private Bitmap picture;
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.CANADA);
-	
-	private Date date = new Date();
-	
+	long date = new Date().getTime();
 
-	public CommentModel(){
-		super();
-	}
-	public CommentModel(String content, String title){
+	public CommentModel(String content, String title) {
 		this.title = title;
 		this.content = content;
 		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
-		//this.location = location;
-		
-		this.timestamp = dateFormat.format(date).toString();
-		//this.picture = picture;
-		this.author = MainActivity.getModel().getUsername();
-		
+		this.timestamp = date;
+
+		// this.location = location;
+		// this.picture = picture;
+		// this.author = MainActivity.getModel().getUsername();
 	}
-	public CommentModel(String content, android.location.Location location, Bitmap picture){
+	
+	public CommentModel(){
+		super();
+	}
+
+	public CommentModel(String content, android.location.Location location,
+			Bitmap picture) {
 		this.content = content;
 		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
 		this.location = location;
-		Date date = new Date();
-		this.timestamp = dateFormat.format(date);
+		this.timestamp = date;
 		this.picture = picture;
 		this.author = UserModel.getUsername();
-		
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}
+
 	public String getAuthor() {
 		return author;
 	}
+
 	public void setAuthor(String author) {
 		this.author = author;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public Bitmap getPicture(){
+	public Bitmap getPicture() {
 		return picture;
 	}
-	
-	public void setPicture(Bitmap picture){
+
+	public void setPicture(Bitmap picture) {
 		this.picture = picture;
 	}
+
 	public String getContent() {
 		return content;
 	}
@@ -92,12 +89,12 @@ public abstract class CommentModel {
 	}
 
 	public String getTimestamp() {
-		return timestamp;
+		return String.valueOf(timestamp);
 	}
 
 	public void setTimestamp(String timestamp) {
-		Date date = new Date();
-		this.timestamp = dateFormat.format(date);
+		long date = new Date().getTime();
+		this.timestamp = date;
 	}
 
 	public int getRadish() {
@@ -107,21 +104,23 @@ public abstract class CommentModel {
 	public void incRadish(int radish) {
 		this.radish += 1;
 	}
-	
+
 	public void decRadish(int radish) {
 		this.radish -= 1;
 	}
+
 	/**
 	 * @return the postId
 	 */
 	public java.util.UUID getPostId() {
 		return postId;
 	}
+
 	/**
-	 * @param postId the postId to set
+	 * @param postId
+	 *            the postId to set
 	 */
 	public void setPostId(java.util.UUID postId) {
 		this.postId = postId;
 	}
-
 }

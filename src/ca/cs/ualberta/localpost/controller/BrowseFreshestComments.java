@@ -1,9 +1,7 @@
 package ca.cs.ualberta.localpost.controller;
 
 import java.util.ArrayList;
-
 import ca.cs.ualberta.localpost.model.RootCommentModel;
-import ca.cs.ualberta.localpost.model.RootCommentModelList;
 
 public class BrowseFreshestComments implements BrowseTopLevelComments {
 	ArrayList<RootCommentModel> rootComments;
@@ -11,7 +9,7 @@ public class BrowseFreshestComments implements BrowseTopLevelComments {
 	@Override
 	public void getRootComments() {
 		// TODO Auto-generated method stub
-		this.rootComments = RootCommentModelList.getList();
+		//this.rootComments = RootCommentModelList.getList();
 	}
 
 	@Override
