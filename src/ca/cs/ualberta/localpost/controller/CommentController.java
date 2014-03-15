@@ -88,20 +88,15 @@ public class CommentController {
 				"yyyy/MM/dd HH:mm:ss", Locale.CANADA);
 		UUID author = UUID.randomUUID();
 		Date date = new Date();
-<<<<<<< HEAD
 
-		comment.setAuthor("anon4" + author.toString());
-=======
-		
-		comment.setAuthor("anon5" + author.toString());
->>>>>>> 81025d000a059972aac40e720866f61fddcbee8c
-		comment.setContent("Content test");
-		comment.setLocation(null);
-		comment.setPicture(null);
-		comment.setPostId(author);
-		comment.setTimestamp(dateFormat.format(date).toString());
-		comment.setTitle("Title test");
-		// <-- End of test variables
+//		comment.setAuthor("anon4" + author.toString());
+//		comment.setContent("Content test");
+//		comment.setLocation(null);
+//		comment.setPicture(null);
+//		comment.setPostId(author);
+//		comment.setTimestamp(dateFormat.format(date).toString());
+//		comment.setTitle("Title test");
+//		// <-- End of test variables
 
 		HttpPost pushRequest = new HttpPost(URL
 				+ String.valueOf(comment.getPostId()));
