@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="18" />
 
     <permission
         android:name="ca.cs.ualberta.localpost.permission.MAPS_RECEIVE"

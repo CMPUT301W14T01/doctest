@@ -88,8 +88,13 @@ public class CommentController {
 				"yyyy/MM/dd HH:mm:ss", Locale.CANADA);
 		UUID author = UUID.randomUUID();
 		Date date = new Date();
+<<<<<<< HEAD
 
 		comment.setAuthor("anon4" + author.toString());
+=======
+		
+		comment.setAuthor("anon5" + author.toString());
+>>>>>>> 81025d000a059972aac40e720866f61fddcbee8c
 		comment.setContent("Content test");
 		comment.setLocation(null);
 		comment.setPicture(null);

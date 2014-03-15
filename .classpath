@@ -5,16 +5,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="C:/Users/David/Documents/ESJars/commons-codec-1.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/David/Documents/ESJars/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/David/Documents/ESJars/fluent-hc-4.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/David/Documents/ESJars/gson-2.2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/David/Documents/ESJars/httpclient-4.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/David/Documents/ESJars/httpclient-cache-4.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/David/Documents/ESJars/httpcore-4.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/David/Documents/ESJars/httpmime-4.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/David/Documents/google-gson-2.2.4/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/David/Documents/google-gson-2.2.4/gson-2.2.4-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/David/Documents/google-gson-2.2.4/gson-2.2.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/cshome/timotei/c301/git/ESDemo/ESDemo/lib/gson-2.2.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
