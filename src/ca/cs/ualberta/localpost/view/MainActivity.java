@@ -34,6 +34,9 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+//		Intent intent = new Intent(this,ThreadView.class);
+//		startActivity(intent);
 
 		
 		// Tab Views

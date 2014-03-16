@@ -13,5 +13,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_submit_comment">SubmitComment</string>
     <string name="title_activity_user_profile">UserProfile</string>
-	<string name="commentHistory"><u>Comment History</u></string>
+    <string name="commentHistory"><u>Comment History</u></string>
+    <string name="title_activity_thread_view">ThreadView</string>
+
 </resources>
