@@ -3,10 +3,8 @@
 
     <string name="app_name">LocalPost</string>
     <string name="action_settings">Settings</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
     <string name="new_comment">New Comment</string>
+    <string name="view_profile">View User Profile</string>
     <string name="open_map_text">Open Google Maps API Demo</string>
     <string name="FreshestTab">Freshest Tab</string>
     <string name="LastestTab">Latest Tab</string>
@@ -14,5 +12,6 @@
     <string name="title_activity_comment_list_adapter">CommentListAdapter</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_submit_comment">SubmitComment</string>
-
+    <string name="title_activity_user_profile">UserProfile</string>
+	<string name="commentHistory"><u>Comment History</u></string>
 </resources>

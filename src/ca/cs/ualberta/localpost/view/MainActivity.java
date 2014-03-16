@@ -34,10 +34,7 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		//SharedPreferences.Editor editor = app_preferences.edit();
-		//editor.putString("username", "anonymous");
-		//editor.commit();
+
 		
 		// Tab Views
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -107,19 +104,19 @@ public class MainActivity extends FragmentActivity implements
 		case R.id.addNewComment:
 			try {
 				standardUser = new StandardUserModel();
-				SharedPreferences app_preferences = getApplicationContext().
-						getSharedPreferences("PREF", MODE_PRIVATE);
+				SharedPreferences app_preferences = getApplicationContext().getSharedPreferences("PREF", MODE_PRIVATE);
 				String getUsername = app_preferences.getString("username", "anonymous");
 				standardUser.setUsername(getUsername);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
 			myIntent.putExtra("username",standardUser.getUsername());
-			Log.e("intent",standardUser.getUsername());
 			startActivity(myIntent);
 			return true;
+		case R.id.viewUserProfile:
+			Intent myIntent2 = new Intent(getApplicationContext(),UserProfile.class);
+			startActivity(myIntent2);
 		default:
 			return super.onOptionsItemSelected(item);
 		}

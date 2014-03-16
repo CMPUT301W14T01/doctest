@@ -25,12 +25,13 @@ public class SubmitComment extends Activity {
 		// Get the username from intent
 		Bundle extras = getIntent().getExtras();
 		intentUsername = extras.getString("username");
+		Log.e("IntentUsername",intentUsername);
 	}
 
 	public void add_root(View view) throws InvalidKeyException,
 			NoSuchAlgorithmException, UnsupportedEncodingException {
 		user = new StandardUserModel();
-		user.setUsername("ANONYOUSSDF");
+		user.setUsername(intentUsername);
 
 		EditText titleView = (EditText) findViewById(R.id.commentTitle);
 		String title = titleView.getText().toString();
