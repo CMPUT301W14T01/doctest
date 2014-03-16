@@ -19,7 +19,7 @@ public abstract class UserModel {
 			UnsupportedEncodingException {
 		super();
 		this.username = "anonymous";
-		// this.tripcode = genTripcode();
+		//this.tripcode = genTripcode();
 	}
 
 	// GET USERNAME
@@ -31,7 +31,7 @@ public abstract class UserModel {
 	public void setUsername(String username) throws InvalidKeyException,
 			NoSuchAlgorithmException, UnsupportedEncodingException {
 		this.username = username;
-		//this.tripcode = genTripcode();
+		this.tripcode = genTripcode();
 	}
 
 	// GET TRIPCODE
@@ -61,7 +61,7 @@ public abstract class UserModel {
 	// get the mac address from the AndroidMacAddressProvider class
 	public String getMac() {
 		AndroidMacAddressProvider macprov = new AndroidMacAddressProvider();
-		String macAddress = macprov.getMacAddress();
+		String macAddress = macprov.getMacAddress().toString();
 		return macAddress;
 	}
 

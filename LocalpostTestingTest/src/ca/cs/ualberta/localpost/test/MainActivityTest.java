@@ -1,6 +1,5 @@
 package ca.cs.ualberta.localpost.test;
 
-import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import ca.cs.ualberta.localpost.view.MainActivity;
 
@@ -9,7 +8,7 @@ public class MainActivityTest extends
 
 	public MainActivityTest(Class<MainActivity> name) {
 		super(MainActivity.class);
-		Intent intent = new Intent(getInstrumentation().getTargetContext(), MainActivity.class);
+		//Intent intent = new Intent(getInstrumentation().getTargetContext(), MainActivity.class);
 		//startActivity(intent);
 		
 	}

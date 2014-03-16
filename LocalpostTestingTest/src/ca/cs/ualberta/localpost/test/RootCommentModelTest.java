@@ -5,9 +5,6 @@
  */
 package ca.cs.ualberta.localpost.test;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,7 +12,6 @@ import junit.framework.TestCase;
 import android.graphics.Bitmap;
 import android.location.Location;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
-import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 /**
  * @author timotei
@@ -26,6 +22,9 @@ TestCase {
 
 	private RootCommentModel model;
 
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#setUp()
+	 */
 	protected void setUp() throws Exception {
 		super.setUp();		
 	}
