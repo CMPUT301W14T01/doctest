@@ -108,7 +108,7 @@ public class ASyncTaskTest extends AsyncTask<Object, Integer, ArrayList<CommentM
 		// Test variables in place until we are able to communicate with th views
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss",Locale.CANADA);
 		UUID author = UUID.randomUUID();
-		Date date = new Date();
+		long date = new Date().getTime();
 		CommentModel comment = new RootCommentModel("test", null);
 		
 		comment.setAuthor("anon2" + author.toString());
@@ -116,7 +116,7 @@ public class ASyncTaskTest extends AsyncTask<Object, Integer, ArrayList<CommentM
 		comment.setLocation(null);
 		comment.setPicture(null);
 		comment.setPostId(author);
-		comment.setTimestamp(date.toString());
+		comment.setTimestamp(date);
 		comment.setTitle("Title test");		
 		
 		HttpPost pushRequest = new HttpPost(URL + String.valueOf(comment.getPostId()));		
