@@ -1,11 +1,9 @@
 package ca.cs.ualberta.localpost.model;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+
 import android.graphics.Bitmap;
 
 public abstract class CommentModel {
@@ -15,36 +13,62 @@ public abstract class CommentModel {
 	private String author;
 	private ArrayList<CommentModel> children = new ArrayList<CommentModel>();
 	private long timestamp;
-	private java.util.UUID postId;
+	private java.util.UUID postId = UUID.randomUUID();
 	private int radish;
 	private Bitmap picture;
 	long date = new Date().getTime();
 	StandardUserModel user;
 	
+	public CommentModel() {
+		super();
+		try {
+			user = new StandardUserModel();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();		
+		}
+		this.title = null;
+		this.content = null;
+		this.radish = 0;
+		this.setPostId(postId);
+		this.timestamp = date;
+		this.author = getAuthor();
+		// this.location = location;
+		// this.picture = picture;
+	}
+	
 	public CommentModel(String content, String title) {
+		try {
+			user = new StandardUserModel();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();		
+		}
 		this.title = title;
 		this.content = content;
 		this.radish = 0;
-		this.setPostId(UUID.randomUUID());
+		this.setPostId(postId);
 		this.timestamp = date;
-		this.author = "";
+		this.author = getAuthor();
 		// this.location = location;
 		// this.picture = picture;
 	}
 
-	public CommentModel() {
-		super();
-	}
-
 	public CommentModel(String content, android.location.Location location,
 			Bitmap picture) {
+		try {
+			user = new StandardUserModel();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();		
+		}
 		this.content = content;
 		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
 		this.location = location;
 		this.timestamp = date;
 		this.picture = picture;
-		// this.author = UserModel.getUsername();
+		this.author = getAuthor();
 	}
 
 	public String getTitle() {
@@ -52,12 +76,14 @@ public abstract class CommentModel {
 	}
 
 	public String getAuthor() {
+		this.author = user.getUsername();
 		return this.author;
 	}
 //
 	public void setAuthor(String author) {
 		try {
-			this.author = author;
+			user.setUsername(author);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -91,24 +117,23 @@ public abstract class CommentModel {
 		this.location = location;
 	}
 
-	public String getTimestamp() {
-		return String.valueOf(timestamp);
+	public long getTimestamp() {
+		return timestamp;
 	}
 
-	public void setTimestamp(String timestamp) {
-		long date = new Date().getTime();
-		this.timestamp = date;
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public int getRadish() {
 		return radish;
 	}
 
-	public void incRadish(int radish) {
+	public void incRadish() {
 		this.radish += 1;
 	}
 
-	public void decRadish(int radish) {
+	public void decRadish() {
 		this.radish -= 1;
 	}
 

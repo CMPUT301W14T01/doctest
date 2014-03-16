@@ -5,6 +5,9 @@
  */
 package ca.cs.ualberta.localpost.test;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,6 +15,7 @@ import junit.framework.TestCase;
 import android.graphics.Bitmap;
 import android.location.Location;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 /**
  * @author timotei
@@ -98,9 +102,18 @@ TestCase {
 	 * Test whether we can retrieve an Author
 	 */
 	public final void testGetAuthor() {
-		model = new RootCommentModel();
+		/*StandardUserModel model = null;
+		try {
+			model = new StandardUserModel();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		assertEquals("anonymous",model.getUsername());*/
 		
-		assertEquals("anonymous",model.getAuthor());
+		
+		RootCommentModel model2 = new RootCommentModel();			
+		assertEquals("anonymous",model2.getAuthor());
 	}
 
 	/**

@@ -3,10 +3,10 @@ package ca.cs.ualberta.localpost.model;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import android.content.Context;
-import android.util.Log;
+
 import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
 
 public abstract class UserModel {
@@ -17,6 +17,7 @@ public abstract class UserModel {
 	// Constructors
 	public UserModel() throws InvalidKeyException, NoSuchAlgorithmException,
 			UnsupportedEncodingException {
+		super();
 		this.username = "anonymous";
 		// this.tripcode = genTripcode();
 	}
