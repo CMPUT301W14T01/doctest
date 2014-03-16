@@ -2,13 +2,14 @@ package ca.cs.ualberta.localpost.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
 import java.util.UUID;
 
 import com.google.gson.Gson;
 
 import android.graphics.Bitmap;
 
-public abstract class CommentModel {
+public abstract class CommentModel extends Observable{
 	private String title;
 	private String content;
 	private android.location.Location location;

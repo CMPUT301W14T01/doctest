@@ -219,3 +219,4 @@ bin/
 gen/
 project.properties
 .classpath
+*.classpath

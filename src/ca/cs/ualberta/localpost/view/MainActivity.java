@@ -1,5 +1,8 @@
 package ca.cs.ualberta.localpost.view;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -20,7 +23,7 @@ import android.view.MenuItem;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener {
+		ActionBar.TabListener, Observer {
 
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
@@ -123,5 +126,11 @@ public class MainActivity extends FragmentActivity implements
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public void update(Observable observable, Object data) {
+		// TODO Auto-generated method stub
+		
 	}
 }
