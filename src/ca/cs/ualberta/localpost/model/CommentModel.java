@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import com.google.gson.Gson;
+
 import android.graphics.Bitmap;
 
 public abstract class CommentModel {
@@ -150,5 +152,26 @@ public abstract class CommentModel {
 	 */
 	public void setPostId(java.util.UUID postId) {
 		this.postId = postId;
+	}
+	
+	public String getFlattenedClone(){
+		//Class<? extends CommentModel> cloneType = this.getClass();
+		//CommentModel clone = cloneType.newInstance();
+		CommentModel clone = null;
+		try {
+			clone = (CommentModel) this.clone();
+			
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// Have cloned 'this', swap for UUIDs of children
+		
+		
+		ArrayList<java.util.UUID> childIDs;
+		Gson summary = new Gson();
+		return summary.toJson(clone);
+		
+		
 	}
 }
