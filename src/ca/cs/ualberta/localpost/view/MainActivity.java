@@ -1,14 +1,12 @@
 package ca.cs.ualberta.localpost.view;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
@@ -16,9 +14,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 public class MainActivity extends FragmentActivity implements
@@ -29,11 +27,7 @@ public class MainActivity extends FragmentActivity implements
 	private ActionBar actionBar;
 	private String[] tabs = { "Fresh", "Lastest", "Greatest" };
 	public Bitmap picture;
-	private static StandardUserModel model;
-	
-	public static StandardUserModel getModel() {
-		return model;
-	}
+	private StandardUserModel standardUser;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -41,21 +35,10 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		if (model == null) {
-			try {
-				model = new StandardUserModel();
-			} catch (InvalidKeyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
+		//SharedPreferences.Editor editor = app_preferences.edit();
+		//editor.putString("username", "anonymous");
+		//editor.commit();
+		
 		// Tab Views
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
@@ -96,15 +79,10 @@ public class MainActivity extends FragmentActivity implements
 		String provider = locationManager.getBestProvider(criteria, false);
 		Location location = locationManager.getLastKnownLocation(provider);
 
-		RootCommentModel test1 = new RootCommentModel("HELLO WORLD TESTING123",
-				location, picture);
-
 	}
 
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -114,8 +92,6 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -129,8 +105,19 @@ public class MainActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.addNewComment:
-			Intent myIntent = new Intent(getApplicationContext(),
-					SubmitComment.class);
+			try {
+				standardUser = new StandardUserModel();
+				SharedPreferences app_preferences = getApplicationContext().
+						getSharedPreferences("PREF", MODE_PRIVATE);
+				String getUsername = app_preferences.getString("username", "anonymous");
+				standardUser.setUsername(getUsername);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
+			myIntent.putExtra("username",standardUser.getUsername());
+			Log.e("intent",standardUser.getUsername());
 			startActivity(myIntent);
 			return true;
 		default:
