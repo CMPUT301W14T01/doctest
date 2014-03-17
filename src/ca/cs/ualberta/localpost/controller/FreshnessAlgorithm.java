@@ -27,10 +27,23 @@ import java.util.Date;
 
 import android.location.Location;
 
+/**
+ * This algorithm takes data from a comment and also the location of a user and combines that information to determin the rlative freshness of
+ * that comment to that user. freshness grows inversly with days old and distance from user. It grows positively with greatness
+ * @author team01
+ *
+ */
 public class FreshnessAlgorithm {
 	
 	int freshness;
 	
+	/**
+	 * runs the algorithm
+	 * @param greatness
+	 * @param date
+	 * @param commentLocation
+	 * @param userLocation
+	 */
 	public FreshnessAlgorithm(int greatness, Date date, Location commentLocation, Location userLocation){
 		int distance = (int)commentLocation.distanceTo(userLocation);
 		Date currentDate = new Date();
@@ -39,6 +52,12 @@ public class FreshnessAlgorithm {
 		this.freshness = (int)fresh;
 	}
 	
+	/**
+	 * returns number of days between two dates
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
 	private int daysBetween(Date date1, Date date2){
 
 		long diff = date2.getTime() - date1.getTime();

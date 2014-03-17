@@ -40,12 +40,7 @@ public class BrowseLatestComments implements BrowseTopLevelComments {
 
 	@Override
 	public ArrayList<RootCommentModel> sortRootComments(ArrayList<RootCommentModel> comments) {
-		Comparator<RootCommentModel> comparator = new Comparator<RootCommentModel>() {
-			public int compare(RootCommentModel r1, RootCommentModel r2){
-				return r2.getRadish() - r1.getRadish();
-			}
-		};
-		return Collections.sort(comments, comparator);
+		return comments;
 	}
 
 	@Override
