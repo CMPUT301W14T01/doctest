@@ -20,7 +20,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *  
  */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5e6f9e0f55429f6b349bfb5f62c89cdff825a860
 package ca.cs.ualberta.localpost.view;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

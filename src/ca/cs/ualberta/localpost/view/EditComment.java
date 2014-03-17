@@ -20,7 +20,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *  
  */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5e6f9e0f55429f6b349bfb5f62c89cdff825a860
 package ca.cs.ualberta.localpost.view;
 
 import java.io.UnsupportedEncodingException;
@@ -109,7 +112,7 @@ public class EditComment extends Activity {
 		setResult(RESULT_OK, myIntent);
 		finish();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

@@ -20,7 +20,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *  
  */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5e6f9e0f55429f6b349bfb5f62c89cdff825a860
 package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
@@ -45,7 +48,7 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
 /**
  * Displays comments in descending order according to
  * the amount of points accumulated.
- * @author David
+ * @author Team 01
  *
  */
 public class GreatestTabView extends Fragment {
@@ -76,9 +79,6 @@ public class GreatestTabView extends Fragment {
         return rootView;
     }
     
-    /**
-     * Creates a context menu for on longpress of a listview element
-     */
     @Override
 	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo)
 	{
@@ -88,9 +88,6 @@ public class GreatestTabView extends Fragment {
 		menu.add(0,Menu.FIRST+2,0,"Favorite");
 	}
     
-	/**
-	 * Handles the onclick action of the context menu
-	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{

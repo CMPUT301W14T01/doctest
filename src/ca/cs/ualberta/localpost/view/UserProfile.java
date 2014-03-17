@@ -20,7 +20,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *  
  */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5e6f9e0f55429f6b349bfb5f62c89cdff825a860
 package ca.cs.ualberta.localpost.view;
 
 import java.io.File;
@@ -129,10 +132,7 @@ public class UserProfile extends Activity implements OnClickListener {
 		adapter = new CommentListAdapter(UserProfile.this, R.id.custom_adapter,model);
 		listView.setAdapter(adapter);
 	}
-	
-	/**
-	 * Makes the layouts clickable; each layout will do something different
-	 */
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -150,9 +150,6 @@ public class UserProfile extends Activity implements OnClickListener {
 		}
 	}
 	
-	/**
-	 * Gets the data that EditComment.class sends back
-	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 1) {
@@ -176,10 +173,6 @@ public class UserProfile extends Activity implements OnClickListener {
 		}
 	}
 	
-	/**
-	 * Dialog box that allows a user to change their username
-	 * @param view Passes view from the activity
-	 */
 	public void editUsernameDialog(View view) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Enter New Username");
@@ -214,9 +207,6 @@ public class UserProfile extends Activity implements OnClickListener {
 		builder.show();
 	}
 	
-	/**
-	 * Creates context menu for onlong hold of a listview element
-	 */
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -224,9 +214,6 @@ public class UserProfile extends Activity implements OnClickListener {
 		menu.add(0, Menu.FIRST, 0, "Edit Comment");
 	}
 	
-	/**
-	 * Handles the onlongpress actions
-	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item

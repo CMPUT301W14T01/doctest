@@ -20,7 +20,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *  
  */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5e6f9e0f55429f6b349bfb5f62c89cdff825a860
 package ca.cs.ualberta.localpost.view;
 
 import android.support.v4.app.Fragment;
@@ -44,7 +47,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
 	/**
 	 * Creates Fragments and links them wtih appropriate .View file
+	 * @param arg0 index for tab
 	 */
+
 	@Override
 	public Fragment getItem(int arg0) {
 		switch(arg0){

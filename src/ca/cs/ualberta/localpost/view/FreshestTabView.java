@@ -20,7 +20,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *  
  */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5e6f9e0f55429f6b349bfb5f62c89cdff825a860
 package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
@@ -47,7 +50,7 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
 /**
  * This View will show all the comments that are
  * in the area around the user.
- * @author David
+ * @author Team 01
  *
  */
 public class FreshestTabView extends Fragment {
@@ -95,21 +98,15 @@ public class FreshestTabView extends Fragment {
 		listView.setAdapter(adapter);
 	}
 
-    /**
-     * Creates a context menu for on longpress of a listview element
-     */
+	
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, Menu.FIRST, 0, "UpRad");
 		menu.add(0, Menu.FIRST + 1, 0, "DownRad");
 		menu.add(0, Menu.FIRST + 2, 0, "Favorite");
 	}
 
-	/**
-	 * Handles the onclick action of the context menu
-	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		//Get item list index
