@@ -19,6 +19,13 @@ import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.BrowseLatestComments;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
+
+/**
+ * Displays the comments from most recent post date
+ * 
+ * @author Team 01
+ *
+ */
 public class LastestTabView extends Fragment {
 	private ListView listView;
 	ArrayList<RootCommentModel> model = new ArrayList<RootCommentModel>();
@@ -27,8 +34,8 @@ public class LastestTabView extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState){
 		
+		//Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container,false);
-		//updateCommentArray();
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
 		listView.setAdapter(adapter); 
@@ -44,10 +51,12 @@ public class LastestTabView extends Fragment {
 	   	     	//startActivity(myIntent);
 	        }
 	    });//End On click
-         
 		return rootView;
 	}
 	
+    /**
+     * Creates a context menu for on longpress of a listview element
+     */
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo)
 	{
@@ -57,6 +66,9 @@ public class LastestTabView extends Fragment {
 		menu.add(0,Menu.FIRST+2,0,"Favorite");
 	}
 	
+	/**
+	 * Handles the onclick action of the context menu
+	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
@@ -78,9 +90,8 @@ public class LastestTabView extends Fragment {
 		}
 		return super.onContextItemSelected(item);
 	}
-	public void updateCommentArray(){
-		BrowseLatestComments browse = new BrowseLatestComments();
-		this.model = browse.passSortedRootComments();
-	}
-
+//	public void updateCommentArray(){
+//		BrowseLatestComments browse = new BrowseLatestComments();
+//		this.model = browse.passSortedRootComments();
+//	}
 }

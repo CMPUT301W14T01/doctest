@@ -10,6 +10,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TableLayout.LayoutParams;
 
+/**
+ * NOT DONE OR IMPLEMENTED
+ * Displays a comment and all the replies associated
+ * with the comment
+ * @author Team 01
+ *
+ */
 public class ThreadView extends Activity {
 	private TableLayout table;
 
@@ -18,6 +25,7 @@ public class ThreadView extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.table);
 
+		//Creates a Table
 		table = (TableLayout) findViewById(R.id.table_layout);
 
 		threadExpand("Parent 1", 0);
@@ -39,7 +47,6 @@ public class ThreadView extends Activity {
 		// geoText = (TextView) view.findViewById(R.id.geolocation);
 	}
 
-	
 	// TODO move to CommentModel args for tRD
 	public void threadExpand(String text, int level) {
 		final int marginBase = 20;

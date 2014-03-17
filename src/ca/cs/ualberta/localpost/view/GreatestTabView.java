@@ -33,7 +33,7 @@ public class GreatestTabView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
  
-    	//Inflates the view with list.
+    	//Inflates the view with a list view. Also populates listview
         View rootView = inflater.inflate(R.layout.tab, container, false);
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
@@ -89,8 +89,8 @@ public class GreatestTabView extends Fragment {
 		}
 		return super.onContextItemSelected(item);
 	}
-	public void updateCommentArray(){
-		BrowseGreatestComments browse = new BrowseGreatestComments();
-		this.model = browse.passSortedRootComments();
-	}
+//	public void updateCommentArray(){
+//		BrowseGreatestComments browse = new BrowseGreatestComments();
+//		this.model = browse.passSortedRootComments();
+//	}
 }

@@ -2,7 +2,6 @@ package ca.cs.ualberta.localpost.view;
 
 import java.io.File;
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -30,18 +29,28 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 import com.google.gson.Gson;
 
+/**
+ * This view will display a users information
+ * The user will be able to change their user name, 
+ * view their comment history and view their favourited comments
+ * @author Team 01
+ */
 public class UserProfile extends Activity implements OnClickListener {
+	/** Grabs the layouts respect to their functionality*/
 	private RelativeLayout usernameLayout;
 	private RelativeLayout favoriteLayout;
 	private RelativeLayout geoLayout;
 
+	/**Grabs Username via preferences*/
 	private SharedPreferences app_preferences;
 	private SharedPreferences.Editor editor;
 
+	/**Views related to the activity view*/
 	private TextView userNameText;
 	private ListView listView;
 	private CommentListAdapter adapter;
 
+	/**Arraylist of RootCommentModels */
 	private ArrayList<RootCommentModel> model;
 
 	@Override
@@ -76,6 +85,7 @@ public class UserProfile extends Activity implements OnClickListener {
 		adapter = new CommentListAdapter(UserProfile.this,R.id.custom_adapter, model);
 		listView.setAdapter(adapter);
 
+		//Sets onClickListener for each lisview element
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Toast.makeText(getApplicationContext(),
@@ -84,7 +94,11 @@ public class UserProfile extends Activity implements OnClickListener {
 			}
 		});
 	}
-	
+
+	/**
+	 * Overrides onResume. This will update the listView with data 
+	 * that has been added.
+	 */
 	@Override 
 	public void onResume(){
 		super.onResume();
@@ -92,7 +106,10 @@ public class UserProfile extends Activity implements OnClickListener {
 		adapter = new CommentListAdapter(UserProfile.this, R.id.custom_adapter,model);
 		listView.setAdapter(adapter);
 	}
-
+	
+	/**
+	 * Makes the layouts clickable; each layout will do something different
+	 */
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -109,7 +126,10 @@ public class UserProfile extends Activity implements OnClickListener {
 			break;
 		}
 	}
-
+	
+	/**
+	 * Gets the data that EditComment.class sends back
+	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 1) {
@@ -132,7 +152,11 @@ public class UserProfile extends Activity implements OnClickListener {
 			}
 		}
 	}
-
+	
+	/**
+	 * Dialog box that allows a user to change their username
+	 * @param view Passes view from the activity
+	 */
 	public void editUsernameDialog(View view) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Enter New Username");
@@ -166,14 +190,20 @@ public class UserProfile extends Activity implements OnClickListener {
 		});
 		builder.show();
 	}
-
+	
+	/**
+	 * Creates context menu for onlong hold of a listview element
+	 */
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, Menu.FIRST, 0, "Edit Comment");
 	}
-
+	
+	/**
+	 * Handles the onlongpress actions
+	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item

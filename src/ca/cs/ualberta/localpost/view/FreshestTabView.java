@@ -35,6 +35,7 @@ public class FreshestTabView extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
 		//Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container, false);
 		
@@ -58,6 +59,11 @@ public class FreshestTabView extends Fragment {
 		});
 		return rootView;
 	}
+	
+	/**
+	 * Overrides onResume. This will update the listView with data 
+	 * that has been added.
+	 */
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -66,6 +72,9 @@ public class FreshestTabView extends Fragment {
 		listView.setAdapter(adapter);
 	}
 
+    /**
+     * Creates a context menu for on longpress of a listview element
+     */
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -75,6 +84,9 @@ public class FreshestTabView extends Fragment {
 		menu.add(0, Menu.FIRST + 2, 0, "Favorite");
 	}
 
+	/**
+	 * Handles the onclick action of the context menu
+	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		//Get item list index
@@ -98,10 +110,10 @@ public class FreshestTabView extends Fragment {
 		return super.onContextItemSelected(item);
 	}
 
-	// Use updateCommentArray() on like onResume or something or on Refresh or
-	// something
-	public void updateCommentArray() {
-		BrowseFreshestComments browse = new BrowseFreshestComments();
-		this.model = browse.passSortedRootComments();
-	}
+//	// Use updateCommentArray() on like onResume or something or on Refresh or
+//	// something
+//	public void updateCommentArray() {
+//		BrowseFreshestComments browse = new BrowseFreshestComments();
+//		this.model = browse.passSortedRootComments();
+//	}
 }
