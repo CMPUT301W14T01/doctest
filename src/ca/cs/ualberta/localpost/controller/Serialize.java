@@ -51,8 +51,8 @@ public class Serialize {
 	/**
 	 * This function takes comment model, serializes it and saves it
 	 * to a local file using GSON.
-	 * @param new_root: comment model that will be saved in file
-	 * @param context
+	 * @param new_root comment model that will be saved in file
+	 * @param context // TODO
 	 */
 	public static void SaveInFile(CommentModel new_root, Context context) {
 		String filename = null;
@@ -81,8 +81,8 @@ public class Serialize {
 	/**
 	 * Load GSON objects from a file, deserialize them and pass them to an ArrayList as 
 	 * RootCommentModels. 
-	 * @param filename: file containing all serialized GSON objects that we saved
-	 * @param context
+	 * @param filename file containing all serialized GSON objects that we saved
+	 * @param context // TODO
 	 * @return arraylist of RootCommentModels
 	 */
 	public static ArrayList<RootCommentModel> loadFromFile(String filename, Context context) {
