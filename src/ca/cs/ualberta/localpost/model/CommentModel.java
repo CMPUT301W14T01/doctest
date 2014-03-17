@@ -175,4 +175,8 @@ public abstract class CommentModel extends Observable{
 		
 		
 	}
+	
+	private void tailRecurseDrawable(ArrayList<CommentModel> comment, int depth){
+		
+	}
 }
