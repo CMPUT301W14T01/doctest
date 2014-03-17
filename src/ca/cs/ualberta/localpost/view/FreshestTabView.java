@@ -13,74 +13,90 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.BrowseFreshestComments;
+import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 public class FreshestTabView extends Fragment {
 	private ListView listView;
-	ArrayList<RootCommentModel> model = new ArrayList<RootCommentModel>();
-	
+	private CommentListAdapter adapter;
+	ArrayList<RootCommentModel> model;  
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
-			Bundle savedInstanceState){
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.tab, container, false);
 		
-		//updateCommentArray();
-		View rootView = inflater.inflate(R.layout.tab, container,false);
-		//updateCommentArray();
+		model = Serialize.loadFromFile("rootcomment.json", getActivity());
+
 		listView = (ListView) rootView.findViewById(R.id.commentList);
-		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
+		registerForContextMenu(listView);
+
+		adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter,model);
+
 		listView.setAdapter(adapter);
-		
-		//Clicking on a list item will take us to the replies(child comments)
+
+		// Clicking on a list item will take us to the replies(child comments)
 		listView.setOnItemClickListener(new OnItemClickListener() {
-	        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	        	//Intent myIntent = new Intent(getActivity(),MainActivity.class);
-	        	//Pass the index so we can parse it in From Server.
-	        	Log.e("Index",String.valueOf(id));
-	        	Log.e("Position",String.valueOf(position));
-	   	     	Toast.makeText(getActivity(), "Button is clicked", Toast.LENGTH_SHORT).show();
-	   	     	//startActivity(myIntent);
-	        }
-	    });//End On click 
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				//TODO pass intent to ThreadView
+				// Intent myIntent = new Intent(getActivity(),MainActivity.class);
+				Toast.makeText(getActivity(), "Button is clicked",
+						Toast.LENGTH_SHORT).show();
+				// startActivity(myIntent);
+			}
+		});
 		return rootView;
 	}
-	
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo)
-	{
-		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.add(0,Menu.FIRST,0,"UpTurnip");
-		menu.add(0,Menu.FIRST+1,0,"DownTurnip");
-		menu.add(0,Menu.FIRST+2,0,"Favorite");
+	public void onResume() {
+		super.onResume();
+		model = Serialize.loadFromFile("rootcomment.json", getActivity());
+		adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter,model);
+		listView.setAdapter(adapter);
 	}
-	
+
 	@Override
-	public boolean onContextItemSelected(MenuItem item)
-	{
-		//AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		switch(item.getItemId())
-		{
-			case Menu.FIRST://Rename
-				Log.e("Increment","UpTurnip");
-	   	     	Toast.makeText(getActivity(), "UpTurnip", Toast.LENGTH_SHORT).show();
-				return true;
-			case Menu.FIRST+1:
-				Log.e("Decrement","DownTurnip");
-   	     		Toast.makeText(getActivity(), "DownTurnip is clicked", Toast.LENGTH_SHORT).show();
-				return true;
-			case Menu.FIRST+2:
-				Log.e("Fav","Favorite");
-				Toast.makeText(getActivity(), "Favorite Clicked", Toast.LENGTH_SHORT).show();
-				return true;
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.add(0, Menu.FIRST, 0, "UpRad");
+		menu.add(0, Menu.FIRST + 1, 0, "DownRad");
+		menu.add(0, Menu.FIRST + 2, 0, "Favorite");
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		//Get item list index
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+
+		switch (item.getItemId()) {
+		case Menu.FIRST:// Rename
+			Log.e("Increment", "UpRad");
+			Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
+			return true;
+		case Menu.FIRST + 1:
+			Log.e("Decrement", "DownRad");
+			Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
+			return true;
+		case Menu.FIRST + 2:
+			//TODO Check if that comment already exists favorites.json
+			int index = (int) info.id;
+			Toast.makeText(getActivity(), "Comment has been Favorited",Toast.LENGTH_SHORT).show();
+			Serialize.SaveInFile(model.get(index), getActivity());
+			return true;
 		}
 		return super.onContextItemSelected(item);
 	}
-	
-	//Use updateCommentArray() on like onResume or something or on Refresh or something
-	public void updateCommentArray(){
+
+	// Use updateCommentArray() on like onResume or something or on Refresh or
+	// something
+	public void updateCommentArray() {
 		BrowseFreshestComments browse = new BrowseFreshestComments();
 		this.model = browse.passSortedRootComments();
 	}

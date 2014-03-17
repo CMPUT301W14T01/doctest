@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.util.Log;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
@@ -37,7 +39,8 @@ public class Serialize {
 		}
 	}
 
-	public static void loadFromFile(String filename, Context context) {
+	public static ArrayList<RootCommentModel> loadFromFile(String filename, Context context) {
+		ArrayList<RootCommentModel> model = new ArrayList<RootCommentModel>();
 		FileInputStream FileOpen;
 		try {
 			FileOpen = context.getApplicationContext().openFileInput(filename);
@@ -46,19 +49,23 @@ public class Serialize {
 
 			String input;
 			while ((input = buffer.readLine()) != null) {
+				Log.e("Root", input);
+
 				if(filename.equals("rootcomment.json")){
-					Log.e("Root", input);
 					RootCommentModel obj = gson.fromJson(input,RootCommentModel.class);
-					Log.e("ObjRoot", obj.getTitle());
+					model.add(obj);
 				}
 				else if(filename.equals("childcomment.json")){
 					Log.e("Child", input);
-					ChildCommentModel obj = gson.fromJson(input,ChildCommentModel.class);
-					Log.e("ObjChild", obj.getTitle());
+					ChildCommentModel obj2 = gson.fromJson(input,ChildCommentModel.class);
+					Log.e("ObjChild", obj2.getTitle());
 				}
+			
 			}
+			return model;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return model;
 	}// End loadFromFile
 }

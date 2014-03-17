@@ -44,6 +44,7 @@ public class SubmitComment extends Activity {
 
 		Serialize.SaveInFile(new_root, SubmitComment.this);
 		//Serialize.loadFromFile(SubmitComment.this);
+		super.onBackPressed();
 	}
 
 	@Override

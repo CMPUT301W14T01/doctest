@@ -31,7 +31,7 @@ public abstract class UserModel {
 	public void setUsername(String username) throws InvalidKeyException,
 			NoSuchAlgorithmException, UnsupportedEncodingException {
 		this.username = username;
-		this.tripcode = genTripcode();
+		//this.tripcode = genTripcode();
 	}
 
 	// GET TRIPCODE
