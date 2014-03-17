@@ -76,11 +76,10 @@ public class CommentController {
 	}
 
 	/**
-	 * 
-	 * @param newText: the new content of the comment
-	 * @param editedByID: user changing the comment
-	 * @param author: same as editedByID
-	 * @return
+	 * Update content based on user input of new text. See TODO as this method is not well implemented yet
+	 * @param newText the new content of the comment
+	 * @param editedByID user changing the comment
+	 * @param author same as editedByID
 	 */
 	// TODO Fix redundancy such as editedByID that should be the same as author
 	public boolean updateContent(String newText, String editedByID,
@@ -112,7 +111,7 @@ public class CommentController {
 
 	/**
 	 * Push a comment to the webserver
-	 * @param comment: new comment the user has made that we need to sync with the webserver
+	 * @param comment new comment the user has made that we need to sync with the webserver
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
@@ -197,7 +196,7 @@ public class CommentController {
 
 	/**
 	 * Retrieve comment from webserver
-	 * @param comment: model that contains the id of the comment we wish to retrieve from the webserver
+	 * @param comment model that contains the id of the comment we wish to retrieve from the webserver
 	 */
 	// TODO pass a comment id instead of a model and then create a model inside the method with that id
 	public void getComment(CommentModel comment) {
@@ -253,8 +252,8 @@ public class CommentController {
 
 	/**
 	 * 
-	 * @param str: text we wish to update in the comment
-	 * @param id: used to identify the comment we wish to change
+	 * @param str text we wish to update in the comment
+	 * @param id used to identify the comment we wish to change
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
@@ -313,7 +312,7 @@ public class CommentController {
 	/**
 	 * Retrieve the contents of the GSON object
 	 * @param response
-	 * @return
+	 * @return json object
 	 * @throws IOException
 	 */
 	String getEntityContent(HttpResponse response) throws IOException {

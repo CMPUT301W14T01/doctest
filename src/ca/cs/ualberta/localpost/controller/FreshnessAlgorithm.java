@@ -28,19 +28,12 @@ import java.util.Date;
 import android.location.Location;
 
 /**
-<<<<<<< HEAD
- * The FreshnessAlgorithm determines the newest and most popular comments
- * @author Team Radish
- *
- */
-// TODO Alain should comment on the algorithm
-=======
- * This algorithm takes data from a comment and also the location of a user and combines that information to determin the rlative freshness of
- * that comment to that user. freshness grows inversly with days old and distance from user. It grows positively with greatness
+ * This algorithm takes data from a comment and also the location of a user and combines that information to determining the relative freshness of
+ * that comment to that user. freshness grows inversely with days old and distance from user. It grows positively with greatness
  * @author team01
  *
  */
->>>>>>> a54464230bbc9e907d05884f03eb1ec1cd0cd748
+
 public class FreshnessAlgorithm {
 	
 	int freshness;
@@ -64,7 +57,7 @@ public class FreshnessAlgorithm {
 	 * returns number of days between two dates
 	 * @param date1
 	 * @param date2
-	 * @return
+	 * @return the difference bewteen the days
 	 */
 	private int daysBetween(Date date1, Date date2){
 

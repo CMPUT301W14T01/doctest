@@ -44,7 +44,7 @@ public class ThreadViewController {
 	/**
 	 * This function retrieves an array list of children IDs
 	 * that are a reply to a another comment
-	 * @param comment: model containing the comment 
+	 * @param comment model containing the comment 
 	 * @return TODO
 	 */
 	public String getFlattened(CommentModel comment){

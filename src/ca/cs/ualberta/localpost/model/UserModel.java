@@ -77,7 +77,7 @@ public abstract class UserModel {
 
 	/** GERNERATE TRIPCODE
 	 * 
-	 * @return
+	 * @return tripcode
 	 * @throws NoSuchAlgorithmException
 	 * @throws InvalidKeyException
 	 * @throws UnsupportedEncodingException
@@ -102,7 +102,7 @@ public abstract class UserModel {
 
 	/** get the mac address from the AndroidMacAddressProvider class
 	 * 
-	 * @return
+	 * @return Mac Address used for tripcode
 	 */
 	public String getMac() {
 		AndroidMacAddressProvider macprov = new AndroidMacAddressProvider();
