@@ -16,5 +16,6 @@
     <string name="commentHistory"><u>Comment History</u></string>
     <string name="title_activity_thread_view">ThreadView</string>
     <string name="title_activity_favorites_view">FavoritesView</string>
+    <string name="title_activity_edit_comment">EditComment</string>
 
 </resources>

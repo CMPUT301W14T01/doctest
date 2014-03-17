@@ -2,7 +2,6 @@ package ca.cs.ualberta.localpost.view;
 
 import java.util.Observable;
 import java.util.Observer;
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -22,14 +21,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
+/**
+ * Main code was provided from Android Hive. Code was changed to fix
+ * project requirements.
+ * @author Team 01
+ *
+ */
+//Some code was provided from:
+//http://www.androidhive.info/2013/10/android-tab-layout-with-swipeable-views-1/
+
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener, Observer {
-
+	
+	/**Adapters used to create the tabbed views/fragments */
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
 	private String[] tabs = { "Fresh", "Lastest", "Greatest" };
-	public Bitmap picture;
+	
+	//public Bitmap picture;
+	/**Creates a model object of StandardUserModel.class */
 	private StandardUserModel standardUser;
 
 	@SuppressLint("NewApi")
@@ -38,11 +49,10 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-//		Intent intent = new Intent(this,ThreadView.class);
+//		Intent intent = new Intent(this,EditComment.class);
 //		startActivity(intent);
 
-		
-		// Tab Views
+		/**Generate The Tab Views*/
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
@@ -73,8 +83,7 @@ public class MainActivity extends FragmentActivity implements
 			}
 		});
 
-		// The following code up to the end of this method is for testing
-		// purposes. Mainly developed by chautran
+		/**Location methods */
 		LocationManager locationManager = (LocationManager) MainActivity.this
 				.getSystemService(Context.LOCATION_SERVICE);
 
@@ -104,6 +113,11 @@ public class MainActivity extends FragmentActivity implements
 		return true;
 	}
 
+	/**Adds the following items to action bar icons 
+	 * 
+	 * @param item	Takes in a menu item
+	 * @return Returns a action bar with new comment and view user profile buttons.
+	 * */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

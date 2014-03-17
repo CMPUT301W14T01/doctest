@@ -21,6 +21,12 @@ import ca.cs.ualberta.localpost.controller.BrowseFreshestComments;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
+/**
+ * This View will show all the comments that are
+ * in the area around the user.
+ * @author David
+ *
+ */
 public class FreshestTabView extends Fragment {
 	private ListView listView;
 	private CommentListAdapter adapter;
@@ -29,6 +35,7 @@ public class FreshestTabView extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		//Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container, false);
 		
 		model = Serialize.loadFromFile("rootcomment.json", getActivity());
@@ -73,7 +80,7 @@ public class FreshestTabView extends Fragment {
 		//Get item list index
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
-		case Menu.FIRST:// Rename
+		case Menu.FIRST:
 			Log.e("Increment", "UpRad");
 			Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
 			return true;

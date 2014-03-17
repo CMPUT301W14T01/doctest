@@ -1,7 +1,6 @@
 package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
-
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import android.os.Bundle;
@@ -13,6 +12,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+/**
+ * View that Displays all of the users
+ * favorited comments
+ * @author Team 01
+ *
+ */
 public class FavoritesView extends Activity {
 	private ListView listView;
 	private CommentListAdapter adapter;

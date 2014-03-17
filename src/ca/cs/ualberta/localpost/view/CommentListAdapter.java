@@ -12,6 +12,14 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
+/**
+ * Custom ListView adapter that allows us to change the
+ * layout of each listview element according our own
+ * specifications.
+ * @author Team 01
+ *
+ */
+
 public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
 	Context context;
 

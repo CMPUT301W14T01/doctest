@@ -31,7 +31,7 @@ public class Serialize {
 		if(context.getClass().equals(MainActivity.class)){
 			filename = "favoritecomment.json";
 		}
-			
+				
 		String modelJson = gson.toJson(new_root);
 		try {
 			OutputStream outputStream = context.getApplicationContext()

@@ -27,5 +27,10 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 		// TODO Auto-generated method stub
 		return 3;
 	}
+	
+	@Override
+	public int getItemPosition(Object object) {
+		return super.getItemPosition(object);
+	}
 
 }

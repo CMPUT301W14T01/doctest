@@ -19,6 +19,12 @@ import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.BrowseGreatestComments;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
  
+/**
+ * Displays comments in descending order according to
+ * the amount of points accumulated.
+ * @author David
+ *
+ */
 public class GreatestTabView extends Fragment {
 	private ListView listView;
 	ArrayList<RootCommentModel> model = new ArrayList<RootCommentModel>();
@@ -27,8 +33,8 @@ public class GreatestTabView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
  
+    	//Inflates the view with list.
         View rootView = inflater.inflate(R.layout.tab, container, false);
-        //updateCommentArray();
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
 		listView.setAdapter(adapter);
@@ -44,10 +50,12 @@ public class GreatestTabView extends Fragment {
 	   	     	//startActivity(myIntent);
 	        }
 	    });//End On click
-         
         return rootView;
     }
     
+    /**
+     * Creates a context menu for on longpress of a listview element
+     */
     @Override
 	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo)
 	{
@@ -56,7 +64,10 @@ public class GreatestTabView extends Fragment {
 		menu.add(0,Menu.FIRST+1,0,"DownTurnip");
 		menu.add(0,Menu.FIRST+2,0,"Favorite");
 	}
-	
+    
+	/**
+	 * Handles the onclick action of the context menu
+	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
 	{
