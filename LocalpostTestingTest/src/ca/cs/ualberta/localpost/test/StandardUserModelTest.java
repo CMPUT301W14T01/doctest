@@ -84,7 +84,7 @@ public class StandardUserModelTest extends TestCase {
 	 * StandardUserModel
 	 */
 	public final void testGetMac() {
-		try {
+		/*try {
 			model = new StandardUserModel();
 		} catch (Exception e) {
 			// Auto-generated catch block
@@ -92,7 +92,8 @@ public class StandardUserModelTest extends TestCase {
 		}	
 		AndroidMacAddressProvider macprov = new AndroidMacAddressProvider();
 		String macAddress = macprov.getMacAddress();
-		assertEquals(macAddress,model.getMac());
+		//assertEquals(macAddress,model.getMac());
+*/		fail("Changed method, test broke"); // TODO
 	}
 	
 	/**
