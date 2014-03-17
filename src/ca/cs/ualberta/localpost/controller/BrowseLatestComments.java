@@ -24,6 +24,8 @@
 package ca.cs.ualberta.localpost.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
@@ -38,7 +40,6 @@ public class BrowseLatestComments implements BrowseTopLevelComments {
 
 	@Override
 	public ArrayList<RootCommentModel> sortRootComments(ArrayList<RootCommentModel> comments) {
-		// TODO SortByLatest
 		return comments;
 	}
 

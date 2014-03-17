@@ -29,18 +29,27 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
 public class BrowseFreshestComments implements BrowseTopLevelComments {
 	ArrayList<RootCommentModel> rootComments;
 
+		/**
+		 * gets all the root comments from the rootcommentmodellits
+		 */
 	@Override
 	public void getRootComments() {
 		// TODO Auto-generated method stub
 		//this.rootComments = RootCommentModelList.getList();
 	}
 
+		/**
+		 * sorts the comments by the attribute specified by the tab
+		 */
 	@Override
 	public ArrayList<RootCommentModel> sortRootComments(ArrayList<RootCommentModel> comments) {
 		// TODO SortByFreshness
 		return comments;
 	}
 
+		/**
+		 * passes the sorted comments to the view
+		 */
 	@Override
 	public ArrayList<RootCommentModel> passSortedRootComments() {
 		getRootComments();
