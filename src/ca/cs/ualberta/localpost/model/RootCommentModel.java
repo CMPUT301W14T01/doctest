@@ -3,7 +3,7 @@ package ca.cs.ualberta.localpost.model;
 import android.graphics.Bitmap;
 
 public class RootCommentModel extends CommentModel {
-
+	
 	public RootCommentModel(){
 		super();
 	}

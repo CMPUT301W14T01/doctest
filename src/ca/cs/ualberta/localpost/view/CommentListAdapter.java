@@ -1,5 +1,7 @@
 package ca.cs.ualberta.localpost.view;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import ca.cs.ualberta.localpost.model.*;
+import ca.cs.ualberta.localpost.model.RootCommentModel;
+
+/**
+ * Custom ListView adapter that allows us to change the
+ * layout of each listview element according our own
+ * specifications.
+ * @author Team 01
+ *
+ */
 
 public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
 	Context context;
@@ -43,11 +53,14 @@ public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
 		else{
 			holder = (ViewHolder) convertView.getTag();
 		}
+		Date date = new Date(model.getTimestamp());
+		SimpleDateFormat format = new SimpleDateFormat("MMM/dd/yyyy");
+		
 		holder.title.setText(model.getTitle());
 		holder.username.setText("Posted by " + model.getAuthor());
 		holder.radish.setText(Integer.toString(model.getRadish()));
 		holder.location.setText("At " + model.getLocation());
-		holder.timestamp.setText("On " + model.getTimestamp());		
+		holder.timestamp.setText("On " + format.format(date));		
 		return convertView;
 	}
 }

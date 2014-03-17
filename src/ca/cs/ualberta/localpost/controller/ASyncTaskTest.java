@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2014 Timotei Albu, David Chau-Tran, Alain Clark, Shawn Anderson, Mickael Zerihoun
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ *	this software and associated documentation files (the "Software"), to deal in
+ *	the Software without restriction, including without limitation the rights to
+ *	use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ *	the Software, and to permit persons to whom the Software is furnished to do so,
+ *	subject to the following conditions:
+ *	
+ *	The above copyright notice and this permission notice shall be included in all
+ *	copies or substantial portions of the Software.
+ *	
+ *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ *  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ *  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ *  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *  
+ */
+
 package ca.cs.ualberta.localpost.controller;
 
 import java.io.BufferedReader;
@@ -7,6 +30,8 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.apache.http.HttpEntity;
@@ -49,7 +74,7 @@ public class ASyncTaskTest extends AsyncTask<Object, Integer, ArrayList<CommentM
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return model;
+			//return model;
 		}
 
 		return model;
@@ -72,6 +97,9 @@ public class ASyncTaskTest extends AsyncTask<Object, Integer, ArrayList<CommentM
 		if (update){
 			try {
 				updateComment(newText, editedByID);
+				/*DeleteResponse response = client.prepareDelete("testing", "t01", "")
+				        .execute()
+				        .actionGet();*/
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -100,17 +128,18 @@ public class ASyncTaskTest extends AsyncTask<Object, Integer, ArrayList<CommentM
 	// pushComment(), getComment(), updateComment(), deleteComment(), getEntityContent source code from:
 	// https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
 	public CommentModel pushComment() throws IllegalStateException, IOException{
-		SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		//android.location.Location location;
-		// The following code up to the end of this method is for testing purposes. Mainly developed by chautran
-		CommentModel comment = new RootCommentModel("test", null, null);
+		// Test variables in place until we are able to communicate with th views
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss",Locale.CANADA);
+		UUID author = UUID.randomUUID();
+		long date = new Date().getTime();
+		CommentModel comment = new RootCommentModel("test", null);
 		
-		comment.setAuthor("anon");
+		comment.setAuthor("anon2" + author.toString());
 		comment.setContent("Content test");
 		comment.setLocation(null);
 		comment.setPicture(null);
-		comment.setPostId(UUID.randomUUID());
-		comment.setTimestamp(date.toString());
+		comment.setPostId(author);
+		comment.setTimestamp(date);
 		comment.setTitle("Title test");		
 		
 		HttpPost pushRequest = new HttpPost(URL + String.valueOf(comment.getPostId()));		

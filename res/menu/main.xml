@@ -1,10 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    
-     <item android:id="@+id/addNewComment"
-          android:icon="@drawable/ic_menu_add"
-          android:title="@string/new_comment"
-          android:showAsAction="ifRoom"/>
-  
+
+    <item
+        android:id="@+id/viewUserProfile"
+        android:icon="@drawable/ic_menu_friendslist"
+        android:showAsAction="ifRoom"
+        android:title="@string/view_profile"/>
+    <item
+        android:id="@+id/addNewComment"
+        android:icon="@drawable/ic_menu_add"
+        android:showAsAction="ifRoom"
+        android:title="@string/new_comment"/>
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

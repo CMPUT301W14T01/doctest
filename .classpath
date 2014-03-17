@@ -5,6 +5,7 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+<<<<<<< HEAD
 	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/commons-codec-1.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/fluent-hc-4.2.1.jar"/>
@@ -13,5 +14,8 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/httpclient-cache-4.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/httpcore-4.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/httpmime-4.2.1.jar"/>
+=======
+	<classpathentry exported="true" kind="lib" path="C:/Users/David/Documents/google-gson-2.2.4/gson-2.2.4.jar"/>
+>>>>>>> a7bf9431099146c549908d4a26c5b5928db0ba4b
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

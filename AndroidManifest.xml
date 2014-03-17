@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="18" />
 
     <permission
         android:name="ca.cs.ualberta.localpost.permission.MAPS_RECEIVE"
@@ -20,7 +20,12 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <!--
          The following two permissions are not required to use
-	     Google Maps Android API v2, but are recommended.
+	     Google Maps Android API v2, but are recommended.
+
+
+
+
+
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -41,7 +46,13 @@
     		android:value="AIzaSyDH6OUaNBVeLD_4mqKpS5s-WgoYeGbfmiY"/>
         <meta-data
 			android:name="com.google.android.gms.version"
-			android:value="@integer/google_play_services_version" />
+			android:value="@integer/google_play_services_version" />
+
+
+
+
+
+
         -->
         <activity
             android:name="ca.cs.ualberta.localpost.view.MainActivity"
@@ -81,6 +92,22 @@
             android:name="ca.cs.ualberta.localpost.view.SubmitComment"
             android:label="@string/title_activity_submit_comment" >
         </activity>
+        <activity
+            android:name="ca.cs.ualberta.localpost.view.UserProfile"
+            android:label="@string/title_activity_user_profile" >
+        </activity>
+        <activity
+            android:name="ca.cs.ualberta.localpost.view.ThreadView"
+            android:label="@string/title_activity_thread_view" >
+        </activity>
+        <activity
+            android:name="ca.cs.ualberta.localpost.view.FavoritesView"
+            android:label="@string/title_activity_favorites_view" >
+        </activity>
+        <activity
+            android:name="ca.cs.ualberta.localpost.view.EditComment"
+            android:label="@string/title_activity_edit_comment" >
+         </activity>
     </application>
 
 </manifest>
