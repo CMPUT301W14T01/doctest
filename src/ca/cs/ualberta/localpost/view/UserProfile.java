@@ -1,5 +1,7 @@
 package ca.cs.ualberta.localpost.view;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 public class UserProfile extends Activity implements OnClickListener {
 	private RelativeLayout usernameLayout;
@@ -30,12 +33,14 @@ public class UserProfile extends Activity implements OnClickListener {
 
 	private TextView userNameText;
 	private ListView listView;
-	
+
+	private ArrayList<RootCommentModel> model;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_profile);
-		
+
 		// Set Views and Layouts
 		userNameText = (TextView) findViewById(R.id.profileUsername);
 		usernameLayout = (RelativeLayout) findViewById(R.id.profileUsernameLayout);
@@ -54,15 +59,16 @@ public class UserProfile extends Activity implements OnClickListener {
 		String getUsername = app_preferences.getString("username", "anonymous");
 		userNameText.setText(getUsername);
 
+		// Populate Listview
+		model = Serialize.loadFromFile("rootcomment.json",getApplicationContext());
+
 		listView = (ListView) findViewById(R.id.profileCommentList);
-		CommentListAdapter adapter = new CommentListAdapter(UserProfile.this,
-				R.id.custom_adapter, Serialize.loadFromFile("rootcomment.json",
-						getApplicationContext()));
+		CommentListAdapter adapter = new CommentListAdapter(UserProfile.this,R.id.custom_adapter, model);
 		listView.setAdapter(adapter);
 
 		listView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+				Toast.makeText(getApplicationContext(),"ThreadView Under Construction", Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -75,8 +81,8 @@ public class UserProfile extends Activity implements OnClickListener {
 			editUsernameDialog(v);
 			break;
 		case R.id.profileFavoriteLayout:
-			//Intent intent = new Intent(this,FavoritesView.class);
-			//startActivity(intent);
+			Intent intent = new Intent(this, FavoritesView.class);
+			startActivity(intent);
 			break;
 		case R.id.profileGeoLayout:
 			Toast.makeText(getApplicationContext(), "Geolocal is pressed",

@@ -13,6 +13,7 @@ import android.util.Log;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
+import ca.cs.ualberta.localpost.view.MainActivity;
 
 import com.google.gson.Gson;
 
@@ -27,6 +28,10 @@ public class Serialize {
 		else if(new_root instanceof ChildCommentModel){
 			filename = "childcomment.json";
 		}
+		if(context.getClass().equals(MainActivity.class)){
+			filename = "favoritecomment.json";
+		}
+			
 		String modelJson = gson.toJson(new_root);
 		try {
 			OutputStream outputStream = context.getApplicationContext()
@@ -49,9 +54,7 @@ public class Serialize {
 
 			String input;
 			while ((input = buffer.readLine()) != null) {
-				Log.e("Root", input);
-
-				if(filename.equals("rootcomment.json")){
+				if(filename.equals("rootcomment.json") || filename.equals("favoritecomment.json")){
 					RootCommentModel obj = gson.fromJson(input,RootCommentModel.class);
 					model.add(obj);
 				}
@@ -60,7 +63,6 @@ public class Serialize {
 					ChildCommentModel obj2 = gson.fromJson(input,ChildCommentModel.class);
 					Log.e("ObjChild", obj2.getTitle());
 				}
-			
 			}
 			return model;
 		} catch (IOException e) {

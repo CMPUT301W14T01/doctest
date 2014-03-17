@@ -42,12 +42,10 @@ public class FreshestTabView extends Fragment {
 
 		// Clicking on a list item will take us to the replies(child comments)
 		listView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+				Toast.makeText(getActivity(),"ThreadView Under Construction", Toast.LENGTH_SHORT).show();
 				//TODO pass intent to ThreadView
 				// Intent myIntent = new Intent(getActivity(),MainActivity.class);
-				Toast.makeText(getActivity(), "Button is clicked",
-						Toast.LENGTH_SHORT).show();
 				// startActivity(myIntent);
 			}
 		});
@@ -74,7 +72,6 @@ public class FreshestTabView extends Fragment {
 	public boolean onContextItemSelected(MenuItem item) {
 		//Get item list index
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-
 		switch (item.getItemId()) {
 		case Menu.FIRST:// Rename
 			Log.e("Increment", "UpRad");
