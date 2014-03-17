@@ -2,6 +2,7 @@ package ca.cs.ualberta.localpost.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.UUID;
 
@@ -155,6 +156,8 @@ public abstract class CommentModel extends Observable{
 		this.postId = postId;
 	}
 	
+	
+	// TODO Move to relevant controller and replace instances of 'this'
 	public String getFlattenedClone(){
 		//Class<? extends CommentModel> cloneType = this.getClass();
 		//CommentModel clone = cloneType.newInstance();
@@ -176,7 +179,18 @@ public abstract class CommentModel extends Observable{
 		
 	}
 	
-	private void tailRecurseDrawable(ArrayList<CommentModel> comment, int depth){
+	// TODO Move to relevant controller
+	private void tailRecurseDrawable(ArrayList<CommentModel> children, int depth){
 		
+		if(children.isEmpty())
+			return; //@ BASE CASE
+		
+		Iterator<CommentModel> branches = children.iterator();
+		while(branches.hasNext()){
+			// Should iteratively inject data into views
+		}
+		
+		tailRecurseDrawable(children, depth+1);
+		//tail specifies no operations beyond the recursion
 	}
 }
