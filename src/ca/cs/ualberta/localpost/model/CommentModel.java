@@ -157,40 +157,4 @@ public abstract class CommentModel extends Observable{
 	}
 	
 	
-	// TODO Move to relevant controller and replace instances of 'this'
-	public String getFlattenedClone(){
-		//Class<? extends CommentModel> cloneType = this.getClass();
-		//CommentModel clone = cloneType.newInstance();
-		CommentModel clone = null;
-		try {
-			clone = (CommentModel) this.clone();
-			
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// Have cloned 'this', swap for UUIDs of children
-		
-		
-		ArrayList<java.util.UUID> childIDs;
-		Gson summary = new Gson();
-		return summary.toJson(clone);
-		
-		
-	}
-	
-	// TODO Move to relevant controller
-	private void tailRecurseDrawable(ArrayList<CommentModel> children, int depth){
-		
-		if(children.isEmpty())
-			return; //@ BASE CASE
-		
-		Iterator<CommentModel> branches = children.iterator();
-		while(branches.hasNext()){
-			// Should iteratively inject data into views
-		}
-		
-		tailRecurseDrawable(children, depth+1);
-		//tail specifies no operations beyond the recursion
-	}
 }

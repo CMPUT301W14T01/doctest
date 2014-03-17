@@ -40,7 +40,7 @@ public class ThreadView extends Activity {
 	}
 
 	
-	// @TODO TB rebuilt!
+	// TODO move to CommentModel args for tRD
 	public void threadExpand(String text, int level) {
 		final int marginBase = 20;
 		final int depthTolerance = 5;
@@ -50,7 +50,11 @@ public class ThreadView extends Activity {
 		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
 		
-		if(level < depthTolerance){
+		// Pad root comments vertically
+		// and child comments horizontally
+		if(level == 0){
+			params.setMargins(0,15,0,0);
+		}else if(level < depthTolerance){
 			params.setMargins(level*marginBase, 0, 0, 0);
 		}
 		row.setLayoutParams(params);
@@ -62,24 +66,7 @@ public class ThreadView extends Activity {
 	//-------------
 	
 	public void threadExpand(CommentModel comment, int level) {
-//		final int marginBase = 20;
-//		final int depthTolerance = 5;
-//		
-//		TableRow row = (TableRow) LayoutInflater.from(this)
-//				.inflate(R.layout.row, null);
-//		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-//				LayoutParams.WRAP_CONTENT);
-//		
-//		if(level < depthTolerance){
-//			params.setMargins(level*marginBase, 0, 0, 0);
-//		}
-//		row.setLayoutParams(params);
-//
-//		((TextView) row.findViewById(R.id.commentTitle)).setText(comment.getContent());
-//		table.addView(row);
-//		row = null;
-		
-		//Fix Later
+		//TODO Build from threadExpand(String, int)
 		threadExpand(comment.getContent(),level);
 	}
 
