@@ -1,3 +1,27 @@
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2014 Timotei Albu, David Chau-Tran, Alain Clark, Shawn Anderson, Mickael Zerihoun
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ *	this software and associated documentation files (the "Software"), to deal in
+ *	the Software without restriction, including without limitation the rights to
+ *	use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ *	the Software, and to permit persons to whom the Software is furnished to do so,
+ *	subject to the following conditions:
+ *	
+ *	The above copyright notice and this permission notice shall be included in all
+ *	copies or substantial portions of the Software.
+ *	
+ *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ *  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ *  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ *  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *  
+ */
+
+
 package ca.cs.ualberta.localpost.model;
 
 import android.graphics.Bitmap;
@@ -15,7 +39,6 @@ public class ChildCommentModel extends CommentModel {
 	
 	/**
 	 * Basic constructors for child comment model: 
-	 * the different ones correspond to different steps of our process
 	 * This constructor is used for creating the class
 	 */
 	public ChildCommentModel(){
@@ -23,21 +46,21 @@ public class ChildCommentModel extends CommentModel {
 	}
 	/**
 	 * This constructor is used while we can't yet add locations and pictures to our comments
-	 * @param content
-	 * @param title
+	 * @param content : the content of the comment
+	 * @param title : the comment's title
 	 */
 	public ChildCommentModel(String content, String title) {
 		super(content, title);
 	}
 	/**
 	 * This will be our final constructor when we are able to add locations and pictures to our comments
-	 * @param content
-	 * @param location
-	 * @param picture
+	 * known error title needs to be added as a parameter
+	 * @param content : the content of the comment
+	 * @param location : it's location
+	 * @param picture : the attached picture
 	 */
 	public ChildCommentModel(String content, android.location.Location location, Bitmap picture) {
 		super(content, location, picture);
 		//TODO specify parent
-		// parent = 
 	}
 }
