@@ -104,6 +104,10 @@
             android:name="ca.cs.ualberta.localpost.view.FavoritesView"
             android:label="@string/title_activity_favorites_view" >
         </activity>
+        <activity
+            android:name="ca.cs.ualberta.localpost.view.EditComment"
+            android:label="@string/title_activity_edit_comment" >
+         </activity>
     </application>
 
 </manifest>
