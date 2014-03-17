@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- Comment Title -->
+
+    <EditText
+        android:id="@+id/commentTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="46dp"
+        android:ems="10"
+        android:hint="Comment Title" />
+
+    <EditText
+        android:id="@+id/textBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/commentTitle"
+        android:layout_marginTop="54dp"
+        android:ems="10"
+        android:hint="Content"
+        tools:ignore="HardcodedText" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/postButton"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mapView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:text="Post Comment"
+        tools:ignore="HardcodedText" 
+        android:onClick = "add_root"/>
+
+    <ImageButton
+        android:id="@+id/mapView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignRight="@+id/postButton"
+        android:layout_alignTop="@+id/attachPicture"
+        android:background="@drawable/ic_menu_mapmode" />
+
+    <ImageButton
+        android:id="@+id/attachPicture"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignLeft="@+id/postButton"
+        android:layout_below="@+id/view1"
+        android:layout_marginTop="47dp"
+        android:background="@drawable/ic_menu_camera" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="250dp"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/attachPicture"
+        android:layout_centerVertical="true"
+        android:background="@android:color/darker_gray" />
+
+</RelativeLayout>

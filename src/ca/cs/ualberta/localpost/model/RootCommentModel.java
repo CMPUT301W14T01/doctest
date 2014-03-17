@@ -1,9 +1,19 @@
 package ca.cs.ualberta.localpost.model;
 
-public class RootCommentModel extends CommentModel {
+import android.graphics.Bitmap;
 
-	public RootCommentModel(String content,android.location.Location location) {
-		super(content, location);
+public class RootCommentModel extends CommentModel {
+	
+	public RootCommentModel(){
+		super();
+	}
+	
+	public RootCommentModel(String content, String title) {
+		super(content, title);
+	}
+	
+	public RootCommentModel(String content,android.location.Location location, Bitmap picture) {
+		super(content, location, picture);
 	}
 
 }

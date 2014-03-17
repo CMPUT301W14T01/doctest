@@ -12,7 +12,7 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.classpath
+*.classpath*
 .settings/
 .loadpath
 
@@ -218,3 +218,5 @@ pip-log.txt
 bin/
 gen/
 project.properties
+.classpath
+*.classpath
