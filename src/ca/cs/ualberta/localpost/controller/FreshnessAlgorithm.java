@@ -27,6 +27,12 @@ import java.util.Date;
 
 import android.location.Location;
 
+/**
+ * The FreshnessAlgorithm determines the newest and most popular comments
+ * @author Team Radish
+ *
+ */
+// TODO Alain should comment on the algorithm
 public class FreshnessAlgorithm {
 	
 	int freshness;

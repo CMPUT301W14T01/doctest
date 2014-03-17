@@ -40,9 +40,20 @@ import ca.cs.ualberta.localpost.view.MainActivity;
 
 import com.google.gson.Gson;
 
+/**
+ * Serialize an Object
+ * @author Team Radish
+ *
+ */
 public class Serialize {
 	private static Gson gson = new Gson();
 
+	/**
+	 * This function takes comment model, serializes it and saves it
+	 * to a local file using GSON.
+	 * @param new_root: comment model that will be saved in file
+	 * @param context
+	 */
 	public static void SaveInFile(CommentModel new_root, Context context) {
 		String filename = null;
 		if(new_root instanceof RootCommentModel){
@@ -67,6 +78,13 @@ public class Serialize {
 		}
 	}
 
+	/**
+	 * Load GSON objects from a file, deserialize them and pass them to an ArrayList as 
+	 * RootCommentModels. 
+	 * @param filename: file containing all serialized GSON objects that we saved
+	 * @param context
+	 * @return arraylist of RootCommentModels
+	 */
 	public static ArrayList<RootCommentModel> loadFromFile(String filename, Context context) {
 		ArrayList<RootCommentModel> model = new ArrayList<RootCommentModel>();
 		FileInputStream FileOpen;
@@ -92,5 +110,5 @@ public class Serialize {
 			e.printStackTrace();
 		}
 		return model;
-	}// End loadFromFile
+	}
 }

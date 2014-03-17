@@ -49,7 +49,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * @author timotei
+ * CommentController is in charge of modifying, uploading and retrieving the comment model
+ * @author Team Radish
+ * 
+ * Source code for pushComment(), getComment(), updateComment(), deleteComment(), getEntityContent taken mostly from:
+ * https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
  * 
  */
 public class CommentController {
@@ -61,11 +65,24 @@ public class CommentController {
 	private RootCommentModel model;
 	private Activity activity;
 
+	/**
+	 * Basic initialization
+	 * @param model
+	 * @param activity
+	 */
 	public CommentController(RootCommentModel model, Activity activity) {
 		this.model = model;
 		this.activity = activity;
 	}
 
+	/**
+	 * 
+	 * @param newText: the new content of the comment
+	 * @param editedByID: user changing the comment
+	 * @param author: same as editedByID
+	 * @return
+	 */
+	// TODO Fix redundancy such as editedByID that should be the same as author
 	public boolean updateContent(String newText, String editedByID,
 			String author) {
 		Boolean update = true;
@@ -76,13 +93,9 @@ public class CommentController {
 		if (update) {
 			try {
 				updateComment(newText, editedByID);
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
+			} catch (Exception e) {
 				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} 
 			return true;
 		}
 		/*
@@ -92,13 +105,17 @@ public class CommentController {
 		return true;
 	}
 
+	// TODO Expand comment
 	public View spawnComment() {
 		return null;
 	}
 
-	// pushComment(), getComment(), updateComment(), deleteComment(),
-	// getEntityContent source code from:
-	// https://github.com/rayzhangcl/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/ESClient.java
+	/**
+	 * Push a comment to the webserver
+	 * @param comment: new comment the user has made that we need to sync with the webserver
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	public void pushComment(CommentModel comment) throws IllegalStateException,
 			IOException {
 
@@ -178,6 +195,11 @@ public class CommentController {
 	 */
 	// End Push comment
 
+	/**
+	 * Retrieve comment from webserver
+	 * @param comment: model that contains the id of the comment we wish to retrieve from the webserver
+	 */
+	// TODO pass a comment id instead of a model and then create a model inside the method with that id
 	public void getComment(CommentModel comment) {
 
 		try {
@@ -229,6 +251,14 @@ public class CommentController {
 		 */
 	}
 
+	/**
+	 * 
+	 * @param str: text we wish to update in the comment
+	 * @param id: used to identify the comment we wish to change
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	// TODO Pass more strings according to the different parameters in the comment model such as text, title and so on
 	public void updateComment(String str, String id)
 			throws ClientProtocolException, IOException {
 		// HttpPost updateComment = new HttpPost(URL +
@@ -278,6 +308,13 @@ public class CommentController {
 	 * String output = reader.readLine(); while(output != null){
 	 * Log.e("Elastic Search",output); output = reader.readLine(); } } catch
 	 * (IOException e) { e.printStackTrace(); } }//End deleteComment
+	 */
+	
+	/**
+	 * Retrieve the contents of the GSON object
+	 * @param response
+	 * @return
+	 * @throws IOException
 	 */
 	String getEntityContent(HttpResponse response) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(

@@ -25,10 +25,11 @@ package ca.cs.ualberta.localpost.controller;
 
 import java.util.Collection;
 
-
 /**
  * Represents part of a response from ElasticSearch.
  * Taken from https://github.com/rayzhangcl/ESDemo
+ * 
+ * @param <T> type T
  */
 public class Hits<T> {
     int total;

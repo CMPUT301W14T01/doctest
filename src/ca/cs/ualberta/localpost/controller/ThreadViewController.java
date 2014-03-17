@@ -33,16 +33,20 @@ import com.google.gson.Gson;
  * Controller that draws threads and gets comment models that
  * are flattened(not expanded/viewable
  * 
- * @author Team 01
+ * @author Team Radish
  *
  */
 public class ThreadViewController {
 
-	public ThreadViewController(){
-		
+	public ThreadViewController(){		
 	}
 	
-	//TODO re-implement
+	/**
+	 * This function retrieves an array list of children IDs
+	 * that are a reply to a another comment
+	 * @param comment: model containing the comment 
+	 * @return TODO
+	 */
 	public String getFlattened(CommentModel comment){
 		//Class<? extends CommentModel> cloneType = this.getClass();
 		//CommentModel clone = cloneType.newInstance();
@@ -53,6 +57,13 @@ public class ThreadViewController {
 
 	}
 
+	/**
+	 * This function draws/expands the comment tree (all the replies)
+	 * recursively
+	 * @param children: comment models that have a parent. A parent
+	 *  can be either a Root Comment (Thread comment) or another child
+	 * @param depth: nested level of the child model
+	 */
 	private void tailRecurseDrawable(ArrayList<CommentModel> children, int depth){
 
 		if(children.isEmpty())
