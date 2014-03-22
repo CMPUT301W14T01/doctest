@@ -48,7 +48,8 @@
         android:layout_height="70dp"
         android:layout_alignRight="@+id/postButton"
         android:layout_alignTop="@+id/attachPicture"
-        android:background="@drawable/ic_menu_mapmode" />
+        android:background="@drawable/ic_menu_mapmode"
+        android:clickable="true" />
 
     <ImageButton
         android:id="@+id/attachPicture"
@@ -57,7 +58,8 @@
         android:layout_alignLeft="@+id/postButton"
         android:layout_below="@+id/view1"
         android:layout_marginTop="47dp"
-        android:background="@drawable/ic_menu_camera" />
+        android:background="@drawable/ic_menu_camera"
+        android:clickable="true" />"
 
     <View
         android:id="@+id/view1"

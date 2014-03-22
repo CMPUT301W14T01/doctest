@@ -28,11 +28,14 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
@@ -52,6 +55,9 @@ public class SubmitComment extends Activity {
 	/**Button used to submit the comment */
 	private Button postButton;
 	
+	/** Variable for the onClickListener that generates the map view **/
+	//ImageView image;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,6 +70,18 @@ public class SubmitComment extends Activity {
 		/**SetText for the button */
 		postButton = (Button) findViewById(R.id.postButton);
 		postButton.setText("Submit Comment");
+		
+		/**Set the listener on the Map image **/
+		ImageView image = (ImageView) findViewById(R.id.mapView);
+
+		image.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(getApplicationContext(), MapsView.class));
+			}
+
+		});
 	}
 
 	/**Adds a new root. Puts all the input data into a RootCommentModel
