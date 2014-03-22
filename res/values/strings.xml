@@ -17,5 +17,7 @@
     <string name="title_activity_thread_view">ThreadView</string>
     <string name="title_activity_favorites_view">FavoritesView</string>
     <string name="title_activity_edit_comment">EditComment</string>
+    <string name="str_btn_find">Find</string>
+    <string name="hnt_et_location">Enter location</string>
 
 </resources>

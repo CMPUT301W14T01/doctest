@@ -2,141 +2,121 @@
  * 
  */
 package ca.cs.ualberta.localpost.view;
-import android.location.Location;
+import java.io.IOException;
+import java.util.List;
+
+import android.location.Address;
+import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.TextView;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- * @author timotei
- *
- */
-public class MapsView extends FragmentActivity implements
-ConnectionCallbacks,
-OnConnectionFailedListener,
-LocationListener,
-OnMyLocationButtonClickListener{
-
-	/**
-	 * 
-	 */
-	private GoogleMap mMap;
+public class MapsView extends FragmentActivity {
 	
-	private LocationClient mLocationClient;
-    
- // These settings are the same as the settings for the map. They will in fact give you updates
-    // at the maximal rates currently possible.
-    private static final LocationRequest REQUEST = LocationRequest.create()
-            .setInterval(5000)         // 5 seconds
-            .setFastestInterval(16)    // 16ms = 60fps
-            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.maps_view);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-        setUpLocationClientIfNeeded();
-        mLocationClient.connect();
-    }
-    
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mLocationClient != null) {
-            mLocationClient.disconnect();
-        }
-    }
-
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-            	mMap.setMyLocationEnabled(true);
-                mMap.setOnMyLocationButtonClickListener(this);
-            }
-        }
-    }
-
-    private void setUpLocationClientIfNeeded() {
-        if (mLocationClient == null) {
-            mLocationClient = new LocationClient(
-                    getApplicationContext(),
-                    this,  // ConnectionCallbacks
-                    this); // OnConnectionFailedListener
-        }
-    }
-    
-	@Override
-	public boolean onMyLocationButtonClick() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	/** Source: http://wptrafficanalyzer.in/blog/android-geocoding-showing-user-input-location-on-google-map-android-api-v2/**/
+	GoogleMap googleMap;
+	MarkerOptions markerOptions;
+	LatLng latLng;
 
 	@Override
-	public void onLocationChanged(Location arg0) {
-		// TODO Auto-generated method stub
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.maps_view);
+		
+		SupportMapFragment supportMapFragment = (SupportMapFragment) 
+				getSupportFragmentManager().findFragmentById(R.id.mapView);
+
+		// Getting a reference to the map
+		googleMap = supportMapFragment.getMap();
+		
+		// Getting reference to btn_find of the layout activity_main
+        Button btn_find = (Button) findViewById(R.id.btn_find);
+        
+        // Defining button click event listener for the find button
+        OnClickListener findClickListener = new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				// Getting reference to EditText to get the user input location
+				EditText etLocation = (EditText) findViewById(R.id.et_location);
+				
+				// Getting user input location
+				String location = etLocation.getText().toString();
+				
+				if(location!=null && !location.equals("")){
+					new GeocoderTask().execute(location);
+				}
+			}
+		};
+		
+		// Setting button click event listener for the find button
+		btn_find.setOnClickListener(findClickListener);		
+		
 		
 	}
+	
+	
+	// An AsyncTask class for accessing the GeoCoding Web Service
+		private class GeocoderTask extends AsyncTask<String, Void, List<Address>>{
 
-	@Override
-	public void onConnectionFailed(ConnectionResult arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+			@Override
+			protected List<Address> doInBackground(String... locationName) {
+				// Creating an instance of Geocoder class
+				Geocoder geocoder = new Geocoder(getBaseContext());
+				List<Address> addresses = null;
+				
+				try {
+					// Getting a maximum of 3 Address that matches the input text
+					addresses = geocoder.getFromLocationName(locationName[0], 3);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}			
+				return addresses;
+			}
+			
+			
+			@Override
+			protected void onPostExecute(List<Address> addresses) {			
+		        
+		        if(addresses==null || addresses.size()==0){
+					Toast.makeText(getBaseContext(), "No Location found", Toast.LENGTH_SHORT).show();
+				}
+		        
+		        // Clears all the existing markers on the map
+		        googleMap.clear();
+				
+		        // Adding Markers on Google Map for each matching address
+				for(int i=0;i<addresses.size();i++){				
+					
+					Address address = (Address) addresses.get(i);
+					
+			        // Creating an instance of GeoPoint, to display in Google Map
+			        latLng = new LatLng(address.getLatitude(), address.getLongitude());
+			        
+			        String addressText = String.format("%s, %s",
+	                        address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "",
+	                        address.getCountryName());
 
-    /**
-     * Callback called when connected to GCore. Implementation of {@link ConnectionCallbacks}.
-     */
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        mLocationClient.requestLocationUpdates(
-                REQUEST,
-                this);  // LocationListener
-    }
+			        markerOptions = new MarkerOptions();
+			        markerOptions.position(latLng);
+			        markerOptions.title(addressText);
 
-	@Override
-	public void onDisconnected() {
-		// Do nothing
-		
-	}
-
+			        googleMap.addMarker(markerOptions);
+			        
+			        // Locate the first location
+			        if(i==0)			        	
+						googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng)); 	
+				}			
+			}		
+		}
 }
