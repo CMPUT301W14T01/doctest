@@ -5,29 +5,35 @@ package ca.cs.ualberta.localpost.view;
 import java.io.IOException;
 import java.util.List;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import ca.cs.ualberta.localpost.model.CommentModel;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsView extends FragmentActivity {
+public class MapsView extends FragmentActivity implements OnMarkerClickListener {
 	
 	/** Source: http://wptrafficanalyzer.in/blog/android-geocoding-showing-user-input-location-on-google-map-android-api-v2/**/
 	GoogleMap googleMap;
 	MarkerOptions markerOptions;
 	LatLng latLng;
+	CommentModel model;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +46,7 @@ public class MapsView extends FragmentActivity {
 		// Getting a reference to the map
 		googleMap = supportMapFragment.getMap();
 		
-		// Getting reference to btn_find of the layout activity_main
+		// Getting reference to btn_find of the layout maps_view
         Button btn_find = (Button) findViewById(R.id.btn_find);
         
         // Defining button click event listener for the find button
@@ -110,13 +116,29 @@ public class MapsView extends FragmentActivity {
 			        markerOptions = new MarkerOptions();
 			        markerOptions.position(latLng);
 			        markerOptions.title(addressText);
+			        markerOptions.draggable(true);
 
 			        googleMap.addMarker(markerOptions);
 			        
 			        // Locate the first location
 			        if(i==0)			        	
 						googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng)); 	
-				}			
+				}	
+				
+				//latLng = markerOptions.getPosition();
+				
 			}		
+		}
+
+		@Override
+		public boolean onMarkerClick(Marker marker) {
+			Intent intent = new Intent();
+			latLng = markerOptions.getPosition();
+			intent.putExtra("Lat", latLng.latitude);
+			intent.putExtra("Lng", latLng.longitude);
+			setResult(RESULT_OK, intent);
+			Log.e("Coordinates", "Another string");
+			finish();
+			return true;
 		}
 }

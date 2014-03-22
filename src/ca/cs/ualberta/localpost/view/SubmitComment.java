@@ -27,8 +27,11 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -56,7 +59,12 @@ public class SubmitComment extends Activity {
 	private Button postButton;
 	
 	/** Variable for the onClickListener that generates the map view **/
-	//ImageView image;
+	ImageView image;
+	
+	private double lat;
+	private double lng;
+	
+	LatLng latlng;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,17 +80,32 @@ public class SubmitComment extends Activity {
 		postButton.setText("Submit Comment");
 		
 		/**Set the listener on the Map image **/
-		ImageView image = (ImageView) findViewById(R.id.mapView);
+		image = (ImageView) findViewById(R.id.mapView);
 
 		image.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(getApplicationContext(), MapsView.class));
+				Intent intent = new Intent(getApplicationContext(), MapsView.class);
+				startActivity(intent);
 			}
 
 		});
 	}
+	
+	@Override
+    public void onActivityResult(int requestCode,int resultCode,Intent data)
+    {
+     super.onActivityResult(requestCode, resultCode, data);
+
+     Bundle bundle = data.getExtras();
+     
+     double defaultValue = (Double) null;
+     
+     lat = bundle.getDouble("Lat", defaultValue);
+     lng = bundle.getDouble("Lng", defaultValue);
+     
+    }
 
 	/**Adds a new root. Puts all the input data into a RootCommentModel
 	 * and writes to a .json file.
@@ -104,6 +127,10 @@ public class SubmitComment extends Activity {
 
 		RootCommentModel new_root = new RootCommentModel(content, title);
 		new_root.setAuthor(user.getUsername());
+		
+		latlng = new LatLng(lat,lng);	
+		
+		new_root.setLatlng(latlng);
 
 		Serialize.SaveInFile(new_root, SubmitComment.this);
 		super.onBackPressed();

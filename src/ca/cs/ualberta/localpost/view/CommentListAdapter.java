@@ -82,7 +82,8 @@ public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
 		holder.title.setText(model.getTitle());
 		holder.username.setText("Posted by " + model.getAuthor());
 		holder.radish.setText(Integer.toString(model.getRadish()));
-		holder.location.setText("At " + model.getLocation());
+		//holder.location.setText("At " + model.getLocation());
+		holder.location.setText("At " + model.getLatlng());
 		holder.timestamp.setText("On " + format.format(date));		
 		return convertView;
 	}

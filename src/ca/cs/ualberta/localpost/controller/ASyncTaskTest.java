@@ -136,7 +136,7 @@ public class ASyncTaskTest extends AsyncTask<Object, Integer, ArrayList<CommentM
 		
 		comment.setAuthor("anon2" + author.toString());
 		comment.setContent("Content test");
-		comment.setLocation(null);
+		//comment.setLocation(null);
 		comment.setPicture(null);
 		comment.setPostId(author);
 		comment.setTimestamp(date);

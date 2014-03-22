@@ -24,13 +24,12 @@ package ca.cs.ualberta.localpost.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.UUID;
 
-import com.google.gson.Gson;
-
 import android.graphics.Bitmap;
+
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * This class is the base abstract class for our comment models.
@@ -42,7 +41,7 @@ import android.graphics.Bitmap;
 public abstract class CommentModel extends Observable{
 	private String title;
 	private String content;
-	private android.location.Location location;
+	private LatLng latlng;
 	private String author;
 	private ArrayList<CommentModel> children = new ArrayList<CommentModel>();
 	private long timestamp;
@@ -70,7 +69,7 @@ public abstract class CommentModel extends Observable{
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
-		// this.location = location;
+		this.latlng = latlng;
 		// this.picture = picture;
 	}
 	
@@ -93,7 +92,7 @@ public abstract class CommentModel extends Observable{
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
-		// this.location = location;
+		this.latlng = latlng;
 		// this.picture = picture;
 	}
 
@@ -115,7 +114,7 @@ public abstract class CommentModel extends Observable{
 		this.content = content;
 		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
-		this.location = location;
+		this.latlng = latlng;
 		this.timestamp = date;
 		this.picture = picture;
 		this.author = getAuthor();
@@ -163,12 +162,18 @@ public abstract class CommentModel extends Observable{
 		this.content = content;
 	}
 
-	public android.location.Location getLocation() {
-		return location;
+	/**
+	 * @return the latlng
+	 */
+	public LatLng getLatlng() {
+		return latlng;
 	}
 
-	public void setLocation(android.location.Location location) {
-		this.location = location;
+	/**
+	 * @param latlng the latlng to set
+	 */
+	public void setLatlng(LatLng latlng) {
+		this.latlng = latlng;
 	}
 
 	public long getTimestamp() {
