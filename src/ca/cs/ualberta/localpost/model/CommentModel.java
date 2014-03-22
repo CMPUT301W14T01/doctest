@@ -98,6 +98,29 @@ public abstract class CommentModel extends Observable{
 	}
 
 	/**
+	 * Constructor accepting a picture 
+	 * @param content : represents the content of the comment
+	 * @param title : represents the title of a comment
+	 * @param picture : is the picture that is attached to the comment
+	 */
+	public CommentModel(String content, String title,
+			Bitmap picture) {
+		try {
+			user = new StandardUserModel();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();		
+		}
+		this.title = title;
+		this.content = content;
+		this.radish = 0;
+		this.setPostId(UUID.randomUUID());
+		this.timestamp = date;
+		this.picture = picture;
+		this.author = getAuthor();
+	}
+	
+	/**
 	 * Final constructor that will be used once location and pictures are added to our comments
 	 * known error : title needs to be added as a parameter 
 	 * @param content : represents the content of the comment

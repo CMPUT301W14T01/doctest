@@ -328,6 +328,7 @@ public class CommentController {
 		return json;
 	}
 
+	/*
 	// Main Test
 	public static void main(String[] args) {
 
@@ -345,5 +346,5 @@ public class CommentController {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 }

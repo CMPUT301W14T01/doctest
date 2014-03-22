@@ -28,7 +28,10 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +54,11 @@ public class SubmitComment extends Activity {
 	
 	/**Button used to submit the comment */
 	private Button postButton;
+	/** Constant pic request code*/
+	public static final int OBTAIN_PIC_REQUEST_CODE = 117;
+	
+	/** Carries the currently save picture waiting for submission */
+	private Bitmap currentPicture = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +92,35 @@ public class SubmitComment extends Activity {
 		EditText contentView = (EditText) findViewById(R.id.textBody);
 		String content = contentView.getText().toString();
 
-		RootCommentModel new_root = new RootCommentModel(content, title);
+		RootCommentModel new_root = new RootCommentModel(content, title, currentPicture);
 		new_root.setAuthor(user.getUsername());
 
 		Serialize.SaveInFile(new_root, SubmitComment.this);
 		super.onBackPressed();
+	}
+	
+	public void obtain_picture(View view) {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		startActivityForResult(intent, OBTAIN_PIC_REQUEST_CODE);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//TODO put the resizing code elsewhere + do we want to expand a picture? (ever)
+		if (requestCode == OBTAIN_PIC_REQUEST_CODE && resultCode == RESULT_OK) {
+			this.currentPicture = (Bitmap)data.getExtras().get("data");
+			if (currentPicture.getWidth() > 50 || currentPicture.getHeight() > 50) {
+				double scalingFactor = currentPicture.getWidth() * 1.0 / 50;
+				if (currentPicture.getHeight() > currentPicture.getWidth())
+					scalingFactor = currentPicture.getHeight() * 1.0 / 50;
+				
+				int newWidth = (int)Math.round(currentPicture.getWidth() / scalingFactor);
+				int newHeight = (int)Math.round(currentPicture.getHeight() / scalingFactor);
+				
+				currentPicture = Bitmap.createScaledBitmap(currentPicture, newWidth, newHeight, false);
+			}
+			
+		}
 	}
 
 	@Override

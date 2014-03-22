@@ -51,6 +51,16 @@ public class RootCommentModel extends CommentModel {
 	}
 	
 	/**
+	 * This constructor is used while we can't yet add locations to our comments
+	 * @param content : the content of the comment
+	 * @param title : the comment's title
+	 * @param picture : the comment's picture
+	 */
+	public RootCommentModel(String content, String title, Bitmap picture) {
+		super(content, title, picture);
+	}
+	
+	/**
 	 * This will be our final constructor when we are able to add locations and pictures to our comments
 	 * known error : a title needs to be added 
 	 * @param content : the content of the comment

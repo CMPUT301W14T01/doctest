@@ -52,6 +52,17 @@ public class ChildCommentModel extends CommentModel {
 	public ChildCommentModel(String content, String title) {
 		super(content, title);
 	}
+	
+	/**
+	 * This constructor is used while we can't yet add locations to our comments
+	 * @param content : the content of the comment
+	 * @param title : the comment's title
+	 * @param picture : the comment's picture
+	 */
+	public ChildCommentModel(String content, String title, Bitmap picture) {
+		super(content, title, picture);
+	}
+	
 	/**
 	 * This will be our final constructor when we are able to add locations and pictures to our comments
 	 * known error title needs to be added as a parameter

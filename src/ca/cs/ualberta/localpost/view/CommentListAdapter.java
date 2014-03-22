@@ -32,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
@@ -56,7 +57,10 @@ public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
         TextView radish;
         TextView location;
         TextView timestamp;
+        ImageView picture; 
     }
+
+    
 	
     public View getView(int position,View convertView, ViewGroup parent){
 		ViewHolder holder = null;
@@ -71,6 +75,7 @@ public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
 			holder.radish = (TextView) convertView.findViewById(R.id.CommentTurnip);
 			holder.location = (TextView) convertView.findViewById(R.id.CommentLocation);
 			holder.timestamp = (TextView) convertView.findViewById(R.id.commentDate);
+			holder.picture = (ImageView) convertView.findViewById(R.id.CommentPicture);
 			convertView.setTag(holder);
 		}
 		else{
@@ -84,6 +89,7 @@ public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
 		holder.radish.setText(Integer.toString(model.getRadish()));
 		holder.location.setText("At " + model.getLocation());
 		holder.timestamp.setText("On " + format.format(date));		
+		holder.picture.setImageBitmap(model.getPicture());
 		return convertView;
 	}
 }

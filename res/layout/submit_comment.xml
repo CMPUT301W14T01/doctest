@@ -57,7 +57,9 @@
         android:layout_alignLeft="@+id/postButton"
         android:layout_below="@+id/view1"
         android:layout_marginTop="47dp"
-        android:background="@drawable/ic_menu_camera" />
+        android:background="@drawable/ic_menu_camera" 
+        android:onClick = "obtain_picture"
+        />
 
     <View
         android:id="@+id/view1"
