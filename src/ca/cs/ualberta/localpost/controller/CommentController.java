@@ -332,7 +332,7 @@ public class CommentController {
 	public static void main(String[] args) {
 
 		Activity activity = new Activity();
-		RootCommentModel model = new RootCommentModel(null, null, null);
+		RootCommentModel model = new RootCommentModel(null, null, null, null);
 
 		CommentController client = new CommentController(model, activity);
 		try {

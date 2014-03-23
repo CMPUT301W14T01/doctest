@@ -24,8 +24,7 @@
 package ca.cs.ualberta.localpost.model;
 
 import android.graphics.Bitmap;
-
-import com.google.android.gms.maps.model.LatLng;
+import android.location.Address;
 
 /**
  * This class represents top level comments aka "root" comments
@@ -59,8 +58,8 @@ public class RootCommentModel extends CommentModel {
 	 * @param location : it's location
 	 * @param picture : the attached picture
 	 */
-	public RootCommentModel(String content, LatLng latlng, Bitmap picture) {
-		super(content, latlng, picture);
+	public RootCommentModel(String content, String title, Address address, Bitmap picture) {
+		super(content, title, address, picture);
 	}
 
 }

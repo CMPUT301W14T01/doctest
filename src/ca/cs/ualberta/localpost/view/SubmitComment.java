@@ -31,7 +31,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -102,13 +101,8 @@ public class SubmitComment extends Activity {
     {
 		if (requestCode == 1){
 			if (resultCode == RESULT_OK){
-				/*Bundle bundle = data.getExtras();   
-				lat = bundle.getDouble("Lat", defaultValue);
-				lng = bundle.getDouble("Lng", defaultValue);*/
-				//Bundle bundle = getIntent().getExtras();
 				String intentIndex = data.getStringExtra("address");
 				address = gson.fromJson(intentIndex, android.location.Address.class);
-				Log.e("Lat", "Works");
 			}
 			else
 				super.onActivityResult(requestCode, resultCode, data);

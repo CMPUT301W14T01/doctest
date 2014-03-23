@@ -30,8 +30,6 @@ import java.util.UUID;
 import android.graphics.Bitmap;
 import android.location.Address;
 
-import com.google.android.gms.maps.model.LatLng;
-
 /**
  * This class is the base abstract class for our comment models.
  * It hold all the attributes a comment should have, as well as 
@@ -61,7 +59,6 @@ public abstract class CommentModel extends Observable{
 		try {
 			user = new StandardUserModel();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();		
 		}
 		this.title = null;
@@ -70,7 +67,7 @@ public abstract class CommentModel extends Observable{
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
-		this.address = address;
+		this.address = null;
 		// this.picture = picture;
 	}
 	
@@ -104,7 +101,7 @@ public abstract class CommentModel extends Observable{
 	 * @param location : is the location the comment was made from or said to be made from by the user
 	 * @param picture : is the picture that is attached to the comment
 	 */
-	public CommentModel(String content, LatLng latlng,
+	public CommentModel(String content, String title, Address address,
 			Bitmap picture) {
 		try {
 			user = new StandardUserModel();

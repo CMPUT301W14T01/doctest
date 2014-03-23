@@ -11,7 +11,6 @@ import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -48,6 +47,9 @@ public class MapsView extends FragmentActivity implements OnMarkerClickListener 
 
 		// Getting a reference to the map
 		googleMap = supportMapFragment.getMap();
+		googleMap.setMyLocationEnabled(true);
+		//googleMap.animateCamera(CameraUpdateFactory.newLatLng(
+		//		new LatLng(googleMap.getMyLocation().getLatitude(),googleMap.getMyLocation().getLongitude())));
 		
 		googleMap.setOnMarkerClickListener(this);
 		
@@ -127,28 +129,22 @@ public class MapsView extends FragmentActivity implements OnMarkerClickListener 
 			        mMarker = googleMap.addMarker(markerOptions);
 			        
 			        // Locate the first location
-			        if(i==0)			        	
-						googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng)); 	
-				}	
-				
-				//latLng = markerOptions.getPosition();
-				
+			        if(i==0) {
+						googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+						googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+			        }
+				}					
 			}		
 		}
 
 		@Override
 		public boolean onMarkerClick(Marker marker) {
 			Intent returnIntent = new Intent();
-			/*latLng = marker.getPosition();
-			returnIntent.putExtra("Lat", latLng.latitude);
-			returnIntent.putExtra("Lng", latLng.longitude);
-			setResult(RESULT_OK, returnIntent);
-			Log.e("Coordinates", latLng.toString());*/
 			Gson gson = new Gson();
 			String string = gson.toJson(address);
 			returnIntent.putExtra("address", string);
 			setResult(RESULT_OK, returnIntent);
-			Log.e("Coordinates", string);
+			//Log.e("Coordinates", string);
 			finish();
 			return true;
 		}
