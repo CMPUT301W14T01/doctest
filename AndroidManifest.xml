@@ -40,7 +40,7 @@
         	package. If you do, then you must update the key as well to the new location -->
         <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
-    		android:value="AIzaSyDLtl2_HpByxfJ9cHkrq0aUzoJgwpSaO3k"/>
+    		android:value="AIzaSyAYQCb7Lf2AmWDPqBlEA1AnsEBGiTaXyyY"/>
         <meta-data
 			android:name="com.google.android.gms.version"
 			android:value="@integer/google_play_services_version" />

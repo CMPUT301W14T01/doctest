@@ -26,6 +26,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
 public class MapsView extends FragmentActivity implements OnMarkerClickListener {
 	
@@ -34,6 +35,8 @@ public class MapsView extends FragmentActivity implements OnMarkerClickListener 
 	MarkerOptions markerOptions;
 	LatLng latLng;
 	CommentModel model;
+	private Marker mMarker;
+	private Address address;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,8 @@ public class MapsView extends FragmentActivity implements OnMarkerClickListener 
 
 		// Getting a reference to the map
 		googleMap = supportMapFragment.getMap();
+		
+		googleMap.setOnMarkerClickListener(this);
 		
 		// Getting reference to btn_find of the layout maps_view
         Button btn_find = (Button) findViewById(R.id.btn_find);
@@ -104,7 +109,7 @@ public class MapsView extends FragmentActivity implements OnMarkerClickListener 
 		        // Adding Markers on Google Map for each matching address
 				for(int i=0;i<addresses.size();i++){				
 					
-					Address address = (Address) addresses.get(i);
+					address = (Address) addresses.get(i);
 					
 			        // Creating an instance of GeoPoint, to display in Google Map
 			        latLng = new LatLng(address.getLatitude(), address.getLongitude());
@@ -112,13 +117,14 @@ public class MapsView extends FragmentActivity implements OnMarkerClickListener 
 			        String addressText = String.format("%s, %s",
 	                        address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "",
 	                        address.getCountryName());
-
+			        
 			        markerOptions = new MarkerOptions();
 			        markerOptions.position(latLng);
 			        markerOptions.title(addressText);
 			        markerOptions.draggable(true);
+			        markerOptions.visible(true);
 
-			        googleMap.addMarker(markerOptions);
+			        mMarker = googleMap.addMarker(markerOptions);
 			        
 			        // Locate the first location
 			        if(i==0)			        	
@@ -132,12 +138,17 @@ public class MapsView extends FragmentActivity implements OnMarkerClickListener 
 
 		@Override
 		public boolean onMarkerClick(Marker marker) {
-			Intent intent = new Intent();
-			latLng = markerOptions.getPosition();
-			intent.putExtra("Lat", latLng.latitude);
-			intent.putExtra("Lng", latLng.longitude);
-			setResult(RESULT_OK, intent);
-			Log.e("Coordinates", "Another string");
+			Intent returnIntent = new Intent();
+			/*latLng = marker.getPosition();
+			returnIntent.putExtra("Lat", latLng.latitude);
+			returnIntent.putExtra("Lng", latLng.longitude);
+			setResult(RESULT_OK, returnIntent);
+			Log.e("Coordinates", latLng.toString());*/
+			Gson gson = new Gson();
+			String string = gson.toJson(address);
+			returnIntent.putExtra("address", string);
+			setResult(RESULT_OK, returnIntent);
+			Log.e("Coordinates", string);
 			finish();
 			return true;
 		}

@@ -27,12 +27,11 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.location.Location;
+import android.location.Address;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,6 +41,9 @@ import android.widget.ImageView;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 /**
  * This activity allows the user to enter and submit a new comment
@@ -60,9 +62,11 @@ public class SubmitComment extends Activity {
 	
 	/** Variable for the onClickListener that generates the map view **/
 	ImageView image;
+
+	private Address address;
 	
-	private double lat;
-	private double lng;
+	/**Gson writer */
+	private Gson gson = new Gson();
 	
 	LatLng latlng;
 	
@@ -87,7 +91,7 @@ public class SubmitComment extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(), MapsView.class);
-				startActivity(intent);
+				startActivityForResult(intent, 1);
 			}
 
 		});
@@ -96,19 +100,23 @@ public class SubmitComment extends Activity {
 	@Override
     public void onActivityResult(int requestCode,int resultCode,Intent data)
     {
-     super.onActivityResult(requestCode, resultCode, data);
-
-     Bundle bundle = data.getExtras();
-     
-     double defaultValue = (Double) null;
-     
-     lat = bundle.getDouble("Lat", defaultValue);
-     lng = bundle.getDouble("Lng", defaultValue);
-     
+		if (requestCode == 1){
+			if (resultCode == RESULT_OK){
+				/*Bundle bundle = data.getExtras();   
+				lat = bundle.getDouble("Lat", defaultValue);
+				lng = bundle.getDouble("Lng", defaultValue);*/
+				//Bundle bundle = getIntent().getExtras();
+				String intentIndex = data.getStringExtra("address");
+				address = gson.fromJson(intentIndex, android.location.Address.class);
+				Log.e("Lat", "Works");
+			}
+			else
+				super.onActivityResult(requestCode, resultCode, data);
+		}
     }
 
 	/**Adds a new root. Puts all the input data into a RootCommentModel
-	 * and writes to a .json file.
+	 * and writes to a json file.
 	 * @param view Takes in view from SubmitComment
 	 * @throws InvalidKeyException  Checks for invalid keys
 	 * @throws NoSuchAlgorithmException Checks if algorithm used is valid
@@ -126,11 +134,11 @@ public class SubmitComment extends Activity {
 		String content = contentView.getText().toString();
 
 		RootCommentModel new_root = new RootCommentModel(content, title);
-		new_root.setAuthor(user.getUsername());
+		new_root.setAuthor(user.getUsername());	
 		
-		latlng = new LatLng(lat,lng);	
+		new_root.setAddress(address);
 		
-		new_root.setLatlng(latlng);
+		//Log.e("LatLng", String.valueOf(new_root.getLatlng()));
 
 		Serialize.SaveInFile(new_root, SubmitComment.this);
 		super.onBackPressed();

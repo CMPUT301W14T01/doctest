@@ -26,6 +26,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -76,15 +78,13 @@ public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
 		else{
 			holder = (ViewHolder) convertView.getTag();
 		}
-		Date date = new Date(model.getTimestamp());
-		SimpleDateFormat format = new SimpleDateFormat("MMM/dd/yyyy");
+		SimpleDateFormat format = new SimpleDateFormat("c HH:mm MMM/dd/yyyy");
 		
 		holder.title.setText(model.getTitle());
 		holder.username.setText("Posted by " + model.getAuthor());
 		holder.radish.setText(Integer.toString(model.getRadish()));
-		//holder.location.setText("At " + model.getLocation());
-		holder.location.setText("At " + model.getLatlng());
-		holder.timestamp.setText("On " + format.format(date));		
+		holder.location.setText("@ " + model.getAddress().getAddressLine(0));
+		holder.timestamp.setText(format.format(new Date(model.getTimestamp())));		
 		return convertView;
 	}
 }

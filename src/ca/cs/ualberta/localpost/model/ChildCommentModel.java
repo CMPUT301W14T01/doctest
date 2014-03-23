@@ -24,6 +24,8 @@
 
 package ca.cs.ualberta.localpost.model;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import android.graphics.Bitmap;
 
 /**
@@ -59,8 +61,8 @@ public class ChildCommentModel extends CommentModel {
 	 * @param location : it's location
 	 * @param picture : the attached picture
 	 */
-	public ChildCommentModel(String content, android.location.Location location, Bitmap picture) {
-		super(content, location, picture);
+	public ChildCommentModel(String content, LatLng latlng, Bitmap picture) {
+		super(content, latlng, picture);
 		//TODO specify parent
 	}
 }

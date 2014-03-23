@@ -28,6 +28,7 @@ import java.util.Observable;
 import java.util.UUID;
 
 import android.graphics.Bitmap;
+import android.location.Address;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -41,7 +42,7 @@ import com.google.android.gms.maps.model.LatLng;
 public abstract class CommentModel extends Observable{
 	private String title;
 	private String content;
-	private LatLng latlng;
+	private Address address;
 	private String author;
 	private ArrayList<CommentModel> children = new ArrayList<CommentModel>();
 	private long timestamp;
@@ -69,7 +70,7 @@ public abstract class CommentModel extends Observable{
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
-		this.latlng = latlng;
+		this.address = address;
 		// this.picture = picture;
 	}
 	
@@ -92,7 +93,7 @@ public abstract class CommentModel extends Observable{
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
-		this.latlng = latlng;
+		this.address = getAddress();
 		// this.picture = picture;
 	}
 
@@ -103,7 +104,7 @@ public abstract class CommentModel extends Observable{
 	 * @param location : is the location the comment was made from or said to be made from by the user
 	 * @param picture : is the picture that is attached to the comment
 	 */
-	public CommentModel(String content, android.location.Location location,
+	public CommentModel(String content, LatLng latlng,
 			Bitmap picture) {
 		try {
 			user = new StandardUserModel();
@@ -114,7 +115,7 @@ public abstract class CommentModel extends Observable{
 		this.content = content;
 		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
-		this.latlng = latlng;
+		this.address = address;
 		this.timestamp = date;
 		this.picture = picture;
 		this.author = getAuthor();
@@ -165,15 +166,15 @@ public abstract class CommentModel extends Observable{
 	/**
 	 * @return the latlng
 	 */
-	public LatLng getLatlng() {
-		return latlng;
+	public Address getAddress() {
+		return address;
 	}
 
 	/**
 	 * @param latlng the latlng to set
 	 */
-	public void setLatlng(LatLng latlng) {
-		this.latlng = latlng;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public long getTimestamp() {
