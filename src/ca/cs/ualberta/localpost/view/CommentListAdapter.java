@@ -60,8 +60,6 @@ public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
         ImageView picture; 
     }
 
-    
-	
     public View getView(int position,View convertView, ViewGroup parent){
 		ViewHolder holder = null;
 		RootCommentModel model = getItem(position);

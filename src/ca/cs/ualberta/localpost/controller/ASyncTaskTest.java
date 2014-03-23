@@ -336,7 +336,7 @@ public class ASyncTaskTest extends AsyncTask<Object, Integer, ArrayList<CommentM
 
 
 //Main Test
-	public static void main(String [] args){
+/*	public static void main(String [] args){
 		
 		Activity activity = new Activity();
 		RootCommentModel model = new RootCommentModel(null, null, null);
@@ -352,5 +352,5 @@ public class ASyncTaskTest extends AsyncTask<Object, Integer, ArrayList<CommentM
 			e.printStackTrace();
 		}
 		
-	}
+	}*/
 }

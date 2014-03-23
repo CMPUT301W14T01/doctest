@@ -40,15 +40,19 @@ import android.graphics.Bitmap;
  *
  */
 public abstract class CommentModel extends Observable{
+	//Drawables for thread/commentView
 	private String title;
-	private String content;
-	private android.location.Location location;
 	private String author;
-	private ArrayList<CommentModel> children = new ArrayList<CommentModel>();
+	private String content;
+	private Bitmap picture;
 	private long timestamp;
+
+	//Internal data for controllers
+	private ArrayList<CommentModel> children = new ArrayList<CommentModel>();
+	//--------
+	private android.location.Location location;
 	private java.util.UUID postId = UUID.randomUUID();
 	private int radish;
-	private Bitmap picture;
 	long date = new Date().getTime();
 	StandardUserModel user;
 	
@@ -231,6 +235,20 @@ public abstract class CommentModel extends Observable{
 	public void setPostId(java.util.UUID postId) {
 		this.postId = postId;
 	}
-	
+
+
+	public ArrayList<CommentModel> getChildren() {
+		return children;
+	}
+
+	public void addChild(ChildCommentModel child) {
+		this.children.add(child);
+	}
+	public void addChildren(ArrayList<ChildCommentModel> children) {
+		for(ChildCommentModel child : children){
+			this.addChild(child);
+		}
+	}
+
 	
 }
