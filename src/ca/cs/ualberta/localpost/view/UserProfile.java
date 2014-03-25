@@ -103,32 +103,32 @@ public class UserProfile extends Activity implements OnClickListener {
 		model = Serialize.loadFromFile("rootcomment.json",
 				getApplicationContext());
 
-		listView = (ListView) findViewById(R.id.profileCommentList);
-		registerForContextMenu(listView);
-		adapter = new CommentListAdapter(UserProfile.this,R.id.custom_adapter, model);
-		listView.setAdapter(adapter);
-
-		//Sets onClickListener for each lisview element
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Toast.makeText(getApplicationContext(),
-						"ThreadView Under Construction", Toast.LENGTH_SHORT)
-						.show();
-			}
-		});
+//		listView = (ListView) findViewById(R.id.profileCommentList);
+//		registerForContextMenu(listView);
+//		adapter = new CommentListAdapter(UserProfile.this,R.id.custom_adapter, model);
+//		listView.setAdapter(adapter);
+//
+//		//Sets onClickListener for each lisview element
+//		listView.setOnItemClickListener(new OnItemClickListener() {
+//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//				Toast.makeText(getApplicationContext(),
+//						"ThreadView Under Construction", Toast.LENGTH_SHORT)
+//						.show();
+//			}
+//		});
 	}
 
 	/**
 	 * Overrides onResume. This will update the listView with data 
 	 * that has been added.
 	 */
-	@Override 
-	public void onResume(){
-		super.onResume();
-		model = Serialize.loadFromFile("rootcomment.json", UserProfile.this);
-		adapter = new CommentListAdapter(UserProfile.this, R.id.custom_adapter,model);
-		listView.setAdapter(adapter);
-	}
+//	@Override 
+//	public void onResume(){
+//		super.onResume();
+//		model = Serialize.loadFromFile("rootcomment.json", UserProfile.this);
+//		adapter = new CommentListAdapter(UserProfile.this, R.id.custom_adapter,model);
+//		listView.setAdapter(adapter);
+//	}
 
 	@Override
 	public void onClick(View v) {

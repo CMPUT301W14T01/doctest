@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 /**
@@ -44,10 +45,10 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
  *
  */
 
-public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
+public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 	Context context;
 
-	public CommentListAdapter(Context context, int resourceId, ArrayList<RootCommentModel> list1) {
+	public CommentListAdapter(Context context, int resourceId, ArrayList<CommentModel> list1) {
 		super(context,resourceId,list1);
 		this.context = context;
 	}
@@ -62,7 +63,7 @@ public class CommentListAdapter extends ArrayAdapter<RootCommentModel> {
 
     public View getView(int position,View convertView, ViewGroup parent){
 		ViewHolder holder = null;
-		RootCommentModel model = getItem(position);
+		CommentModel model = getItem(position);
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		
 		if(convertView == null){

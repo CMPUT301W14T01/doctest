@@ -57,7 +57,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayList<RootCommentModel>> {
+public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayList<CommentModel>> {
 
 	private static Gson gson;
 	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/chautran/";
@@ -69,19 +69,19 @@ public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayLis
 	
 	@Override
 	// Params(Used to determine function,postID used for pushing, CommentModel)
-	protected ArrayList<RootCommentModel> doInBackground(Object... params) { // parms[]
+	protected ArrayList<CommentModel> doInBackground(Object... params) { // parms[]
 		Integer index = (Integer) params[0]; // Determines if we are pushing or
 												// getting
-		Integer postID = (Integer) params[1]; // postID used in pushModel
+		java.util.UUID UUID = (java.util.UUID) params[1]; // postID used in pushModel
 
 		if (index == 1) {
 			try {
 				if (params[2] instanceof RootCommentModel) {
 					RootCommentModel model = (RootCommentModel) params[2];
-					pushComment(model, postID);
+					pushComment(model, UUID);
 				} else if (params[2] instanceof ChildCommentModel) {
 					ChildCommentModel model = (ChildCommentModel) params[2];
-					pushComment(model, postID);
+					pushComment(model, UUID);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -90,7 +90,7 @@ public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayLis
 			
 		} else if (index == 3) {
 			try {
-				getAllComments();
+				return getAllComments();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -102,8 +102,8 @@ public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayLis
 		return null;
 	}// End doInBackGround
 
-	public void pushComment(CommentModel model, int id) {
-		HttpPost pushRequest = new HttpPost(URL + String.valueOf(id));
+	public void pushComment(CommentModel model, java.util.UUID UUID) {
+		HttpPost pushRequest = new HttpPost(URL + UUID);
 		try {
 			pushRequest.setEntity(new StringEntity(gson.toJson(model)));
 
@@ -154,10 +154,8 @@ public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayLis
 
 		String json = getEntityContent(response);
 
-		Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<RootCommentModel>>() {
-		}.getType();
-		ElasticSearchSearchResponse<RootCommentModel> esResponse = gson
-				.fromJson(json, elasticSearchSearchResponseType);
+		Type searchType = new TypeToken<ElasticSearchSearchResponse<RootCommentModel>>() {}.getType();
+		ElasticSearchSearchResponse<RootCommentModel> esResponse = gson.fromJson(json, searchType);
 
 		for (ElasticSearchResponse<RootCommentModel> r : esResponse.getHits()) {
 			RootCommentModel model = r.getSource();

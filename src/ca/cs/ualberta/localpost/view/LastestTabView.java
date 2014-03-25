@@ -59,21 +59,21 @@ public class LastestTabView extends Fragment {
 		
 		//Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container,false);
-		listView = (ListView) rootView.findViewById(R.id.commentList);
-		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
-		listView.setAdapter(adapter); 
-		
-		//Clicking on a list item will take us to the replies(child comments)
-		listView.setOnItemClickListener(new OnItemClickListener() {
-	        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-	        	//Intent myIntent = new Intent(getActivity(),MainActivity.class);
-	        	//Pass the index so we can parse it in From Server.
-	        	Log.e("Index",String.valueOf(id));
-	        	Log.e("Position",String.valueOf(position));
-	   	     	Toast.makeText(getActivity(), "Button is clicked", Toast.LENGTH_SHORT).show();
-	   	     	//startActivity(myIntent);
-	        }
-	    });//End On click
+//		listView = (ListView) rootView.findViewById(R.id.commentList);
+//		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
+//		listView.setAdapter(adapter); 
+//		
+//		//Clicking on a list item will take us to the replies(child comments)
+//		listView.setOnItemClickListener(new OnItemClickListener() {
+//	        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//	        	//Intent myIntent = new Intent(getActivity(),MainActivity.class);
+//	        	//Pass the index so we can parse it in From Server.
+//	        	Log.e("Index",String.valueOf(id));
+//	        	Log.e("Position",String.valueOf(position));
+//	   	     	Toast.makeText(getActivity(), "Button is clicked", Toast.LENGTH_SHORT).show();
+//	   	     	//startActivity(myIntent);
+//	        }
+//	    });//End On click
 		return rootView;
 	}
 	

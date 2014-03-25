@@ -22,23 +22,23 @@ import android.widget.AdapterView.OnItemClickListener;
 public class FavoritesView extends Activity {
 	private ListView listView;
 	private CommentListAdapter adapter;
-	private ArrayList<RootCommentModel> model;
+	//private ArrayList<CommentModel> model;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.favorites_view);
 
-		listView = (ListView) findViewById(R.id.favoritesList);
-		model = Serialize.loadFromFile("favoritecomment.json",getApplicationContext());
-		adapter = new CommentListAdapter(FavoritesView.this, R.id.custom_adapter,model);
-		listView.setAdapter(adapter);
-		
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-				Toast.makeText(getApplicationContext(),"ThreadView Under Construction", Toast.LENGTH_SHORT).show();
-			}
-		});
+//		listView = (ListView) findViewById(R.id.favoritesList);
+//		model = Serialize.loadFromFile("favoritecomment.json",getApplicationContext());
+//		adapter = new CommentListAdapter(FavoritesView.this, R.id.custom_adapter,model);
+//		listView.setAdapter(adapter);
+//		
+//		listView.setOnItemClickListener(new OnItemClickListener() {
+//			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+//				Toast.makeText(getApplicationContext(),"ThreadView Under Construction", Toast.LENGTH_SHORT).show();
+//			}
+//		});
 	}
 
 	@Override

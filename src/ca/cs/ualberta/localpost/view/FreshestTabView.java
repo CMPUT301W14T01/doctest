@@ -24,6 +24,7 @@
 package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import ca.cs.ualberta.localpost.controller.BrowseFreshestComments;
 import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 /**
@@ -55,7 +57,7 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
 public class FreshestTabView extends Fragment {
 	private ListView listView;
 	private CommentListAdapter adapter;
-	ArrayList<RootCommentModel> model;  
+	ArrayList<CommentModel> model;  
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,24 +66,29 @@ public class FreshestTabView extends Fragment {
 		//Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container, false);
 		ElasticSearchOperations task = new ElasticSearchOperations();
-		task.execute(3,null,null);
+		try {
+			model = task.execute(3,null,null).get();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 //		model = Serialize.loadFromFile("rootcomment.json", getActivity());
 //
-//		listView = (ListView) rootView.findViewById(R.id.commentList);
-//		registerForContextMenu(listView);
-//
-//		adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter,model);
-//
-//		listView.setAdapter(adapter);
-//
-//		// Clicking on a list item will take us to the replies(child comments)
-//		listView.setOnItemClickListener(new OnItemClickListener() {
-//			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-//				Toast.makeText(getActivity(),"ThreadView Under Construction", Toast.LENGTH_SHORT).show();
-//				 Intent myIntent = new Intent(getActivity(),FreshestTabView.class);
+		listView = (ListView) rootView.findViewById(R.id.commentList);
+		
+		registerForContextMenu(listView);
+
+		adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter,model);
+
+		listView.setAdapter(adapter);
+
+		// Clicking on a list item will take us to the replies(child comments)
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+				Toast.makeText(getActivity(),"ThreadView Under Construction", Toast.LENGTH_SHORT).show();
+//				 Intent myIntent = new Intent(getActivity(),ThreadView.class);
 //				 startActivity(myIntent);
-//			}
-//		});
+			}
+		});
 		return rootView;
 	}
 	
