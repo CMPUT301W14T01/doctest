@@ -72,7 +72,7 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-//		Intent intent = new Intent(this,EditComment.class);
+//		Intent intent = new Intent(this,ThreadView.class);
 //		startActivity(intent);
 
 		/**Generate The Tab Views*/
