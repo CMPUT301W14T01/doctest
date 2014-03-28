@@ -116,7 +116,6 @@ public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayLis
 
 			String output = reader.readLine();
 			while (output != null) {
-				Log.e("Elastic Search", output);
 				output = reader.readLine();
 			}
 		} catch (Exception e) {
@@ -160,7 +159,6 @@ public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayLis
 		for (ElasticSearchResponse<RootCommentModel> r : esResponse.getHits()) {
 			RootCommentModel model = r.getSource();
 			returnArray.add(model);
-			Log.e("GetAll",model.getContent());
 		}
 		return returnArray;
 	}

@@ -42,6 +42,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import ca.cs.ualberta.localpost.controller.TabsPagerAdapter;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 /**
@@ -72,8 +73,8 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-//		Intent intent = new Intent(this,ThreadView.class);
-//		startActivity(intent);
+		Intent intent = new Intent(this,ThreadView.class);
+		startActivity(intent);
 
 		/**Generate The Tab Views*/
 		viewPager = (ViewPager) findViewById(R.id.pager);

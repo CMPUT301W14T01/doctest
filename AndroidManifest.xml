@@ -86,7 +86,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ca.cs.ualberta.localpost.view.CommentListAdapter"
+            android:name="ca.cs.ualberta.localpost.controller.CommentListAdapter"
             android:label="@string/title_activity_comment_list_adapter" >
         </activity>
         <activity

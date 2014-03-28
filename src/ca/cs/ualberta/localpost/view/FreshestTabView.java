@@ -42,6 +42,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+import ca.cs.ualberta.localpost.controller.CommentListAdapter;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import ca.cs.ualberta.localpost.controller.BrowseFreshestComments;
 import ca.cs.ualberta.localpost.controller.Serialize;

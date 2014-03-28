@@ -47,8 +47,8 @@ import ca.cs.ualberta.localpost.model.ChildCommentModel;
  */
 public class ThreadView extends Activity {
 	private TableLayout table;
-	private final int marginBase = 20;
-	private final int depthTolerance = 3;
+	private final int marginBase = 10;
+	private final int depthTolerance = 5;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,19 +57,7 @@ public class ThreadView extends Activity {
 
 		//Creates a Table
 		table = (TableLayout) findViewById(R.id.table_layout);
-
-		threadExpand("Parent 1", 0);
-		threadExpand("Child 1", 1);
-		threadExpand("Child 2", 2);
-		threadExpand("Child 3", 3);
-		threadExpand("Parent 1", 0);
-		threadExpand("Parent 1", 0);
-		threadExpand("Parent 1", 0);
-		threadExpand("Parent 1", 0);
-		threadExpand("Parent 1", 0);
-		threadExpand("Parent 1", 0);
-		threadExpand("Parent 1", 0);
-		threadExpand("Parent 1", 0);
+		testDrawable();
 
 		// commentText = (TextView) view.findViewById(R.id.commentTitle);
 		// turnipText = (TextView) view.findViewById(R.id.turnip);
@@ -97,7 +85,7 @@ public class ThreadView extends Activity {
 		table.addView(row);
 		row = null;
 	}
-	//-------------	
+
 	public void threadExpand(CommentModel comment, int level) {
 		//TODO Build from threadExpand(String, int)
 		//threadExpand(comment.getContent(),level);
@@ -107,10 +95,11 @@ public class ThreadView extends Activity {
 		 * 	   threadExpand(c, ++level)
 		 */
 		draw(comment, level);
+		++level;
 		ArrayList<CommentModel> commentChildren = comment.getChildren();
 		if(level<depthTolerance && !commentChildren.isEmpty()){
 			for(CommentModel c : commentChildren){
-				threadExpand(c, ++level);
+				threadExpand(c, level);
 			}
 		}
 	}
@@ -147,11 +136,12 @@ public class ThreadView extends Activity {
 			CommentModel tct1 = new ChildCommentModel("test1","title1");
 			CommentModel tct2 = new ChildCommentModel("test2","title2");
 				tct2.addChild(new ChildCommentModel("test3","title3"));
+			CommentModel tct4 = new ChildCommentModel("test4","test4");
 		testCommentTree.addChild((ChildCommentModel) tct1);
 		testCommentTree.addChild((ChildCommentModel) tct2);
-		
-		threadExpand(testCommentTree, 0);
-		
+		testCommentTree.addChild((ChildCommentModel) tct4);
+
+		threadExpand(testCommentTree,0);
 	}
 	
 	@Override

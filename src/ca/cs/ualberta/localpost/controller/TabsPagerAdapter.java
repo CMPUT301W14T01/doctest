@@ -21,8 +21,11 @@
  *  
  */
 
-package ca.cs.ualberta.localpost.view;
+package ca.cs.ualberta.localpost.controller;
 
+import ca.cs.ualberta.localpost.view.FreshestTabView;
+import ca.cs.ualberta.localpost.view.GreatestTabView;
+import ca.cs.ualberta.localpost.view.LastestTabView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;

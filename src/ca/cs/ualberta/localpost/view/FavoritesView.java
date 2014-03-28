@@ -2,6 +2,8 @@
 package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
+
+import ca.cs.ualberta.localpost.controller.CommentListAdapter;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import android.os.Bundle;
