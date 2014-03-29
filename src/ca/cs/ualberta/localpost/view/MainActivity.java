@@ -73,8 +73,8 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		Intent intent = new Intent(this,ThreadView.class);
-		startActivity(intent);
+//		Intent intent = new Intent(this,ThreadView.class);
+//		startActivity(intent);
 
 		/**Generate The Tab Views*/
 		viewPager = (ViewPager) findViewById(R.id.pager);

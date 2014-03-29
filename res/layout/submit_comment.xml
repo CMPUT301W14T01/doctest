@@ -58,15 +58,9 @@
         android:layout_alignLeft="@+id/postButton"
         android:layout_below="@+id/view1"
         android:layout_marginTop="47dp"
-<<<<<<< HEAD
         android:background="@drawable/ic_menu_camera" 
-        android:onClick = "obtain_picture"
-        />
-=======
-        android:background="@drawable/ic_menu_camera"
-        android:clickable="true" />"
->>>>>>> origin/mapView
-
+        android:onClick = "obtain_picture"/>
+    
     <View
         android:id="@+id/view1"
         android:layout_width="250dp"

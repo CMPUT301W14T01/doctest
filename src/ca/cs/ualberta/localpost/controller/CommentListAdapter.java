@@ -90,15 +90,9 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 		holder.title.setText(model.getTitle());
 		holder.username.setText("Posted by " + model.getAuthor());
 		holder.radish.setText(Integer.toString(model.getRadish()));
-<<<<<<< HEAD:src/ca/cs/ualberta/localpost/controller/CommentListAdapter.java
-		holder.location.setText("At " + model.getLocation());
-		holder.timestamp.setText("On " + format.format(date));		
 		holder.picture.setImageBitmap(model.getPicture());
-=======
 		holder.location.setText("@ " + model.getAddress().getAddressLine(0));
-		//holder.location.setText("@ ");
 		holder.timestamp.setText(format.format(new Date(model.getTimestamp())));		
->>>>>>> origin/mapView:src/ca/cs/ualberta/localpost/view/CommentListAdapter.java
 		return convertView;
 	}
 }

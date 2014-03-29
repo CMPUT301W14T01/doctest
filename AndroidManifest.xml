@@ -8,17 +8,6 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 
-<<<<<<< HEAD
-    <permission
-        android:name="ca.cs.ualberta.localpost.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="ca.cs.ualberta.localpost.permission.MAPS_RECEIVE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-=======
->>>>>>> origin/mapView
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     
     <permission

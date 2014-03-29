@@ -24,23 +24,27 @@
 package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
-
-import ca.cs.ualberta.localpost.model.CommentModel;
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TableLayout;
+import android.widget.TableLayout.LayoutParams;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.TableLayout.LayoutParams;
-
-//-- Temporary import for tests
-import ca.cs.ualberta.localpost.model.RootCommentModel;
+import android.widget.Toast;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
+import ca.cs.ualberta.localpost.model.CommentModel;
+import ca.cs.ualberta.localpost.model.RootCommentModel;
+//-- Temporary import for tests
 
 /**
- * NOT DONE OR IMPLEMENTED
  * Displays a comment and all the replies associated
  * with the comment
  * @author Team 01
@@ -58,67 +62,46 @@ public class ThreadView extends Activity {
 		//Creates a Table
 		table = (TableLayout) findViewById(R.id.table_layout);
 		testDrawable();
-
-		// commentText = (TextView) view.findViewById(R.id.commentTitle);
-		// turnipText = (TextView) view.findViewById(R.id.turnip);
-		// posterText = (TextView) view.findViewById(R.id.posterName);
-		// geoText = (TextView) view.findViewById(R.id.geolocation);
-	}
-
-	// TODO move to CommentModel args for tRD
-	public void threadExpand(String text, int level) {
-		TableRow row = (TableRow) LayoutInflater.from(this)
-				.inflate(R.layout.row, null);
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		
-		// Pad root comments vertically
-		// and child comments horizontally
-		if(level == 0){
-			params.setMargins(0,15,0,0);
-		}else if(level < depthTolerance){
-			params.setMargins(level*marginBase, 0, 0, 0);
-		}
-		row.setLayoutParams(params);
-
-		((TextView) row.findViewById(R.id.commentTitle)).setText(text);
-		table.addView(row);
-		row = null;
 	}
 
 	public void threadExpand(CommentModel comment, int level) {
-		//TODO Build from threadExpand(String, int)
-		//threadExpand(comment.getContent(),level);
-		/* draw(content)
-		 * if(level<depthTolerance):
-		 * 	 for(CommentModel c : comment.children):
-		 * 	   threadExpand(c, ++level)
-		 */
 		draw(comment, level);
 		++level;
 		ArrayList<CommentModel> commentChildren = comment.getChildren();
 		if(level<depthTolerance && !commentChildren.isEmpty()){
 			for(CommentModel c : commentChildren){
 				threadExpand(c, level);
+				Log.e("test",c.getPostId().toString());
 			}
 		}
 	}
 	
-	public void draw(CommentModel comment, int level){
-		TableRow row = (TableRow) LayoutInflater.from(this)
-				.inflate(R.layout.row, null);
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
+	public void draw(final CommentModel comment, int level){
+		TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.row, null);
+		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 		
-		// Pad root comments vertically
-		// and child comments horizontally
+		// Pad root comments vertically and child comments horizontally
 		if(level < depthTolerance){
 			params.setMargins(level*marginBase, 0, 0, 0);
 		}
 		
 		row.setLayoutParams(params);
-
 		
+		//Register onclick
+		registerForContextMenu(row);
+		
+		row.setOnClickListener(new View.OnClickListener() 
+		{                   
+		    @Override
+		    public void onClick(View v)
+		    {
+
+		    	Toast.makeText(getApplicationContext(), comment.getPostId().toString(), Toast.LENGTH_SHORT).show();
+		    }
+		});
+		
+		Log.e("getUUID",comment.getPostId().toString());
+
 		((TextView) row.findViewById(R.id.commentTitle)).setText(comment.getContent());
 		table.addView(row);
 		row = null;
@@ -142,6 +125,42 @@ public class ThreadView extends Activity {
 		testCommentTree.addChild((ChildCommentModel) tct4);
 
 		threadExpand(testCommentTree,0);
+	}
+	
+	public void recursiveSearch(String content, CommentModel comment) {
+		ArrayList<CommentModel> commentChildren = comment.getChildren();
+		if (!commentChildren.isEmpty()) {
+			for (CommentModel c : commentChildren) {
+				if (c.getContent().equals(content)) {
+					// c.addChild(reply);
+					Log.e("Found It", "Found");
+					break;
+				} else {
+					recursiveSearch(content, c);
+				}
+			}
+		} else {
+			Log.e("ArrayEmpty", "ArrayEmpty");
+		}
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		Log.e("Context",v.toString());
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.add(0, Menu.FIRST, 0, "Reply");
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		switch (item.getItemId()) {
+		case Menu.FIRST:
+			Toast.makeText(getApplicationContext(), "Reply", Toast.LENGTH_SHORT).show();
+			table.getChildAt(1);
+			return true;
+		}
+		return super.onContextItemSelected(item);
 	}
 	
 	@Override

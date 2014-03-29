@@ -40,11 +40,7 @@ import android.location.Address;
 public abstract class CommentModel extends Observable{
 	//Drawables for thread/commentView
 	private String title;
-<<<<<<< HEAD
-=======
-	private String content;
 	private Address address;
->>>>>>> origin/mapView
 	private String author;
 	private String content;
 	private Bitmap picture;

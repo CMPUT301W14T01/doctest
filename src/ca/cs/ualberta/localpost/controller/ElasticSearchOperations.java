@@ -60,7 +60,7 @@ import android.util.Log;
 public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayList<CommentModel>> {
 
 	private static Gson gson;
-	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/chautran/";
+	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/zerihoun/";
 	private HttpClient httpclient = new DefaultHttpClient();
 
 	public ElasticSearchOperations() {
@@ -97,7 +97,7 @@ public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayLis
 		}
 		// Remove when unneeded.
 		else if (index == 4) {
-			deleteComment(0);
+			deleteComment(1);
 		}
 		return null;
 	}// End doInBackGround

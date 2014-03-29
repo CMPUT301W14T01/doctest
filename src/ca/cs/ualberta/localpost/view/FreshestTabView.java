@@ -67,8 +67,10 @@ public class FreshestTabView extends Fragment {
 		//Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container, false);
 		ElasticSearchOperations task = new ElasticSearchOperations();
+		//task.execute(4,null,null);
 		try {
 			model = task.execute(3,null,null).get();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

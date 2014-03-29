@@ -29,11 +29,8 @@ import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
 import android.content.Intent;
-<<<<<<< HEAD
 import android.graphics.Bitmap;
-=======
 import android.location.Address;
->>>>>>> origin/mapView
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -41,11 +38,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-<<<<<<< HEAD
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
-=======
 import android.widget.ImageView;
->>>>>>> origin/mapView
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
@@ -109,19 +103,6 @@ public class SubmitComment extends Activity {
 
 		});
 	}
-	
-	@Override
-    public void onActivityResult(int requestCode,int resultCode,Intent data)
-    {
-		if (requestCode == 1){
-			if (resultCode == RESULT_OK){
-				String intentIndex = data.getStringExtra("address");
-				address = gson.fromJson(intentIndex, android.location.Address.class);
-			}
-			else
-				super.onActivityResult(requestCode, resultCode, data);
-		}
-    }
 
 	/**Adds a new root. Puts all the input data into a RootCommentModel
 	 * and writes to a json file.
@@ -141,21 +122,15 @@ public class SubmitComment extends Activity {
 		EditText contentView = (EditText) findViewById(R.id.textBody);
 		String content = contentView.getText().toString();
 
-<<<<<<< HEAD
 		RootCommentModel new_root = new RootCommentModel(content, title, currentPicture);
 		new_root.setAuthor(user.getUsername());
+		new_root.setAddress(address);
+
 		
 		//Send to Server.
 		ElasticSearchOperations es = new ElasticSearchOperations();
 		es.execute(1,new_root.getPostId(),new_root);
-=======
-		RootCommentModel new_root = new RootCommentModel(content, title);
-		new_root.setAuthor(user.getUsername());	
-		
-		new_root.setAddress(address);
-		
-		//Log.e("LatLng", String.valueOf(new_root.getLatlng()));
->>>>>>> origin/mapView
+
 
 		//Serialize.SaveInFile(new_root, SubmitComment.this);
 		super.onBackPressed();
@@ -175,13 +150,19 @@ public class SubmitComment extends Activity {
 				double scalingFactor = currentPicture.getWidth() * 1.0 / 50;
 				if (currentPicture.getHeight() > currentPicture.getWidth())
 					scalingFactor = currentPicture.getHeight() * 1.0 / 50;
-				
 				int newWidth = (int)Math.round(currentPicture.getWidth() / scalingFactor);
 				int newHeight = (int)Math.round(currentPicture.getHeight() / scalingFactor);
 				
 				currentPicture = Bitmap.createScaledBitmap(currentPicture, newWidth, newHeight, false);
 			}
-			
+		}
+		if (requestCode == 1){
+			if (resultCode == RESULT_OK){
+				String intentIndex = data.getStringExtra("address");
+				address = gson.fromJson(intentIndex, android.location.Address.class);
+			}
+			else
+				super.onActivityResult(requestCode, resultCode, data);
 		}
 	}
 
