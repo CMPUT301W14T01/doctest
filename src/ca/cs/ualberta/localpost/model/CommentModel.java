@@ -24,13 +24,11 @@ package ca.cs.ualberta.localpost.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.UUID;
 
-import com.google.gson.Gson;
-
 import android.graphics.Bitmap;
+import android.location.Address;
 
 /**
  * This class is the base abstract class for our comment models.
@@ -42,6 +40,11 @@ import android.graphics.Bitmap;
 public abstract class CommentModel extends Observable{
 	//Drawables for thread/commentView
 	private String title;
+<<<<<<< HEAD
+=======
+	private String content;
+	private Address address;
+>>>>>>> origin/mapView
 	private String author;
 	private String content;
 	private Bitmap picture;
@@ -65,7 +68,6 @@ public abstract class CommentModel extends Observable{
 		try {
 			user = new StandardUserModel();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();		
 		}
 		this.title = null;
@@ -74,7 +76,7 @@ public abstract class CommentModel extends Observable{
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
-		// this.location = location;
+		this.address = null;
 		// this.picture = picture;
 	}
 	
@@ -97,7 +99,7 @@ public abstract class CommentModel extends Observable{
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
-		// this.location = location;
+		this.address = getAddress();
 		// this.picture = picture;
 	}
 
@@ -131,7 +133,7 @@ public abstract class CommentModel extends Observable{
 	 * @param location : is the location the comment was made from or said to be made from by the user
 	 * @param picture : is the picture that is attached to the comment
 	 */
-	public CommentModel(String content, android.location.Location location,
+	public CommentModel(String content, String title, Address address,
 			Bitmap picture) {
 		try {
 			user = new StandardUserModel();
@@ -142,7 +144,7 @@ public abstract class CommentModel extends Observable{
 		this.content = content;
 		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
-		this.location = location;
+		this.address = address;
 		this.timestamp = date;
 		this.picture = picture;
 		this.author = getAuthor();
@@ -190,12 +192,18 @@ public abstract class CommentModel extends Observable{
 		this.content = content;
 	}
 
-	public android.location.Location getLocation() {
-		return location;
+	/**
+	 * @return the latlng
+	 */
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setLocation(android.location.Location location) {
-		this.location = location;
+	/**
+	 * @param latlng the latlng to set
+	 */
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public long getTimestamp() {

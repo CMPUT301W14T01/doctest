@@ -17,5 +17,10 @@
     <string name="title_activity_thread_view">ThreadView</string>
     <string name="title_activity_favorites_view">FavoritesView</string>
     <string name="title_activity_edit_comment">EditComment</string>
-
+    <string name="str_btn_find">Find</string>
+    <string name="hnt_et_location">Enter location</string>
+    <string name="dialog_message">Are you sure you want this location?</string>
+	<string name="dialog_title">Location Confirmation</string>
+	<string name="yes">YES</string>
+	<string name="no">NO</string>
 </resources>

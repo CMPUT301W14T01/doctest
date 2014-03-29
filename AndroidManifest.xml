@@ -8,6 +8,7 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 
+<<<<<<< HEAD
     <permission
         android:name="ca.cs.ualberta.localpost.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -16,20 +17,25 @@
     <uses-permission android:name="ca.cs.ualberta.localpost.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+=======
+>>>>>>> origin/mapView
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <!--
-         The following two permissions are not required to use
-	     Google Maps Android API v2, but are recommended.
+    
+    <permission
+        android:name="ca.cs.ualberta.localpost.view.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+ 
+    <uses-permission android:name="ca.cs.ualberta.localpost.view.permission.MAPS_RECEIVE"/>
 
-
-
-
-
-    -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+	<!-- External storage for caching. -->
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<!-- My Location -->
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<!-- Maps API needs OpenGL ES 2.0. -->
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -41,20 +47,15 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-        <!--
+        <!-- In order for the key to keep working, you cannot change the location of the MapsView from the View
+        	package. If you do, then you must update the key as well to the new location -->
         <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
-    		android:value="AIzaSyDH6OUaNBVeLD_4mqKpS5s-WgoYeGbfmiY"/>
+    		android:value="AIzaSyAYQCb7Lf2AmWDPqBlEA1AnsEBGiTaXyyY"/>
         <meta-data
 			android:name="com.google.android.gms.version"
 			android:value="@integer/google_play_services_version" />
 
-
-
-
-
-
-        -->
         <activity
             android:name="ca.cs.ualberta.localpost.view.MainActivity"
             android:label="@string/app_name" >
@@ -77,13 +78,8 @@
             android:label="@string/GreatestTab" >
         </activity>
         <activity
-            android:name="ca.cs.ualberta.localpost.GoogleMaps"
+            android:name="ca.cs.ualberta.localpost.view.MapsView"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
         <activity
             android:name="ca.cs.ualberta.localpost.controller.CommentListAdapter"

@@ -29,17 +29,29 @@ import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.graphics.Bitmap;
+=======
+import android.location.Address;
+>>>>>>> origin/mapView
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+<<<<<<< HEAD
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
+=======
+import android.widget.ImageView;
+>>>>>>> origin/mapView
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 /**
  * This activity allows the user to enter and submit a new comment
@@ -61,6 +73,16 @@ public class SubmitComment extends Activity {
 	/** Carries the currently save picture waiting for submission */
 	private Bitmap currentPicture = null;
 	
+	/** Variable for the onClickListener that generates the map view **/
+	ImageView image;
+
+	private Address address;
+	
+	/**Gson writer */
+	private Gson gson = new Gson();
+	
+	LatLng latlng;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,10 +95,36 @@ public class SubmitComment extends Activity {
 		/**SetText for the button */
 		postButton = (Button) findViewById(R.id.postButton);
 		postButton.setText("Submit Comment");
+		
+		/**Set the listener on the Map image **/
+		image = (ImageView) findViewById(R.id.mapView);
+
+		image.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), MapsView.class);
+				startActivityForResult(intent, 1);
+			}
+
+		});
 	}
+	
+	@Override
+    public void onActivityResult(int requestCode,int resultCode,Intent data)
+    {
+		if (requestCode == 1){
+			if (resultCode == RESULT_OK){
+				String intentIndex = data.getStringExtra("address");
+				address = gson.fromJson(intentIndex, android.location.Address.class);
+			}
+			else
+				super.onActivityResult(requestCode, resultCode, data);
+		}
+    }
 
 	/**Adds a new root. Puts all the input data into a RootCommentModel
-	 * and writes to a .json file.
+	 * and writes to a json file.
 	 * @param view Takes in view from SubmitComment
 	 * @throws InvalidKeyException  Checks for invalid keys
 	 * @throws NoSuchAlgorithmException Checks if algorithm used is valid
@@ -93,12 +141,21 @@ public class SubmitComment extends Activity {
 		EditText contentView = (EditText) findViewById(R.id.textBody);
 		String content = contentView.getText().toString();
 
+<<<<<<< HEAD
 		RootCommentModel new_root = new RootCommentModel(content, title, currentPicture);
 		new_root.setAuthor(user.getUsername());
 		
 		//Send to Server.
 		ElasticSearchOperations es = new ElasticSearchOperations();
 		es.execute(1,new_root.getPostId(),new_root);
+=======
+		RootCommentModel new_root = new RootCommentModel(content, title);
+		new_root.setAuthor(user.getUsername());	
+		
+		new_root.setAddress(address);
+		
+		//Log.e("LatLng", String.valueOf(new_root.getLatlng()));
+>>>>>>> origin/mapView
 
 		//Serialize.SaveInFile(new_root, SubmitComment.this);
 		super.onBackPressed();

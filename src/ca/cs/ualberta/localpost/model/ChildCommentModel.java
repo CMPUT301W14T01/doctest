@@ -25,6 +25,7 @@
 package ca.cs.ualberta.localpost.model;
 
 import android.graphics.Bitmap;
+import android.location.Address;
 
 /**
  * This class is an extension of the Comment Model class.
@@ -70,8 +71,8 @@ public class ChildCommentModel extends CommentModel {
 	 * @param location : it's location
 	 * @param picture : the attached picture
 	 */
-	public ChildCommentModel(String content, android.location.Location location, Bitmap picture) {
-		super(content, location, picture);
+	public ChildCommentModel(String content, String title, Address address, Bitmap picture) {
+		super(content, title, address, picture);
 		//TODO specify parent
 	}
 }
