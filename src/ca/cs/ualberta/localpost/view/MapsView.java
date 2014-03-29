@@ -4,37 +4,45 @@
 package ca.cs.ualberta.localpost.view;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Intent;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import ca.cs.ualberta.localpost.model.CommentModel;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
-public class MapsView extends FragmentActivity implements OnMarkerClickListener {
+public class MapsView extends FragmentActivity implements OnCameraChangeListener, OnInfoWindowClickListener{
 	
-	/** Source: http://wptrafficanalyzer.in/blog/android-geocoding-showing-user-input-location-on-google-map-android-api-v2/**/
-	GoogleMap googleMap;
-	MarkerOptions markerOptions;
-	LatLng latLng;
-	CommentModel model;
-	private Marker mMarker;
+	/** Source: http://wptrafficanalyzer.in/blog/android-geocoding-showing-user-input-location-on-google-map-android-api-v2/
+	 * 	and Google Play Services demos
+	 * **/
+	
+	private GoogleMap googleMap;
+	private LatLng latLng;
 	private Address address;
 
 	@Override
@@ -42,16 +50,11 @@ public class MapsView extends FragmentActivity implements OnMarkerClickListener 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maps_view);
 		
-		SupportMapFragment supportMapFragment = (SupportMapFragment) 
-				getSupportFragmentManager().findFragmentById(R.id.mapView);
-
-		// Getting a reference to the map
-		googleMap = supportMapFragment.getMap();
-		googleMap.setMyLocationEnabled(true);
-		//googleMap.animateCamera(CameraUpdateFactory.newLatLng(
-		//		new LatLng(googleMap.getMyLocation().getLatitude(),googleMap.getMyLocation().getLongitude())));
+		// If map is not already setUp, then set it up
+		setUpMapIfNeeded();		
 		
-		googleMap.setOnMarkerClickListener(this);
+		// Initialize the marker
+		initMarker();
 		
 		// Getting reference to btn_find of the layout maps_view
         Button btn_find = (Button) findViewById(R.id.btn_find);
@@ -74,12 +77,82 @@ public class MapsView extends FragmentActivity implements OnMarkerClickListener 
 		
 		// Setting button click event listener for the find button
 		btn_find.setOnClickListener(findClickListener);		
-		
-		
+	}
+
+	/**
+	 * Initialize the marker when the map view is opened
+	 */
+	private void initMarker() {
+		LocationManager service = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = service.getBestProvider(criteria, false);
+        Location location = service.getLastKnownLocation(provider);
+        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        
+    	googleMap.clear();
+        
+        Marker googleMarker = googleMap.addMarker(new MarkerOptions()
+											.position(latLng)
+											.title("I'm here")
+											.draggable(true)
+											.visible(true));
+
+        googleMarker.showInfoWindow();
+                
+		// Pointing map view at my current location
+		googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
+	
+		// Get an address for current marker
+		List<Address> addresses = addresses(1);
+		address = (Address) addresses.get(0);
 	}
 	
 	
-	// An AsyncTask class for accessing the GeoCoding Web Service
+	/**
+	 * Method that gets the address of the marker the user clicked on
+	 * @param listener
+	 * @see com.google.android.gms.maps.GoogleMap#setOnMarkerClickListener(com.google.android.gms.maps.GoogleMap.OnMarkerClickListener)
+	 */
+	public final void setOnMarkerClickListener(OnMarkerClickListener listener) {
+		googleMap.clear();
+		googleMap.addMarker(new MarkerOptions()
+											.position(latLng)
+											.title("Clicking worked")
+											.draggable(true)
+											.visible(true)).showInfoWindow();
+		
+		// Get address from the marker that the user clicked
+		List<Address> addresses = addresses(1);
+		address = (Address) addresses.get(0);
+	}
+
+	/**
+	 * Function that creates a list of addresses based on search query location 
+	 * @return a list of i addresses
+	 */
+	private List<Address> addresses(int numberOfAddresses) {
+		Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+		List<Address> addresses = null;
+		try {
+			addresses = geocoder.getFromLocation(latLng.latitude,
+					latLng.longitude, numberOfAddresses);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return addresses;
+	}
+
+	/**
+	 * Method that returns the address of the marker after the user moved it
+	 * @param listener
+	 * @see com.google.android.gms.maps.GoogleMap#setOnMarkerDragListener(com.google.android.gms.maps.GoogleMap.OnMarkerDragListener)
+	 */
+	public final void setOnMarkerDragListener(OnMarkerDragListener listener) {
+		googleMap.setOnMarkerDragListener(listener);
+	}
+
+
+		// An AsyncTask class for accessing the GeoCoding Web Service
 		private class GeocoderTask extends AsyncTask<String, Void, List<Address>>{
 
 			@Override
@@ -108,8 +181,9 @@ public class MapsView extends FragmentActivity implements OnMarkerClickListener 
 		        // Clears all the existing markers on the map
 		        googleMap.clear();
 				
+		        int i;
 		        // Adding Markers on Google Map for each matching address
-				for(int i=0;i<addresses.size();i++){				
+				for(i = 0;i<addresses.size();i++){				
 					
 					address = (Address) addresses.get(i);
 					
@@ -120,32 +194,72 @@ public class MapsView extends FragmentActivity implements OnMarkerClickListener 
 	                        address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "",
 	                        address.getCountryName());
 			        
-			        markerOptions = new MarkerOptions();
-			        markerOptions.position(latLng);
-			        markerOptions.title(addressText);
-			        markerOptions.draggable(true);
-			        markerOptions.visible(true);
-
-			        mMarker = googleMap.addMarker(markerOptions);
-			        
-			        // Locate the first location
-			        if(i==0) {
-						googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-						googleMap.animateCamera(CameraUpdateFactory.zoomIn());
-			        }
-				}					
+			        googleMap.addMarker(new MarkerOptions().position(latLng)
+			        		.title(addressText).draggable(true).visible(true)).showInfoWindow();			        		        
+				}
+				
+				// If search return one location, zoom to it, else have just a view of the map
+		        if(i==1) {
+		        	// Zooms camera with animation to the highest possible zoom at the current map location
+					googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
+		        }
+		        else {
+		        	googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
+		        }
 			}		
 		}
+		
+		@Override
+	    protected void onResume() {
+	        super.onResume();
+	        setUpMapIfNeeded();
+	    }
+		
+		@Override
+	    public void onPause() {
+	        super.onPause();
+	    }
+		
+		private void setUpMapIfNeeded() {
+	        // Do a null check to confirm that we have not already instantiated the map.
+	        if (googleMap == null) {
+	            // Try to obtain the map from the SupportMapFragment.
+	            googleMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView))
+	                    .getMap();
+	            // Check if we were successful in obtaining the map.
+	            if (googleMap != null) {
+	                setUpMap();
+	            }
+	        }
+	    }
+		
+		 /**
+	     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
+	     * just add a marker near Africa.
+	     * <p>
+	     * This should only be called once and when we are sure that {@link #mMap} is not null.
+	     */
+	    private void setUpMap() {			
+
+	        // Setting the click event listener for the marker
+			googleMap.setMyLocationEnabled(true);
+			//googleMap.setOnCameraChangeListener(this);
+			googleMap.setOnInfoWindowClickListener(this);
+	    }
 
 		@Override
-		public boolean onMarkerClick(Marker marker) {
+		public void onCameraChange(CameraPosition position) {
+			googleMap.animateCamera(CameraUpdateFactory.zoomTo(googleMap.getMinZoomLevel()));			
+		}	
+		
+		@Override
+		public void onInfoWindowClick(Marker marker) {
 			Intent returnIntent = new Intent();
 			Gson gson = new Gson();
 			String string = gson.toJson(address);
 			returnIntent.putExtra("address", string);
 			setResult(RESULT_OK, returnIntent);
-			//Log.e("Coordinates", string);
-			finish();
-			return true;
+			Log.e("Coordinates", string);
+			finish();				
 		}
 }

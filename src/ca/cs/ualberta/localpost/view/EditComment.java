@@ -29,13 +29,17 @@ import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 /**This Activity allows users to edit a previously posted comments
@@ -54,6 +58,12 @@ public class EditComment extends Activity {
 	
 	/**Gson writer */
 	private Gson gson = new Gson();
+	
+	/** Variable for the onClickListener that generates the map view **/
+	ImageView image;
+	
+	private Address address;
+	LatLng latlng;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +87,33 @@ public class EditComment extends Activity {
 		
 		contentView = (EditText) findViewById(R.id.textBody);
 		contentView.setText(intentObj.getContent());
+		
+		/**Set the listener on the Map image **/
+		image = (ImageView) findViewById(R.id.mapView);
+
+		image.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), MapsView.class);
+				startActivityForResult(intent, 1);
+			}
+
+		});
 	}
+	
+	@Override
+    public void onActivityResult(int requestCode,int resultCode,Intent data)
+    {
+		if (requestCode == 1){
+			if (resultCode == RESULT_OK){
+				String intentIndex = data.getStringExtra("address");
+				address = gson.fromJson(intentIndex, android.location.Address.class);
+			}
+			else
+				super.onActivityResult(requestCode, resultCode, data);
+		}
+    }
 	
 	/**Edits a previous root comment. Puts all the input data into a RootCommentModel
 	 * and writes to a .json file.
@@ -92,6 +128,7 @@ public class EditComment extends Activity {
 		
 		intentObj.setTitle(title);
 		intentObj.setContent(content);
+		intentObj.setAddress(address);
 		
 		onBackPressed();
 	}

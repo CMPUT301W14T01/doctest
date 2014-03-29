@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import junit.framework.TestCase;
 import android.graphics.Bitmap;
-import android.location.Location;
+import android.location.Address;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 /**
@@ -65,8 +65,9 @@ TestCase {
 	 */
 	public final void testRootCommentModelStringLocationBitmap() {
 		String comment_content = "This is a ContentTest3";
+		String comment_title = "This is a TitleTest3";
 		Bitmap picture = HelperFunctions.generateBitmap(50,50);
-		Location location = null;
+		Address location = null;
 		//Double latitude = 45.05024;
 		//Double Longitude = 50.976563; 
 
@@ -88,7 +89,7 @@ TestCase {
 		//Location location = locationManager.getLastKnownLocation(provider);
 
 
-		model = new RootCommentModel(comment_content, location, picture);
+		model = new RootCommentModel(comment_content, comment_title, location, picture);
 
 		assertEquals(comment_content, model.getContent());
 		// Once location is implemented, we can get and return and actual location
