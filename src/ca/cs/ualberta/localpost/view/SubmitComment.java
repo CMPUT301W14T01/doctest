@@ -70,7 +70,7 @@ public class SubmitComment extends Activity {
 	/** Variable for the onClickListener that generates the map view **/
 	ImageView image;
 
-	private Address address;
+	private Address address = null;
 	
 	/**Gson writer */
 	private Gson gson = new Gson();

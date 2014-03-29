@@ -48,8 +48,6 @@ public abstract class CommentModel extends Observable{
 
 	//Internal data for controllers
 	private ArrayList<CommentModel> children = new ArrayList<CommentModel>();
-	//--------
-	private android.location.Location location;
 	private java.util.UUID postId = UUID.randomUUID();
 	private int radish;
 	long date = new Date().getTime();
@@ -96,7 +94,7 @@ public abstract class CommentModel extends Observable{
 		this.timestamp = date;
 		this.author = getAuthor();
 		this.address = getAddress();
-		// this.picture = picture;
+		//this.picture = null;
 	}
 
 	/**
@@ -120,6 +118,7 @@ public abstract class CommentModel extends Observable{
 		this.timestamp = date;
 		this.picture = picture;
 		this.author = getAuthor();
+		this.address = getAddress();
 	}
 	
 	/**

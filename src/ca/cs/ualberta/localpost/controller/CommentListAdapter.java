@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,10 +89,15 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 		SimpleDateFormat format = new SimpleDateFormat("c HH:mm MMM/dd/yyyy");
 		
 		holder.title.setText(model.getTitle());
-		holder.username.setText("Posted by " + model.getAuthor());
+		holder.username.setText(model.getAuthor());
 		holder.radish.setText(Integer.toString(model.getRadish()));
 		holder.picture.setImageBitmap(model.getPicture());
-		holder.location.setText("@ " + model.getAddress().getAddressLine(0));
+		if (model.getAddress() == null){
+			holder.location.setText("@ No location");
+		}
+		else
+			holder.location.setText("@ " + model.getAddress().getAddressLine(0));
+		Log.e("Address","An");
 		holder.timestamp.setText(format.format(new Date(model.getTimestamp())));		
 		return convertView;
 	}

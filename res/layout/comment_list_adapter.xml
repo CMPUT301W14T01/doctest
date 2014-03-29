@@ -54,8 +54,9 @@
 	    android:id="@+id/CommentPicture"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
+	    android:layout_alignBottom="@+id/CommentTurnip"
 	    android:layout_alignParentRight="true"
-	    android:layout_alignParentTop="true" />
+	    android:layout_marginRight="22dp" />
 
  />
 </RelativeLayout>
