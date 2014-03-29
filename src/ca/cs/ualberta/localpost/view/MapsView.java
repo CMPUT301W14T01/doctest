@@ -38,7 +38,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
-public class MapsView extends FragmentActivity implements OnCameraChangeListener, OnInfoWindowClickListener{
+public class MapsView extends FragmentActivity implements OnCameraChangeListener, OnInfoWindowClickListener, OnMarkerDragListener{
 	
 	/** Source: http://wptrafficanalyzer.in/blog/android-geocoding-showing-user-input-location-on-google-map-android-api-v2/
 	 * 	and Google Play Services demos
@@ -63,31 +63,12 @@ public class MapsView extends FragmentActivity implements OnCameraChangeListener
         Button btn_find = (Button) findViewById(R.id.btn_find);
         
         // Defining button click event listener for the find button
-        OnClickListener findClickListener = new OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				// Getting reference to EditText to get the user input location
-				EditText etLocation = (EditText) findViewById(R.id.et_location);
-				
-				// Getting user input location
-				String location = etLocation.getText().toString();
-				
-				if(location!=null && !location.equals("")){
-					new GeocoderTask().execute(location);
-				}
-				
-				// Minimize the keyboard after the 'Find' button is pressed
-				// Source: http://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
-				InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE); 
-
-				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                           InputMethodManager.HIDE_NOT_ALWAYS);
-			}
-		};
+        OnClickListener findClickListener = new FindButton();
 		
 		// Setting button click event listener for the find button
 		btn_find.setOnClickListener(findClickListener);		
+
+		googleMap.setOnMarkerDragListener(this);
 	}
 
 	/**
@@ -152,15 +133,38 @@ public class MapsView extends FragmentActivity implements OnCameraChangeListener
 		return addresses;
 	}
 
-	/**
+/*	*//**
 	 * Method that returns the address of the marker after the user moved it
 	 * @param listener
 	 * @see com.google.android.gms.maps.GoogleMap#setOnMarkerDragListener(com.google.android.gms.maps.GoogleMap.OnMarkerDragListener)
-	 */
+	 *//*
 	public final void setOnMarkerDragListener(OnMarkerDragListener listener) {
 		googleMap.setOnMarkerDragListener(listener);
 	}
+*/
 
+	private final class FindButton implements OnClickListener {
+		@Override
+		public void onClick(View v) {
+			// Getting reference to EditText to get the user input location
+			EditText etLocation = (EditText) findViewById(R.id.et_location);
+			
+			// Getting user input location
+			String location = etLocation.getText().toString();
+			
+			if(location!=null && !location.equals("")){
+				new GeocoderTask().execute(location);
+			}
+			
+			// Minimize the keyboard after the 'Find' button is pressed
+			// Source: http://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
+			InputMethodManager inputManager = (InputMethodManager)
+		            getSystemService(Context.INPUT_METHOD_SERVICE); 
+
+			inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+		               InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+	}
 
 		// An AsyncTask class for accessing the GeoCoding Web Service
 		private class GeocoderTask extends AsyncTask<String, Void, List<Address>>{
@@ -310,5 +314,54 @@ public class MapsView extends FragmentActivity implements OnCameraChangeListener
 		    criteria.setPowerRequirement(Criteria.POWER_LOW);
 		    criteria.setCostAllowed(false);
 		return locationManager.getBestProvider(criteria, true);
+		}
+
+		/**
+		 * Called repeatedly while marker is being dragged
+		 */
+		@Override
+		public void onMarkerDrag(Marker arg0) {
+			// Do no thing
+			
+		}
+
+		/**
+		 * Called when a marker has finished being dragged
+		 */
+		@Override
+		public void onMarkerDragEnd(Marker marker) {
+			latLng = marker.getPosition();
+	        
+	    	googleMap.clear();
+	        
+	        marker = googleMap.addMarker(new MarkerOptions()
+												.position(latLng)
+												.title("I'm here now" + "\nClick me")
+												.draggable(true)
+												.visible(true));
+
+	        marker.showInfoWindow();
+	                
+			// Pointing map view at my current location
+			googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
+		
+			// Get an address for current marker
+			List<Address> addresses = addresses(1);
+			address = (Address) addresses.get(0);
+			
+		}
+
+		/**
+		 * Called when a marker starts being dragged
+		 */
+		@Override
+		public void onMarkerDragStart(Marker arg0) {
+			// Minimize the keyboard after the 'Find' button is pressed
+			// Source: http://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
+			InputMethodManager inputManager = (InputMethodManager)
+					getSystemService(Context.INPUT_METHOD_SERVICE); 
+
+			inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+					InputMethodManager.HIDE_NOT_ALWAYS);
 		}
 }
