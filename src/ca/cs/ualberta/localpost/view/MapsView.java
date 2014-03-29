@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
@@ -15,9 +18,9 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -72,6 +75,14 @@ public class MapsView extends FragmentActivity implements OnCameraChangeListener
 				if(location!=null && !location.equals("")){
 					new GeocoderTask().execute(location);
 				}
+				
+				// Minimize the keyboard after the 'Find' button is pressed
+				// Source: http://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
+				InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE); 
+
+				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                           InputMethodManager.HIDE_NOT_ALWAYS);
 			}
 		};
 		
@@ -84,8 +95,7 @@ public class MapsView extends FragmentActivity implements OnCameraChangeListener
 	 */
 	private void initMarker() {
 		LocationManager service = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String provider = service.getBestProvider(criteria, false);
+        String provider = getBestProvider(service);
         Location location = service.getLastKnownLocation(provider);
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
         
@@ -247,6 +257,9 @@ public class MapsView extends FragmentActivity implements OnCameraChangeListener
 			googleMap.setOnInfoWindowClickListener(this);
 	    }
 
+	    /**
+	     * Not yet implemented as the use for it has not been decided upon
+	     */
 		@Override
 		public void onCameraChange(CameraPosition position) {
 			googleMap.animateCamera(CameraUpdateFactory.zoomTo(googleMap.getMinZoomLevel()));			
@@ -259,7 +272,43 @@ public class MapsView extends FragmentActivity implements OnCameraChangeListener
 			String string = gson.toJson(address);
 			returnIntent.putExtra("address", string);
 			setResult(RESULT_OK, returnIntent);
-			Log.e("Coordinates", string);
-			finish();				
+			//Log.e("Coordinates", string);
+			alertDialog();			
+		}
+		
+		/**
+		 * Dialog box to determine whether the user is sure about the selection
+		 */
+		private void alertDialog() {
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+			builder.setMessage(R.string.dialog_message)
+			       .setTitle(R.string.dialog_title)
+			       .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		               finish();
+		           }})
+		           .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   // Close dialog
+		        	   dialog.cancel();
+		           }});
+			
+			AlertDialog dialog = builder.create();
+			dialog.show();
+		}
+		/**
+		 * Method that finds a good supplier
+		 * Source: http://proquest.safaribooksonline.com.login.ezproxy.library.ualberta.ca/book/programming/android/9780132776622/9dot-determining-locations-and-using-maps/ch09?query=((android+google+maps))&reader=html&imagepage=#X2ludGVybmFsX0h0bWxWaWV3P3htbGlkPTk3ODAxMzI3NzY2MjIlMkZjaDA5bGV2MXNlYzEmcXVlcnk9KChhbmRyb2lkJTIwZ29vZ2xlJTIwbWFwcykp
+		 * @param locationManager
+		 * @return the location manager with the best supplier
+		 */
+		private String getBestProvider(LocationManager locationManager){
+		    Criteria criteria = new Criteria();
+		    criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+		    criteria.setPowerRequirement(Criteria.POWER_LOW);
+		    criteria.setCostAllowed(false);
+		return locationManager.getBestProvider(criteria, true);
 		}
 }
