@@ -33,14 +33,14 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import android.widget.ImageView;
-import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
@@ -53,9 +53,9 @@ import com.google.gson.Gson;
  *
  */
 public class SubmitComment extends Activity {
-	/**Grabs the username from an intent */
-	private String intentUsername;
-	private String intentAddress;
+//	/**Grabs the username from an intent */
+//	private String intentUsername;
+//	private String intentAddress;
 	
 	/**Creates a new StandardUserModel object */
 	private StandardUserModel user;
@@ -84,12 +84,12 @@ public class SubmitComment extends Activity {
 		setContentView(R.layout.submit_comment);
 
 		/**Grabs uername from MainActivity via intent */
-		Bundle extras = getIntent().getExtras();
-		intentUsername = extras.getString("username");
-		intentAddress = extras.getString("location");
-		
-		address = gson.fromJson(intentAddress, android.location.Address.class);
-		
+//		Bundle extras = getIntent().getExtras();
+//		intentUsername = extras.getString("username");
+//		intentAddress = extras.getString("location");
+//		
+//		address = gson.fromJson(intentAddress, android.location.Address.class);
+//		
 		/**SetText for the button */
 		postButton = (Button) findViewById(R.id.postButton);
 		postButton.setText("Submit Comment");
@@ -118,7 +118,8 @@ public class SubmitComment extends Activity {
 	public void add_root(View view) throws InvalidKeyException,
 			NoSuchAlgorithmException, UnsupportedEncodingException {
 		user = StandardUserModel.getInstance();
-		user.setUsername(intentUsername);
+		/*user.setUsername(intentUsername);
+		user.setAddress(address);*/
 
 		EditText titleView = (EditText) findViewById(R.id.commentTitle);
 		String title = titleView.getText().toString();
@@ -128,7 +129,9 @@ public class SubmitComment extends Activity {
 
 		RootCommentModel new_root = new RootCommentModel(content, title, currentPicture);
 		new_root.setAuthor(user.getUsername());
-		new_root.setAddress(address);
+		Log.e("Address", String.valueOf(address));
+		//if (!(address.equals(null)))
+			new_root.setAddress(address);
 
 		
 		//Send to Server.
