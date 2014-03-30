@@ -60,7 +60,7 @@ public abstract class CommentModel extends Observable{
 	public CommentModel() {
 		super();
 		try {
-			user = new StandardUserModel();
+			user = StandardUserModel.getInstance();
 		} catch (Exception e) {
 			e.printStackTrace();		
 		}
@@ -70,7 +70,7 @@ public abstract class CommentModel extends Observable{
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
-		this.address = user.getAddress();
+		this.address = getAddress();
 		// this.picture = picture;
 	}
 	
@@ -82,7 +82,7 @@ public abstract class CommentModel extends Observable{
 	 */
 	public CommentModel(String content, String title) {
 		try {
-			user = new StandardUserModel();
+			user = StandardUserModel.getInstance();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();		
@@ -93,7 +93,7 @@ public abstract class CommentModel extends Observable{
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
-		this.address = user.getAddress();
+		this.address = getAddress();
 		//this.picture = null;
 	}
 
@@ -106,7 +106,7 @@ public abstract class CommentModel extends Observable{
 	public CommentModel(String content, String title,
 			Bitmap picture) {
 		try {
-			user = new StandardUserModel();
+			user = StandardUserModel.getInstance();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();		
@@ -118,7 +118,7 @@ public abstract class CommentModel extends Observable{
 		this.timestamp = date;
 		this.picture = picture;
 		this.author = getAuthor();
-		this.address = user.getAddress();
+		this.address = getAddress();
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public abstract class CommentModel extends Observable{
 	public CommentModel(String content, String title, Address address,
 			Bitmap picture) {
 		try {
-			user = new StandardUserModel();
+			user = StandardUserModel.getInstance();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();		

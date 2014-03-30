@@ -158,11 +158,11 @@ public class MainActivity extends FragmentActivity implements
 				e.printStackTrace();
 			}
 			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
-			myIntent.putExtra("username", standardUser.getUsername());
-			Gson gson = new Gson();
-			// Serialize address object into string to send over to the activity
-			String address = gson.toJson(standardUser.getAddress());
-			myIntent.putExtra("location", address);
+//			myIntent.putExtra("username", standardUser.getUsername());
+//			Gson gson = new Gson();
+//			// Serialize address object into string to send over to the activity
+//			String address = gson.toJson(standardUser.getAddress());
+//			myIntent.putExtra("location", address);
 			startActivity(myIntent);
 			return true;
 		case R.id.viewUserProfile:
