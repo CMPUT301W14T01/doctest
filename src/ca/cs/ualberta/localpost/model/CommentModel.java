@@ -50,6 +50,7 @@ public abstract class CommentModel extends Observable{
 	private ArrayList<CommentModel> children = new ArrayList<CommentModel>();
 	private java.util.UUID postId = UUID.randomUUID();
 	private int radish;
+	private int freshness;
 	long date = new Date().getTime();
 	StandardUserModel user;
 	
@@ -212,6 +213,13 @@ public abstract class CommentModel extends Observable{
 
 	public int getRadish() {
 		return radish;
+	}
+	
+	public int getFreshness() {
+		return freshness;
+	}
+	public int setFreshness(int fresh) {
+		return this.freshness = fresh;
 	}
 	/**
 	 * Increment the radish count aka ratings

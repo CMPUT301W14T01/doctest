@@ -24,29 +24,26 @@
 package ca.cs.ualberta.localpost.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
+import android.provider.DocumentsContract.Root;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
-public class BrowseGreatestComments implements BrowseTopLevelComments {
-	ArrayList<RootCommentModel> rootComments;
-
-	@Override
-	public void getRootComments() {
-		// TODO Auto-generated method stub
-		//this.rootComments = RootCommentModelList.getList();
-	}
-
+public class SortGreatestComments implements SortComments {
+	
 	@Override
 	public ArrayList<RootCommentModel> sortRootComments(ArrayList<RootCommentModel> comments) {
-		// TODO SortBygreatness
+		Collections.sort(comments, new Comparator<RootCommentModel>() {
+	        @Override
+	        public int compare(RootCommentModel  comment1, RootCommentModel  comment2)
+	        {
+
+	            return  Integer.compare(comment1.getRadish(), comment2.getRadish());
+	        }
+	    });
 		return comments;
 	}
 
-	@Override
-	public ArrayList<RootCommentModel> passSortedRootComments() {
-		getRootComments();
-		sortRootComments(rootComments);
-		return rootComments;
-	}
-
+	
 }

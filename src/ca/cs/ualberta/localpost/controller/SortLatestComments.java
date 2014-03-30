@@ -26,28 +26,26 @@ package ca.cs.ualberta.localpost.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
+import java.util.Date;
+import android.annotation.SuppressLint;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
-public class BrowseLatestComments implements BrowseTopLevelComments {
-	ArrayList<RootCommentModel> rootComments;
-
-	@Override
-	public void getRootComments() {
-		// TODO Auto-generated method stub
-		//this.rootComments = RootCommentModelList.getList();
-	}
-
+public class SortLatestComments implements SortComments {
+	
 	@Override
 	public ArrayList<RootCommentModel> sortRootComments(ArrayList<RootCommentModel> comments) {
+		Collections.sort(comments, new Comparator<RootCommentModel>() {
+	        @SuppressLint("NewApi")
+			@Override
+	        public int compare(RootCommentModel  comment1, RootCommentModel  comment2)
+	        {
+
+	            return  Long.compare(comment1.getTimestamp(), comment2.getTimestamp());
+	        }
+	    });
 		return comments;
 	}
 
-	@Override
-	public ArrayList<RootCommentModel> passSortedRootComments() {
-		getRootComments();
-		sortRootComments(rootComments);
-		return rootComments;
-	}
 
+	
 }

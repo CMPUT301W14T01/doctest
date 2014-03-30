@@ -31,11 +31,9 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
  * @author team01
  *
  */
-public interface BrowseTopLevelComments {
+public interface SortComments {
 	
-	public void getRootComments();
 	public ArrayList<RootCommentModel> sortRootComments(ArrayList<RootCommentModel> comments);
-	public ArrayList<RootCommentModel> passSortedRootComments();
 	
 
 }
