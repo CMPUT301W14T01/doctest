@@ -147,7 +147,7 @@ public class MainActivity extends FragmentActivity implements
 		switch (item.getItemId()) {
 		case R.id.addNewComment:
 			try {
-				standardUser = new StandardUserModel();
+				standardUser = StandardUserModel.getInstance();
 				SharedPreferences app_preferences = getApplicationContext().getSharedPreferences("PREF", MODE_PRIVATE);
 				String getUsername = app_preferences.getString("username", "anonymous");
 				standardUser.setUsername(getUsername);

@@ -8,9 +8,18 @@ import android.content.Intent;
 import android.os.IBinder;
 
 public class StandardUserModel extends UserModel {
+	 private static StandardUserModel instance = null;
+	 
+	 protected StandardUserModel() throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+	      // Exists only to defeat instantiation.
+		 super();
+	   }
+	 public static StandardUserModel getInstance() throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+	      if(instance == null) {
+	         instance = new StandardUserModel();
+	      }
+	      return instance;
+	   }
 
-	public StandardUserModel() throws InvalidKeyException,
-			NoSuchAlgorithmException, UnsupportedEncodingException {
-		super();
-	}
 }
+

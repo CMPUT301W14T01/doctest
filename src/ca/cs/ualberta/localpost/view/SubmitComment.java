@@ -117,7 +117,7 @@ public class SubmitComment extends Activity {
 	 */
 	public void add_root(View view) throws InvalidKeyException,
 			NoSuchAlgorithmException, UnsupportedEncodingException {
-		user = new StandardUserModel();
+		user = StandardUserModel.getInstance();
 		user.setUsername(intentUsername);
 
 		EditText titleView = (EditText) findViewById(R.id.commentTitle);

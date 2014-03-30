@@ -36,6 +36,7 @@ import android.util.Log;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 import ca.cs.ualberta.localpost.view.MainActivity;
 
 import com.google.gson.Gson;
@@ -47,29 +48,49 @@ import com.google.gson.Gson;
  */
 public class Serialize {
 	private static Gson gson = new Gson();
-
+	//public static final String rootcomment = "rootcomment.json";
+	//public static final String childcomment = "childcomment.json";
+	
+	public static final String favoritecomment = "favoritecomment.json";
+	public static final String cachedrootcomment = "cachedrootcomment.json";
+	public static final String cachedchildcomment = "cachedchildcomment.json";
+	public static final String historycomment = "historycomment.json";
+	public static final String userprofile = "userprofile.json";
+	private static String filename = null;
+	
 	/**
 	 * This function takes comment model, serializes it and saves it
 	 * to a local file using GSON.
 	 * @param new_root comment model that will be saved in file
 	 * @param context // TODO
 	 */
-	public static void SaveInFile(CommentModel new_root, Context context) {
-		String filename = null;
+	public static void SaveComment(CommentModel new_root, Context context) {
+		
 		if(new_root instanceof RootCommentModel){
-			filename = "rootcomment.json";
+			filename = cachedrootcomment;
 		}
 		else if(new_root instanceof ChildCommentModel){
-			filename = "childcomment.json";
+			filename = cachedchildcomment;
 		}
 		if(context.getClass().equals(MainActivity.class)){
-			filename = "favoritecomment.json";
+			filename = favoritecomment;
 		}
 				
 		String modelJson = gson.toJson(new_root);
+		write(modelJson, context);
+	}
+	
+	public static void SaveUser(StandardUserModel user, Context context) {
+		
+		filename = userprofile;
+		String modelJson = gson.toJson(user);
+		write(modelJson, context);
+	}
+	
+	public static void write(String modelJson, Context context){
 		try {
 			OutputStream outputStream = context.getApplicationContext()
-					.openFileOutput(filename, Context.MODE_APPEND);
+					.openFileOutput(filename, Context.MODE_PRIVATE);
 			OutputStreamWriter fileWriter = new OutputStreamWriter(outputStream);
 			fileWriter.write(modelJson + "\r\n");
 			fileWriter.close();
@@ -77,6 +98,8 @@ public class Serialize {
 			e.printStackTrace();
 		}
 	}
+	
+
 
 	/**
 	 * Load GSON objects from a file, deserialize them and pass them to an ArrayList as 
@@ -95,14 +118,17 @@ public class Serialize {
 
 			String input;
 			while ((input = buffer.readLine()) != null) {
-				if(filename.equals("rootcomment.json") || filename.equals("favoritecomment.json")){
+				if(filename.equals(cachedrootcomment) || filename.equals(favoritecomment)){
 					RootCommentModel obj = gson.fromJson(input,RootCommentModel.class);
 					model.add(obj);
 				}
-				else if(filename.equals("childcomment.json")){
+				else if(filename.equals(cachedchildcomment)){
 					Log.e("Child", input);
 					ChildCommentModel obj2 = gson.fromJson(input,ChildCommentModel.class);
 					Log.e("ObjChild", obj2.getTitle());
+				}
+				else if(filename.equals(userprofile)){
+					StandardUserModel obj2 = gson.fromJson(input,StandardUserModel.class);
 				}
 			}
 			return model;
@@ -110,5 +136,24 @@ public class Serialize {
 			e.printStackTrace();
 		}
 		return model;
+	}
+	public static StandardUserModel loaduser(Context context) {
+		StandardUserModel user = null;
+		filename = userprofile;
+		FileInputStream FileOpen;
+		try {
+			FileOpen = context.getApplicationContext().openFileInput(filename);
+			InputStreamReader FileReader = new InputStreamReader(FileOpen);
+			BufferedReader buffer = new BufferedReader(FileReader);
+
+			String input;
+			while ((input = buffer.readLine()) != null) {
+					user = gson.fromJson(input,StandardUserModel.class);	
+			}
+			return user;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 }

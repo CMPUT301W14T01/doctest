@@ -165,7 +165,7 @@ public class UserProfile extends Activity implements OnClickListener {
 				boolean deleted = file.delete();
 				
 				for(RootCommentModel m: model){
-					Serialize.SaveInFile(m, UserProfile.this);
+					Serialize.SaveComment(m, UserProfile.this);
 				}
 			}
 		}
