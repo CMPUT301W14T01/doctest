@@ -70,7 +70,7 @@ public abstract class CommentModel extends Observable{
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
-		this.address = null;
+		this.address = user.getAddress();
 		// this.picture = picture;
 	}
 	
@@ -93,7 +93,7 @@ public abstract class CommentModel extends Observable{
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
-		this.address = getAddress();
+		this.address = user.getAddress();
 		//this.picture = null;
 	}
 
@@ -118,7 +118,7 @@ public abstract class CommentModel extends Observable{
 		this.timestamp = date;
 		this.picture = picture;
 		this.author = getAuthor();
-		this.address = getAddress();
+		this.address = user.getAddress();
 	}
 	
 	/**
@@ -191,6 +191,7 @@ public abstract class CommentModel extends Observable{
 	 * @return the latlng
 	 */
 	public Address getAddress() {
+		this.address = user.getAddress();
 		return address;
 	}
 

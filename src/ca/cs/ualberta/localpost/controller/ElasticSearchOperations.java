@@ -60,7 +60,7 @@ import android.util.Log;
 public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayList<CommentModel>> {
 
 	private static Gson gson;
-	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/zerihoun/";
+	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/timoti/";
 	private HttpClient httpclient = new DefaultHttpClient();
 
 	public ElasticSearchOperations() {

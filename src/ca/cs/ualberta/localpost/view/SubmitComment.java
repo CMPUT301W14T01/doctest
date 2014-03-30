@@ -55,6 +55,7 @@ import com.google.gson.Gson;
 public class SubmitComment extends Activity {
 	/**Grabs the username from an intent */
 	private String intentUsername;
+	private String intentAddress;
 	
 	/**Creates a new StandardUserModel object */
 	private StandardUserModel user;
@@ -70,7 +71,7 @@ public class SubmitComment extends Activity {
 	/** Variable for the onClickListener that generates the map view **/
 	ImageView image;
 
-	private Address address = null;
+	private Address address;
 	
 	/**Gson writer */
 	private Gson gson = new Gson();
@@ -85,6 +86,9 @@ public class SubmitComment extends Activity {
 		/**Grabs uername from MainActivity via intent */
 		Bundle extras = getIntent().getExtras();
 		intentUsername = extras.getString("username");
+		intentAddress = extras.getString("location");
+		
+		address = gson.fromJson(intentAddress, android.location.Address.class);
 		
 		/**SetText for the button */
 		postButton = (Button) findViewById(R.id.postButton);

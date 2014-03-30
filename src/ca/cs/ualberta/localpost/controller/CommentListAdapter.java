@@ -26,8 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -38,10 +36,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ca.cs.ualberta.localpost.model.CommentModel;
-import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.view.R;
-import ca.cs.ualberta.localpost.view.R.id;
-import ca.cs.ualberta.localpost.view.R.layout;
 
 /**
  * Custom ListView adapter that allows us to change the

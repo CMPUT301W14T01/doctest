@@ -25,25 +25,23 @@ package ca.cs.ualberta.localpost.view;
 
 import java.util.Observable;
 import java.util.Observer;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
+import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import ca.cs.ualberta.localpost.controller.TabsPagerAdapter;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
+
+import com.google.gson.Gson;
 
 /**
  * Main code was provided from Android Hive. Code was changed to fix
@@ -107,13 +105,15 @@ public class MainActivity extends FragmentActivity implements
 			}
 		});
 
-		/**Location methods */
+/*		*//**Location methods *//*
 		LocationManager locationManager = (LocationManager) MainActivity.this
 				.getSystemService(Context.LOCATION_SERVICE);
 
 		Criteria criteria = new Criteria();
 		String provider = locationManager.getBestProvider(criteria, false);
-		Location location = locationManager.getLastKnownLocation(provider);
+		Location location = locationManager.getLastKnownLocation(provider);*/
+		
+		
 
 	}
 
@@ -151,11 +151,18 @@ public class MainActivity extends FragmentActivity implements
 				SharedPreferences app_preferences = getApplicationContext().getSharedPreferences("PREF", MODE_PRIVATE);
 				String getUsername = app_preferences.getString("username", "anonymous");
 				standardUser.setUsername(getUsername);
+				GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
+				Address address = gpsLocation.getAddress();
+				standardUser.setAddress(address);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
-			myIntent.putExtra("username",standardUser.getUsername());
+			myIntent.putExtra("username", standardUser.getUsername());
+			Gson gson = new Gson();
+			// Serialize address object into string to send over to the activity
+			String address = gson.toJson(standardUser.getAddress());
+			myIntent.putExtra("location", address);
 			startActivity(myIntent);
 			return true;
 		case R.id.viewUserProfile:
