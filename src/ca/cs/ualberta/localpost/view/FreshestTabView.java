@@ -70,6 +70,9 @@ public class FreshestTabView extends Fragment {
 		//task.execute(4,null,null);
 		try {
 			model = task.execute(3,null,null).get();
+			for (CommentModel c : model) {
+			Serialize.SaveComment(c, getActivity());
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -133,7 +136,7 @@ public class FreshestTabView extends Fragment {
 			//TODO Check if that comment already exists favorites.json
 			int index = (int) info.id;
 			Toast.makeText(getActivity(), "Comment has been Favorited",Toast.LENGTH_SHORT).show();
-			Serialize.SaveInFile(model.get(index), getActivity());
+			Serialize.SaveComment(model.get(index), getActivity());
 			return true;
 		}
 		return super.onContextItemSelected(item);
