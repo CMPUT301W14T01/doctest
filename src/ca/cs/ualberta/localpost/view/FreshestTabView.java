@@ -24,9 +24,7 @@
 package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -44,10 +42,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
-import ca.cs.ualberta.localpost.controller.BrowseFreshestComments;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.CommentModel;
-import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 /**
  * This View will show all the comments that are

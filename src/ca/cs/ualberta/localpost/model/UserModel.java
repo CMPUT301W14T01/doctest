@@ -24,13 +24,13 @@
 package ca.cs.ualberta.localpost.model;
 
 import java.io.UnsupportedEncodingException;
-
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import android.location.Address;
 import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
 
 /**
@@ -43,6 +43,7 @@ import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
 public abstract class UserModel {
 
 	protected String username;
+	protected Address address;
 	protected String tripcode;
 
 	/** Constructors
@@ -55,6 +56,7 @@ public abstract class UserModel {
 			UnsupportedEncodingException {
 		super();
 		this.username = "anonymous";
+		this.address = getAddress();
 		//this.tripcode = genTripcode();
 	}
 
@@ -62,6 +64,21 @@ public abstract class UserModel {
 	public String getUsername() {
 		return this.username;
 
+	}
+	
+	/**
+	 * @return the address
+	 */
+	public Address getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address the address to set
+	 * @return 
+	 */
+	public Address setAddress(Address address) {
+		return this.address = address;
 	}
 
 	public void setUsername(String username) throws InvalidKeyException,
