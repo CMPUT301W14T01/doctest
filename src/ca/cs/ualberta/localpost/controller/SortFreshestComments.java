@@ -24,37 +24,34 @@
 package ca.cs.ualberta.localpost.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
-public class BrowseFreshestComments implements BrowseTopLevelComments {
-	ArrayList<RootCommentModel> rootComments;
-
-		/**
-		 * gets all the root comments from the rootcommentmodellits
-		 */
-	@Override
-	public void getRootComments() {
-		// TODO Auto-generated method stub
-		//this.rootComments = RootCommentModelList.getList();
-	}
+public class SortFreshestComments implements SortComments {
 
 		/**
 		 * sorts the comments by the attribute specified by the tab
 		 */
 	@Override
 	public ArrayList<RootCommentModel> sortRootComments(ArrayList<RootCommentModel> comments) {
-		// TODO SortByFreshness
+		
+		Collections.sort(comments, new Comparator<RootCommentModel>() {
+			@Override
+			public int compare(RootCommentModel comment1, RootCommentModel comment2)
+			{
+				FreshnessAlgorithm alg1 = new FreshnessAlgorithm(comment1.getRadish(), comment1.getTimestamp(), comment1.getAddress(), userLocation);
+				FreshnessAlgorithm alg2 = new FreshnessAlgorithm(comment2.getRadish(), comment2.getTimestamp(), comment2.getAddress(), userLocation);
+				comment1.setFreshness(alg1.getFreshness());
+				comment2.setFreshness(alg2.getFreshness());
+				return Integer.compare(comment1.getFreshness(), comment2.getFreshness());
+			}
+		});
+		
 		return comments;
 	}
 
-		/**
-		 * passes the sorted comments to the view
-		 */
-	@Override
-	public ArrayList<RootCommentModel> passSortedRootComments() {
-		getRootComments();
-		sortRootComments(rootComments);
-		return rootComments;
-	}
+
 
 }

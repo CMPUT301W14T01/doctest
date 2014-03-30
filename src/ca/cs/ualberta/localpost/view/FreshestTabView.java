@@ -44,7 +44,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
-import ca.cs.ualberta.localpost.controller.BrowseFreshestComments;
+import ca.cs.ualberta.localpost.controller.SortFreshestComments;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;

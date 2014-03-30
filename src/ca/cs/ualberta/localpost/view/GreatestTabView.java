@@ -39,7 +39,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-import ca.cs.ualberta.localpost.controller.BrowseGreatestComments;
+import ca.cs.ualberta.localpost.controller.SortGreatestComments;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
  
 /**

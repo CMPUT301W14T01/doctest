@@ -66,4 +66,9 @@ public class FreshnessAlgorithm {
 		return diffDays;
 	}
 
+	public int getFreshness() {
+		return freshness;
+	}
+
+
 }
