@@ -41,8 +41,6 @@ import android.view.MenuItem;
 import ca.cs.ualberta.localpost.controller.TabsPagerAdapter;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
-import com.google.gson.Gson;
-
 /**
  * Main code was provided from Android Hive. Code was changed to fix
  * project requirements.
@@ -104,17 +102,6 @@ public class MainActivity extends FragmentActivity implements
 			public void onPageScrollStateChanged(int arg0) {
 			}
 		});
-
-/*		*//**Location methods *//*
-		LocationManager locationManager = (LocationManager) MainActivity.this
-				.getSystemService(Context.LOCATION_SERVICE);
-
-		Criteria criteria = new Criteria();
-		String provider = locationManager.getBestProvider(criteria, false);
-		Location location = locationManager.getLastKnownLocation(provider);*/
-		
-		
-
 	}
 
 	@Override
@@ -158,11 +145,6 @@ public class MainActivity extends FragmentActivity implements
 				e.printStackTrace();
 			}
 			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
-//			myIntent.putExtra("username", standardUser.getUsername());
-//			Gson gson = new Gson();
-//			// Serialize address object into string to send over to the activity
-//			String address = gson.toJson(standardUser.getAddress());
-//			myIntent.putExtra("location", address);
 			startActivity(myIntent);
 			return true;
 		case R.id.viewUserProfile:
@@ -175,7 +157,6 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public void update(Observable observable, Object data) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 }

@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -137,8 +140,8 @@ public class Serialize {
 		}
 		return model;
 	}
-	public static StandardUserModel loaduser(Context context) {
-		StandardUserModel user = null;
+	public static StandardUserModel loaduser(Context context) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+		StandardUserModel user = StandardUserModel.getInstance();
 		filename = userprofile;
 		FileInputStream FileOpen;
 		try {

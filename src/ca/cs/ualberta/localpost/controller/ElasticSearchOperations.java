@@ -26,12 +26,8 @@ package ca.cs.ualberta.localpost.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.UUID;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -43,6 +39,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+import android.util.Log;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
@@ -51,16 +50,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.util.Log;
-
 public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayList<CommentModel>> {
 
 	private static Gson gson;
-	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/timoti/";
+	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/timotiiii/";
 	private HttpClient httpclient = new DefaultHttpClient();
 
 	public ElasticSearchOperations() {
