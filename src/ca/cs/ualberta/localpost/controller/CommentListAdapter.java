@@ -28,7 +28,6 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +91,7 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 		}
 		else
 			holder.location.setText("@ " + model.getAddress().getAddressLine(0));
-		Log.e("Address","An");
+		//Log.e("Address", model.getAddress().getAddressLine(0).toString());
 		holder.timestamp.setText(format.format(new Date(model.getTimestamp())));		
 		return convertView;
 	}

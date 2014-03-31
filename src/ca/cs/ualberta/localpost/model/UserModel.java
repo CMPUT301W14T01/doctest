@@ -47,7 +47,11 @@ public abstract class UserModel {
 		super();
 		this.username = "anonymous";
 		//this.address = getAddress();
+<<<<<<< HEAD
 		this.tripcode = genTripcode();
+=======
+		//this.tripcode = genTripcode();
+>>>>>>> origin/geolocationUseCases
 	}
 
 	// GET USERNAME

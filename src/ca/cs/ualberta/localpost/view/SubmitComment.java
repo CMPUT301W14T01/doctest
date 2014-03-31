@@ -33,7 +33,6 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -118,8 +117,6 @@ public class SubmitComment extends Activity {
 	public void add_root(View view) throws InvalidKeyException,
 			NoSuchAlgorithmException, UnsupportedEncodingException {
 		user = StandardUserModel.getInstance();
-		/*user.setUsername(intentUsername);
-		user.setAddress(address);*/
 
 		EditText titleView = (EditText) findViewById(R.id.commentTitle);
 		String title = titleView.getText().toString();
@@ -129,10 +126,12 @@ public class SubmitComment extends Activity {
 
 		RootCommentModel new_root = new RootCommentModel(content, title, currentPicture);
 		new_root.setAuthor(user.getUsername());
-		Log.e("Address", String.valueOf(address));
-		//if (!(address.equals(null)))
+		assert(address == null);
+		new_root.setAddress(user.getAddress());
+//		Log.e("SelectedAddress", String.valueOf(address));
+//		Log.e("DefaultAddress", String.valueOf(user.getAddress()));
+		if (address != null)
 			new_root.setAddress(address);
-
 		
 		//Send to Server.
 		ElasticSearchOperations es = new ElasticSearchOperations();
