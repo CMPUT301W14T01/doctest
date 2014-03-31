@@ -56,7 +56,7 @@ public abstract class UserModel {
 			UnsupportedEncodingException {
 		super();
 		this.username = "anonymous";
-		this.address = getAddress();
+		//this.address = getAddress();
 		//this.tripcode = genTripcode();
 	}
 

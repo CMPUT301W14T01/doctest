@@ -24,6 +24,9 @@
 package ca.cs.ualberta.localpost.view;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -50,6 +53,7 @@ import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 import com.google.gson.Gson;
 
@@ -76,6 +80,8 @@ public class UserProfile extends Activity implements OnClickListener {
 
 	/**Arraylist of RootCommentModels */
 	private ArrayList<RootCommentModel> model;
+	
+	private StandardUserModel user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +178,7 @@ public class UserProfile extends Activity implements OnClickListener {
 	}
 	
 	public void editUsernameDialog(View view) {
+		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Enter New Username");
 		final EditText input = new EditText(this);
@@ -180,6 +187,12 @@ public class UserProfile extends Activity implements OnClickListener {
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				try {
+					user = StandardUserModel.getInstance();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				Editable value = input.getText();
 
 				SharedPreferences app_preferences = getApplicationContext()
@@ -192,6 +205,13 @@ public class UserProfile extends Activity implements OnClickListener {
 				userNameText.setText(value.toString());
 				Toast.makeText(getApplicationContext(), "Username Changed",
 						Toast.LENGTH_SHORT).show();
+				try {
+					user.setUsername(String.valueOf(value));
+					user.setAddress(new GPSLocation(getApplicationContext()).getAddress());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
