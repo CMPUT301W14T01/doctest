@@ -38,6 +38,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.TabsPagerAdapter;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
@@ -147,9 +148,15 @@ public class MainActivity extends FragmentActivity implements
 			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
 			startActivity(myIntent);
 			return true;
-		case R.id.viewUserProfile:
-			Intent myIntent2 = new Intent(getApplicationContext(),UserProfile.class);
-			startActivity(myIntent2);
+		case R.id.action3_sub1:
+			Toast.makeText(getApplicationContext(),"Action1",Toast.LENGTH_SHORT).show();
+			return true;
+		case R.id.action3_sub2:
+			Toast.makeText(getApplicationContext(),"Action2",Toast.LENGTH_SHORT).show();
+			return true;
+		case R.id.action3_sub3:
+			Toast.makeText(getApplicationContext(),"Action3",Toast.LENGTH_SHORT).show();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

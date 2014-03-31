@@ -25,7 +25,9 @@ package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -44,6 +46,8 @@ import ca.cs.ualberta.localpost.controller.CommentListAdapter;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.CommentModel;
+
+import com.google.gson.Gson;
 
 /**
  * This View will show all the comments that are
@@ -101,11 +105,31 @@ public class FreshestTabView extends Fragment {
 //	@Override
 //	public void onResume() {
 //		super.onResume();
-//		model = Serialize.loadFromFile("rootcomment.json", getActivity());
-//		adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter,model);
-//		listView.setAdapter(adapter);
+//		new Handler().postDelayed(new Runnable() {
+//			ArrayList<CommentModel> model = new ArrayList<CommentModel>();
+//			public void run() {
+//				try {
+//					model = new ElasticSearchOperations().execute(3, null, null).get();
+//					CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
+//					listView.setAdapter(adapter);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				registerForContextMenu(listView);
+//
+//				listView.setOnItemClickListener(new OnItemClickListener() {
+//					public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+//						Toast.makeText(getActivity(),"ThreadView Under Construction",Toast.LENGTH_SHORT).show();
+//						Gson gson = new Gson();
+//						String modelString = gson.toJson(model.get(position));
+//						Intent myIntent = new Intent(getActivity(), ThreadView.class);
+//						myIntent.putExtra("CommentModel", modelString);
+//						startActivity(myIntent);
+//					}
+//				});
+//			}
+//		}, 750);
 //	}
-
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
