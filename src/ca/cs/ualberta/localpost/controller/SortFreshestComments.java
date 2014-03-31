@@ -27,7 +27,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 public class SortFreshestComments implements SortComments {
 
@@ -35,21 +37,21 @@ public class SortFreshestComments implements SortComments {
 		 * sorts the comments by the attribute specified by the tab
 		 */
 	@Override
-	public ArrayList<RootCommentModel> sortRootComments(ArrayList<RootCommentModel> comments) {
+	public ArrayList<CommentModel> sortComments(ArrayList<CommentModel> model) {
 		
-		Collections.sort(comments, new Comparator<RootCommentModel>() {
+		Collections.sort(model, new Comparator<CommentModel>()  {
 			@Override
-			public int compare(RootCommentModel comment1, RootCommentModel comment2)
+			public int compare(CommentModel comment1, CommentModel comment2)
 			{
-				FreshnessAlgorithm alg1 = new FreshnessAlgorithm(comment1.getRadish(), comment1.getTimestamp(), comment1.getAddress(), userLocation);
-				FreshnessAlgorithm alg2 = new FreshnessAlgorithm(comment2.getRadish(), comment2.getTimestamp(), comment2.getAddress(), userLocation);
+				FreshnessAlgorithm alg1 = new FreshnessAlgorithm(comment1.getRadish(), comment1.getTimestamp(), comment1.getAddress(), StandardUserModel.getInstance().getAddress());
+				FreshnessAlgorithm alg2 = new FreshnessAlgorithm(comment2.getRadish(), comment2.getTimestamp(), comment2.getAddress(), StandardUserModel.getInstance().getAddress());
 				comment1.setFreshness(alg1.getFreshness());
 				comment2.setFreshness(alg2.getFreshness());
 				return Integer.compare(comment1.getFreshness(), comment2.getFreshness());
 			}
 		});
 		
-		return comments;
+		return model;
 	}
 
 

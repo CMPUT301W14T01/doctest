@@ -25,6 +25,7 @@ package ca.cs.ualberta.localpost.controller;
 
 import java.util.ArrayList;
 
+import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 /**
  * This is an interface for the three different browse comment controllers
@@ -33,7 +34,7 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
  */
 public interface SortComments {
 	
-	public ArrayList<RootCommentModel> sortRootComments(ArrayList<RootCommentModel> comments);
+	public ArrayList<CommentModel> sortComments(ArrayList<CommentModel> comments);
 	
 
 }

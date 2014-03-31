@@ -24,8 +24,11 @@
 package ca.cs.ualberta.localpost.controller;
 
 import java.util.Date;
+import java.util.List;
 
+import android.location.Address;
 import android.location.Location;
+import android.util.Log;
 
 /**
  * This algorithm takes data from a comment and also the location of a user and combines that information to determining the relative freshness of
@@ -41,15 +44,17 @@ public class FreshnessAlgorithm {
 	/**
 	 * runs the algorithm
 	 * @param greatness
-	 * @param date
-	 * @param commentLocation
-	 * @param userLocation
+	 * @param l
+	 * @param address
+	 * @param address2
 	 */
-	public FreshnessAlgorithm(int greatness, Date date, Location commentLocation, Location userLocation){
-		int distance = (int)commentLocation.distanceTo(userLocation);
+	public FreshnessAlgorithm(int greatness, long l, Address address, Address address2){
+		float[] results = new float [1];
+		Location.distanceBetween(address.getLatitude(), address.getLongitude(), address2.getLatitude(), address2.getLongitude(), results);
+		int distance = (int)results[0];
 		Date currentDate = new Date();
-		int oldness = daysBetween(date, currentDate);
-		float fresh = (2 * (float)greatness / (float)oldness) * (1000 / (float)distance) + 3;
+		int oldness = daysBetween(l, currentDate);
+		float fresh = (2 * (float)greatness / (float)(oldness + 1)) * (1000 / (float)(distance + 1)) + 3;
 		this.freshness = (int)fresh;
 	}
 	
@@ -59,9 +64,9 @@ public class FreshnessAlgorithm {
 	 * @param date2
 	 * @return the difference bewteen the days
 	 */
-	private int daysBetween(Date date1, Date date2){
+	private int daysBetween(long date1, Date date2){
 
-		long diff = date2.getTime() - date1.getTime();
+		long diff = date2.getTime() - date1;
 		int diffDays =  (int) (diff / (24* 1000 * 60 * 60));
 		return diffDays;
 	}

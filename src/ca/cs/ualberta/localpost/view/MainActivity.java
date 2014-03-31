@@ -70,7 +70,17 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+		try {
+			standardUser = StandardUserModel.getInstance();
+			SharedPreferences app_preferences = getApplicationContext().getSharedPreferences("PREF", MODE_PRIVATE);
+			String getUsername = app_preferences.getString("username", "anonymous");
+			standardUser.setUsername(getUsername);
+			GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
+			Address address = gpsLocation.getAddress();
+			standardUser.setAddress(address);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 //		Intent intent = new Intent(this,ThreadView.class);
 //		startActivity(intent);
 
@@ -146,17 +156,7 @@ public class MainActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.addNewComment:
-			try {
-				standardUser = StandardUserModel.getInstance();
-				SharedPreferences app_preferences = getApplicationContext().getSharedPreferences("PREF", MODE_PRIVATE);
-				String getUsername = app_preferences.getString("username", "anonymous");
-				standardUser.setUsername(getUsername);
-				GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
-				Address address = gpsLocation.getAddress();
-				standardUser.setAddress(address);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+
 			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
 //			myIntent.putExtra("username", standardUser.getUsername());
 //			Gson gson = new Gson();

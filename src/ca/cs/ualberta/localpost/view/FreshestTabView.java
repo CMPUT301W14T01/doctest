@@ -42,10 +42,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
-<<<<<<< HEAD
-=======
 import ca.cs.ualberta.localpost.controller.SortFreshestComments;
->>>>>>> refs/heads/shawn1
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.CommentModel;
 
@@ -77,6 +74,8 @@ public class FreshestTabView extends Fragment {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		SortFreshestComments sort = new SortFreshestComments();
+		model = sort.sortComments(model);
 //		model = Serialize.loadFromFile("rootcomment.json", getActivity());
 //
 		listView = (ListView) rootView.findViewById(R.id.commentList);

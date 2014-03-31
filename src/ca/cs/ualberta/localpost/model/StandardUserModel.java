@@ -10,11 +10,11 @@ import android.os.IBinder;
 public class StandardUserModel extends UserModel {
 	 private static StandardUserModel instance = null;
 	 
-	 protected StandardUserModel() throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+	 protected StandardUserModel() {
 	      // Exists only to defeat instantiation.
 		 super();
 	   }
-	 public static StandardUserModel getInstance() throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+	 public static StandardUserModel getInstance() {
 	      if(instance == null) {
 	         instance = new StandardUserModel();
 	      }

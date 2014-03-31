@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/fluent-hc-4.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/httpclient-4.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/httpclient-cache-4.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/httpcore-4.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/httpmime-4.2.1.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-<<<<<<< HEAD
-	<classpathentry exported="true" kind="lib" path="C:/dev/google-gson-2.2.4/gson-2.2.4.jar"/>
-=======
-	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/commons-codec-1.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/commons-logging-1.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/fluent-hc-4.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/gson-2.2.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/httpclient-4.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/httpclient-cache-4.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/httpcore-4.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Shawn/Documents/GitHub/ESDemo/ESDemo/lib/httpmime-4.2.1.jar"/>
->>>>>>> refs/heads/shawn1
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -192,7 +192,6 @@ public abstract class CommentModel extends Observable{
 	 * @return the latlng
 	 */
 	public Address getAddress() {
-		this.address = user.getAddress();
 		return address;
 	}
 

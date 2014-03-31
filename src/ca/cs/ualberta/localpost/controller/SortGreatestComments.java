@@ -27,16 +27,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import android.provider.DocumentsContract.Root;
-import ca.cs.ualberta.localpost.model.RootCommentModel;
+import ca.cs.ualberta.localpost.model.CommentModel;
 
 public class SortGreatestComments implements SortComments {
 	
 	@Override
-	public ArrayList<RootCommentModel> sortRootComments(ArrayList<RootCommentModel> comments) {
-		Collections.sort(comments, new Comparator<RootCommentModel>() {
+	public ArrayList<CommentModel> sortComments(ArrayList<CommentModel> comments) {
+		Collections.sort(comments, new Comparator<CommentModel>() {
 	        @Override
-	        public int compare(RootCommentModel  comment1, RootCommentModel  comment2)
+	        public int compare(CommentModel  comment1, CommentModel  comment2)
 	        {
 
 	            return  Integer.compare(comment1.getRadish(), comment2.getRadish());

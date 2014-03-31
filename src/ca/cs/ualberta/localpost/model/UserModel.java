@@ -23,13 +23,6 @@
 
 package ca.cs.ualberta.localpost.model;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
 import android.location.Address;
 import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
 
@@ -48,16 +41,13 @@ public abstract class UserModel {
 
 	/** Constructors
 	 * 
-	 * @throws InvalidKeyException
-	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException
+
 	 */
-	public UserModel() throws InvalidKeyException, NoSuchAlgorithmException,
-			UnsupportedEncodingException {
+	public UserModel() {
 		super();
 		this.username = "anonymous";
-		this.address = getAddress();
-		//this.tripcode = genTripcode();
+		//this.address = getAddress();
+		this.tripcode = genTripcode();
 	}
 
 	// GET USERNAME
@@ -81,10 +71,9 @@ public abstract class UserModel {
 		return this.address = address;
 	}
 
-	public void setUsername(String username) throws InvalidKeyException,
-			NoSuchAlgorithmException, UnsupportedEncodingException {
+	public void setUsername(String username){
 		this.username = username;
-		//this.tripcode = genTripcode();
+		this.tripcode = genTripcode();
 	}
 
 	// GET TRIPCODE
@@ -95,25 +84,15 @@ public abstract class UserModel {
 	/** GERNERATE TRIPCODE
 	 * 
 	 * @return tripcode
-	 * @throws NoSuchAlgorithmException
-	 * @throws InvalidKeyException
-	 * @throws UnsupportedEncodingException
+
 	 */
-	public String genTripcode() throws NoSuchAlgorithmException,
-			InvalidKeyException, UnsupportedEncodingException {
+	public String genTripcode(){
 		// get the mac address
-		String macAddress = getMac();
+		//String macAddress = getMac();
+		
 
-		// hash the username using Hmac algorithm with mac address as the key
-		SecretKeySpec keySpec = new SecretKeySpec(macAddress.getBytes(),
-				"HmacSHA1");
-		Mac mac = Mac.getInstance("HmacSHA1");
-		mac.init(keySpec);
-		byte[] result = mac.doFinal(username.getBytes());
-		String trip = new String(result, "UTF-8");
-
-		// return the trip code
-		return trip;
+		
+		return "tripcode";
 
 	}
 
