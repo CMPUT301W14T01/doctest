@@ -39,7 +39,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+import ca.cs.ualberta.localpost.controller.CommentListAdapter;
+import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
+import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.controller.SortFreshestComments;
 import ca.cs.ualberta.localpost.controller.SortGreatestComments;
+import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
  
 /**
@@ -50,29 +55,42 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
  */
 public class GreatestTabView extends Fragment {
 	private ListView listView;
-	ArrayList<RootCommentModel> model = new ArrayList<RootCommentModel>();
+	ArrayList<CommentModel> model = new ArrayList<CommentModel>();
  
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
- 
-    	//Inflates the view with a list view. Also populates listview
-        View rootView = inflater.inflate(R.layout.tab, container, false);
-//		listView = (ListView) rootView.findViewById(R.id.commentList);
-//		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter, model);
-//		listView.setAdapter(adapter);
-//		
-//		//Clicking on a list item will take us to the replies(child comments)
-//		listView.setOnItemClickListener(new OnItemClickListener() {
-//	        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//	        	//Intent myIntent = new Intent(getActivity(),MainActivity.class);
-//	        	//Pass the index so we can parse it in From Server.
-//	        	Log.e("Index",String.valueOf(id));
-//	        	Log.e("Position",String.valueOf(position));
-//	   	     	Toast.makeText(getActivity(), "Button is clicked", Toast.LENGTH_SHORT).show();
-//	   	     	//startActivity(myIntent);
-//	        }
-//	    });//End On click
+    	View rootView = inflater.inflate(R.layout.tab, container, false);
+		ElasticSearchOperations task = new ElasticSearchOperations();
+    	try {
+			model = task.execute(3,null,null).get();
+			for (CommentModel c : model) {
+			Serialize.SaveComment(c, getActivity());
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		SortFreshestComments sort = new SortFreshestComments();
+		model = sort.sortComments(model);
+//		model = Serialize.loadFromFile("rootcomment.json", getActivity());
+//
+		listView = (ListView) rootView.findViewById(R.id.commentList);
+		
+		registerForContextMenu(listView);
+
+		CommentListAdapter adapter = new CommentListAdapter(getActivity(), R.id.custom_adapter,model);
+
+		listView.setAdapter(adapter);
+
+		// Clicking on a list item will take us to the replies(child comments)
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+				Toast.makeText(getActivity(),"ThreadView Under Construction", Toast.LENGTH_SHORT).show();
+//				 Intent myIntent = new Intent(getActivity(),ThreadView.class);
+//				 startActivity(myIntent);
+			}
+		});
         return rootView;
     }
     

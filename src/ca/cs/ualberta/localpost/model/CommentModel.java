@@ -25,6 +25,7 @@ package ca.cs.ualberta.localpost.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
+import java.util.Random;
 import java.util.UUID;
 
 import android.graphics.Bitmap;
@@ -138,7 +139,9 @@ public abstract class CommentModel extends Observable{
 			e.printStackTrace();		
 		}
 		this.content = content;
-		this.radish = 0;
+		Random rand = new Random();
+		//random for testing:
+		this.radish = rand.nextInt(100);
 		this.setPostId(UUID.randomUUID());
 		this.address = address;
 		this.timestamp = date;

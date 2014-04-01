@@ -56,9 +56,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 		case 0:
 			return new FreshestTabView();
 		case 1:
-			return new GreatestTabView();
-		case 2:
 			return new LastestTabView();
+		case 2:
+			return new GreatestTabView();
 		}
 		return null;
 	}

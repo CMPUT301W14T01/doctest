@@ -85,7 +85,7 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 		holder.title.setText(model.getTitle());
 		holder.username.setText(model.getAuthor());
 		holder.radish.setText(Integer.toString(model.getRadish()));
-		holder.picture.setImageBitmap(model.getPicture());
+		//holder.picture.setImageBitmap(model.getPicture());
 		if (model.getAddress() == null){
 			holder.location.setText("@ No location");
 		}
