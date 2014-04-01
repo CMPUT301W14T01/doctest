@@ -23,6 +23,16 @@
 
 package ca.cs.ualberta.localpost.model;
 
+<<<<<<< HEAD
+=======
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+>>>>>>> origin/master
 import android.location.Address;
 import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
 
@@ -47,8 +57,12 @@ public abstract class UserModel {
 		super();
 		this.username = "anonymous";
 		//this.address = getAddress();
+<<<<<<< HEAD
 		this.tripcode = genTripcode();
 
+=======
+		//this.tripcode = genTripcode();
+>>>>>>> origin/master
 	}
 
 	// GET USERNAME

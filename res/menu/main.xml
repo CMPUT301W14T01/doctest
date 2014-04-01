@@ -11,9 +11,29 @@
         android:showAsAction="ifRoom"
         android:title="@string/new_comment"/>
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/pictureSort"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="@string/action_settings">
+        <menu>
+            <group android:checkableBehavior="single" >
+                <item
+                    android:id="@+id/action3_sub1"
+                    android:orderInCategory="100"
+                    android:showAsAction="never"
+                    android:title="Action 1"/>
+                <item
+                    android:id="@+id/action3_sub2"
+                    android:orderInCategory="100"
+                    android:showAsAction="never"
+                    android:title="Action2"/>
+                <item
+                    android:id="@+id/action3_sub3"
+                    android:orderInCategory="100"
+                    android:showAsAction="never"
+                    android:title="Action3"/>
+            </group>
+        </menu>
+    </item>
 
 </menu>
