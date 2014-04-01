@@ -148,6 +148,9 @@ public class MainActivity extends FragmentActivity implements
 			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
 			startActivity(myIntent);
 			return true;
+		case R.id.viewUserProfile:
+			Intent myIntent2 = new Intent(getApplicationContext(),UserProfile.class);
+			startActivity(myIntent2);
 		case R.id.action3_sub1:
 			Toast.makeText(getApplicationContext(),"Action1",Toast.LENGTH_SHORT).show();
 			return true;

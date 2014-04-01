@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -50,23 +51,27 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayList<CommentModel>> {
+public class ElasticSearchOperations extends
+		AsyncTask<Object, Integer, ArrayList<CommentModel>> {
 
 	private static Gson gson;
-	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/timotiiii/";
+	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/chautran/";
 	private HttpClient httpclient = new DefaultHttpClient();
+	private Integer index;
+	private String uuid;
 
 	public ElasticSearchOperations() {
 		constructGson();
 	}
-	
+
 	@Override
 	// Params(Used to determine function,postID used for pushing, CommentModel)
 	protected ArrayList<CommentModel> doInBackground(Object... params) { // parms[]
-		Integer index = (Integer) params[0]; // Determines if we are pushing or
-												// getting
-		java.util.UUID UUID = (java.util.UUID) params[1]; // postID used in pushModel
-
+		index = (Integer) params[0]; // Determines if we are pushing or//
+										// getting
+		java.util.UUID UUID = (java.util.UUID) params[1]; // postID used in
+															// pushModel
+		uuid = (String) params[3];
 		if (index == 1) {
 			try {
 				if (params[2] instanceof RootCommentModel) {
@@ -80,23 +85,29 @@ public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayLis
 				e.printStackTrace();
 			}
 		} else if (index == 2) {
-			
+			try {
+				return getAllChildren(uuid);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else if (index == 3) {
 			try {
-				return getAllComments();
+				return getAllRootComments(uuid);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		// Remove when unneeded.
 		else if (index == 4) {
-			deleteComment(1);
+			// deleteComment(1);
 		}
 		return null;
 	}// End doInBackGround
 
 	public void pushComment(CommentModel model, java.util.UUID UUID) {
-		HttpPost pushRequest = new HttpPost(URL + UUID);
+		//HttpPost pushRequest = new HttpPost("http://cmput301.softwareprocess.es:8080/testing/child/" + UUID);
+		HttpPost pushRequest = new HttpPost(URL+ UUID);
+
 		try {
 			pushRequest.setEntity(new StringEntity(gson.toJson(model)));
 
@@ -116,48 +127,63 @@ public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayLis
 		}
 	}
 
-	public RootCommentModel getComment(int id) {
-		HttpGet getRequest = new HttpGet(URL + String.valueOf(id));
+	public ArrayList<CommentModel> getAllChildren(String uuid) {
+		ArrayList<CommentModel> returnArray = new ArrayList<CommentModel>();
+
 		try {
-			HttpResponse response = httpclient.execute(getRequest);
+			HttpGet search = new HttpGet("http://cmput301.softwareprocess.es:8080/testing/chautran/_search");
+			HttpResponse response = httpclient.execute(search);
+
+			String status = response.getStatusLine().toString();
+			System.out.println(status);
 
 			String json = getEntityContent(response);
 
-			Type returnType = new TypeToken<ElasticSearchResponse<RootCommentModel>>() {
-			}.getType();
-			ElasticSearchResponse<RootCommentModel> esResponse = gson.fromJson(
-					json, returnType);
+			Type searchType = new TypeToken<ElasticSearchSearchResponse<ChildCommentModel>>() {}.getType();
+			ElasticSearchSearchResponse<ChildCommentModel> esResponse = gson.fromJson(json, searchType);
 
-			RootCommentModel comment = esResponse.getSource();
-			return comment;
+			for (ElasticSearchResponse<ChildCommentModel> r : esResponse.getHits()) {
+				ChildCommentModel model = r.getSource();
+				if (model.getPostId().toString().equals(uuid)) {
+					returnArray.add(model);
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public ArrayList<CommentModel> getAllComments() throws ClientProtocolException, IOException {
-		ArrayList<CommentModel> returnArray = new ArrayList<CommentModel>();
-		HttpGet search = new HttpGet(URL + "_search");
-		HttpResponse response = httpclient.execute(search);
-
-		String status = response.getStatusLine().toString();
-		System.out.println(status);
-
-		String json = getEntityContent(response);
-
-		Type searchType = new TypeToken<ElasticSearchSearchResponse<RootCommentModel>>() {}.getType();
-		ElasticSearchSearchResponse<RootCommentModel> esResponse = gson.fromJson(json, searchType);
-
-		for (ElasticSearchResponse<RootCommentModel> r : esResponse.getHits()) {
-			RootCommentModel model = r.getSource();
-			returnArray.add(model);
 		}
 		return returnArray;
 	}
 
-	public void deleteComment(int id) {
-		HttpDelete delRequest = new HttpDelete(URL + String.valueOf(id));
+	public ArrayList<CommentModel> getAllRootComments(String uuid)throws ClientProtocolException, IOException {
+		ArrayList<CommentModel> returnArray = new ArrayList<CommentModel>();
+			HttpGet search = new HttpGet(URL + "_search");
+			HttpResponse response = httpclient.execute(search);
+
+			String status = response.getStatusLine().toString();
+			System.out.println(status);
+
+			String json = getEntityContent(response);
+
+			Type searchType = new TypeToken<ElasticSearchSearchResponse<RootCommentModel>>() {}.getType();
+			ElasticSearchSearchResponse<RootCommentModel> esResponse = gson.fromJson(json, searchType);
+
+			for (ElasticSearchResponse<RootCommentModel> r : esResponse.getHits()) {
+				RootCommentModel model = r.getSource();
+				if(uuid == null){
+					//deleteComment(model.getPostId());
+					returnArray.add(model);
+				}
+				if(model.getPostId().toString().equals(uuid)){
+					returnArray.clear();
+					returnArray.add(model);
+					return returnArray;
+				}
+			}
+		return returnArray;
+	}
+
+	public void deleteComment(UUID uuid2) {
+		HttpDelete delRequest = new HttpDelete(URL + String.valueOf(uuid2));
 		try {
 			HttpResponse response = httpclient.execute(delRequest);
 			HttpEntity entity = response.getEntity();
@@ -182,13 +208,15 @@ public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayLis
 		System.err.println("JSON:" + json);
 		return json;
 	}
-	
+
 	/**
-	 * Constructs a Gson with a custom serializer / desserializer registered for Bitmaps.
+	 * Constructs a Gson with a custom serializer / desserializer registered for
+	 * Bitmaps.
 	 */
 	private static void constructGson() {
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		gson = builder.create();
 	}
+
 }
