@@ -1,42 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/upload_list_table_row_relative"
-    android:layout_width="50dp"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#FFFFFF" >
 
     <RelativeLayout>
 
         <TextView
-            android:id="@+id/commentTitle"
+            android:id="@+id/rowTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="This is a Comment Title" />
 
         <TextView
-            android:id="@+id/geolocation"
+            android:id="@+id/rowRad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/rowLocation"
+            android:layout_marginLeft="14dp"
+            android:layout_toRightOf="@+id/rowLocation"
+            android:text="1000" />
+
+        <ImageView
+            android:id="@+id/rowPicture"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/rowAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/commentTitle"
-            android:text="Geolocation or XY coords?" />
+            android:layout_below="@+id/rowTitle"
+            android:text="hello" />
 
         <TextView
-            android:id="@+id/posterName"
+            android:id="@+id/rowLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/geolocation"
-            android:layout_below="@+id/geolocation"
-            android:text="PosterName" />
-
-        <TextView
-            android:id="@+id/turnip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/commentTitle"
-            android:layout_marginRight="44dp"
-            android:text="1000" />
+            android:layout_alignBaseline="@+id/rowAuthor"
+            android:layout_alignBottom="@+id/rowAuthor"
+            android:layout_marginLeft="14dp"
+            android:layout_toRightOf="@+id/rowAuthor" />
     </RelativeLayout>
 
 </TableRow>
