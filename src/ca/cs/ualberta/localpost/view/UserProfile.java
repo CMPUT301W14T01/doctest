@@ -107,8 +107,8 @@ public class UserProfile extends Activity implements OnClickListener {
 		userNameText.setText(getUsername);
 
 		// Populate listview with user posted comments
-		model = Serialize.loadFromFile("rootcomment.json",
-				getApplicationContext());
+		//model = Serialize.loadFromFile("rootcomment.json",
+		//		getApplicationContext());
 
 //		listView = (ListView) findViewById(R.id.profileCommentList);
 //		registerForContextMenu(listView);
@@ -171,7 +171,7 @@ public class UserProfile extends Activity implements OnClickListener {
 				boolean deleted = file.delete();
 				
 				for(RootCommentModel m: model){
-					Serialize.SaveComment(m, UserProfile.this);
+					Serialize.SaveComment(m, UserProfile.this,null);
 				}
 			}
 		}

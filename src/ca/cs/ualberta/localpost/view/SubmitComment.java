@@ -43,6 +43,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
+import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
@@ -167,11 +168,9 @@ public class SubmitComment extends Activity {
 
 			RootCommentModel new_root = new RootCommentModel(content, title,
 					currentPicture);
-
 			new_root.setAuthor(user.getUsername());
-
 			new_root.setAddress(user.getAddress());
-
+			Serialize.SaveComment(new_root, this, "history");
 			ElasticSearchOperations es = new ElasticSearchOperations();
 			es.execute(1, new_root.getPostId(), new_root, null);
 
@@ -189,7 +188,9 @@ public class SubmitComment extends Activity {
 				CommentModel temp = array.get(0);
 				Log.e("temp", temp.getPostId().toString());
 				temp.addChild(new_child.getPostId().toString());
-				
+				Serialize.update(temp, this, "favoritecomment.json");
+				Serialize.update(temp, this, "historycomment.json");
+				Serialize.SaveComment(temp, this, "history");
 				//Push to ES
 				ElasticSearchOperations es2 = new ElasticSearchOperations();
 				es2.execute(1, temp.getPostId(), temp, null);

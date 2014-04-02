@@ -36,6 +36,7 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -67,7 +68,9 @@ public class MainActivity extends FragmentActivity implements
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_main);
 		
 //		Intent intent = new Intent(this,ThreadView.class);
@@ -81,7 +84,7 @@ public class MainActivity extends FragmentActivity implements
 		viewPager.setAdapter(mAdapter);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+		Log.e("Main on create done", "fuck this");
 		for (String tab : tabs) {
 			actionBar.addTab(actionBar.newTab().setText(tab)
 					.setTabListener(this));
