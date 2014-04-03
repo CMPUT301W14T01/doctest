@@ -130,6 +130,7 @@ public class UserProfile extends Activity implements OnClickListener {
 
 		adapter = new CommentListAdapter(getApplicationContext(), R.id.custom_adapter, model);
 
+<<<<<<< HEAD
 		listView.setAdapter(adapter);
 
 		//Sets onClickListener for each lisview element
@@ -140,20 +141,30 @@ public class UserProfile extends Activity implements OnClickListener {
 						.show();
 			}
 		});
+=======
+		// Populate listview with user posted comments
+		model = Serialize.loadFromFile("historycomment.json",
+				getApplicationContext());
+>>>>>>> origin/master
 
-//		listView = (ListView) findViewById(R.id.profileCommentList);
-//		registerForContextMenu(listView);
-//		adapter = new CommentListAdapter(UserProfile.this,R.id.custom_adapter, model);
-//		listView.setAdapter(adapter);
-//
-//		//Sets onClickListener for each lisview element
-//		listView.setOnItemClickListener(new OnItemClickListener() {
-//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//				Toast.makeText(getApplicationContext(),
-//						"ThreadView Under Construction", Toast.LENGTH_SHORT)
-//						.show();
-//			}
-//		});
+		listView = (ListView) findViewById(R.id.profileCommentList);
+		registerForContextMenu(listView);
+		adapter = new CommentListAdapter(UserProfile.this,R.id.custom_adapter, model);
+		listView.setAdapter(adapter);
+
+		//Sets onClickListener for each lisview element
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//Toast.makeText(getApplicationContext(),	"ThreadView Under Construction", Toast.LENGTH_SHORT)
+				//		.show();
+				Gson gson = new Gson();
+				String modelString = gson.toJson(model.get(position));
+				Intent myIntent = new Intent(getApplicationContext(),ThreadView.class);
+				myIntent.putExtra("CommentModel", modelString);
+				
+				startActivity(myIntent);
+			}
+		});
 	}
 
 	/**

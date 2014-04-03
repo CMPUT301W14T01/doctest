@@ -142,9 +142,11 @@ public class Serialize {
 		for(CommentModel r : rootlist){
 			if(r.getPostId().toString().equals(updatedroot.getPostId().toString())){
 				r.setChildren(updatedroot.getChildren());
+				//r = updatedroot;
 			}
 			SaveComment(r, context, dir);
 		}
+		
 	}
 	
 
@@ -168,7 +170,7 @@ public class Serialize {
 			
 			String input;
 			while ((input = buffer.readLine()) != null) {
-				if(filename.equals(cachedrootcomment) || filename.equals(favoritecomment)){
+				if(filename.equals(cachedrootcomment) || filename.equals(favoritecomment) || filename.equals(historycomment)){
 					Log.e("Loading", "Loads from right file");
 					Log.e("Loading", filename);
 					RootCommentModel obj = gson.fromJson(input,RootCommentModel.class);

@@ -96,6 +96,7 @@ public class FreshestTabView extends Fragment {
 						for (CommentModel c : model) {
 							Serialize.SaveComment(c, getActivity(), null);
 							Serialize.update(c, getActivity(), "favoritecomment.json");
+							Serialize.update(c, getActivity(), "historycomment.json");
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
