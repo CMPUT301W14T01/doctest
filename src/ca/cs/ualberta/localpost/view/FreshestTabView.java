@@ -25,6 +25,7 @@ package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -43,10 +44,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
-<<<<<<< HEAD
 import ca.cs.ualberta.localpost.controller.SortFreshestComments;
-=======
->>>>>>> origin/master
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
@@ -60,9 +58,15 @@ import com.google.gson.Gson;
  * 
  */
 public class FreshestTabView extends Fragment {
+	public int isPictures;
 	private ListView listView;
 	private CommentListAdapter adapter;
 	ArrayList<CommentModel> model;
+	
+	public void setIsPictures(int option){
+		this.isPictures = option;
+	}
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,28 +74,7 @@ public class FreshestTabView extends Fragment {
 
 		// Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container, false);
-		ElasticSearchOperations task = new ElasticSearchOperations();
-<<<<<<< HEAD
-		//task.execute(4,null,null);
-		try {
-			model = task.execute(3,null,null).get();
-			for (CommentModel c : model) {
-			Serialize.SaveComment(c, getActivity());
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		SortFreshestComments sort = new SortFreshestComments();
-		model = sort.sortComments(model);
-//		model = Serialize.loadFromFile("rootcomment.json", getActivity());
-//
-=======
-		// task.execute(4,null,null);
-		//
->>>>>>> origin/master
 		listView = (ListView) rootView.findViewById(R.id.commentList);
-
 		return rootView;
 	}
 
@@ -109,6 +92,9 @@ public class FreshestTabView extends Fragment {
 				try {
 					model = new ElasticSearchOperations().execute(3, null,
 							null, null).get();
+					
+					SortFreshestComments sort = new SortFreshestComments();
+					model = sort.sortComments(model);
 					CommentListAdapter adapter = new CommentListAdapter(
 							getActivity(), R.id.custom_adapter, model);
 					listView.setAdapter(adapter);

@@ -7,7 +7,7 @@ import android.net.wifi.WifiManager;
 public class AndroidMacAddressProvider extends Application implements MacAddressProvider {
 
 	public String getMacAddress() {
-		Context context = this.getApplicationContext();
+		Context context = AndroidMacAddressProvider.this;
 	    WifiManager wimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 	    String macAddress = wimanager.getConnectionInfo().getMacAddress();
 	    if (macAddress == null) {

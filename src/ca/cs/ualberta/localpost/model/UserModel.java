@@ -23,16 +23,9 @@
 
 package ca.cs.ualberta.localpost.model;
 
-<<<<<<< HEAD
-=======
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
+import java.util.Random;
 
->>>>>>> origin/master
 import android.location.Address;
 import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
 
@@ -57,12 +50,9 @@ public abstract class UserModel {
 		super();
 		this.username = "anonymous";
 		//this.address = getAddress();
-<<<<<<< HEAD
 		this.tripcode = genTripcode();
 
-=======
-		//this.tripcode = genTripcode();
->>>>>>> origin/master
+
 	}
 
 	// GET USERNAME
@@ -104,10 +94,12 @@ public abstract class UserModel {
 	public String genTripcode(){
 		// get the mac address
 		//String macAddress = getMac();
+		Random rand = new Random();
+		AndroidMacAddressProvider mac = new AndroidMacAddressProvider();
+		//mac.getMacAddress().hashCode()
+		String trip = Integer.toString(this.username.hashCode() * rand.nextInt(100));
 		
-
-		
-		return "tripcode";
+		return trip;
 
 	}
 

@@ -67,7 +67,7 @@ public class FreshnessAlgorithm {
 	private int daysBetween(long date1, Date date2){
 
 		long diff = date2.getTime() - date1;
-		int diffDays =  (int) (diff / (24* 1000 * 60 * 60));
+		int diffDays =  (int) (diff / (1000 * 60 * 60));
 		return diffDays;
 	}
 

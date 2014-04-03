@@ -28,10 +28,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
 import java.util.UUID;
->>>>>>> origin/master
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -54,18 +51,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-<<<<<<< HEAD
-public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayList<CommentModel>> {
 
-	private static Gson gson;
-	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/timotiiii/";
-=======
 public class ElasticSearchOperations extends
 		AsyncTask<Object, Integer, ArrayList<CommentModel>> {
 
 	private static Gson gson;
 	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/chautran/";
->>>>>>> origin/master
+	//http://cmput301.softwareprocess.es:8080/testing/chautran/_search?pretty=1&size=100
 	private HttpClient httpclient = new DefaultHttpClient();
 	private Integer index;
 	private String uuid;
@@ -116,7 +108,7 @@ public class ElasticSearchOperations extends
 
 	public void pushComment(CommentModel model, java.util.UUID UUID) {
 		//HttpPost pushRequest = new HttpPost("http://cmput301.softwareprocess.es:8080/testing/child/" + UUID);
-		HttpPost pushRequest = new HttpPost(URL+ UUID);
+		HttpPost pushRequest = new HttpPost(URL+ UUID.toString());
 
 		try {
 			pushRequest.setEntity(new StringEntity(gson.toJson(model)));

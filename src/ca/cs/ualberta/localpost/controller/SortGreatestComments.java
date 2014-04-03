@@ -26,7 +26,7 @@ package ca.cs.ualberta.localpost.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
+import android.annotation.SuppressLint;
 import ca.cs.ualberta.localpost.model.CommentModel;
 
 public class SortGreatestComments implements SortComments {
@@ -34,11 +34,12 @@ public class SortGreatestComments implements SortComments {
 	@Override
 	public ArrayList<CommentModel> sortComments(ArrayList<CommentModel> comments) {
 		Collections.sort(comments, new Comparator<CommentModel>() {
-	        @Override
+	        @SuppressLint("NewApi")
+			@Override
 	        public int compare(CommentModel  comment1, CommentModel  comment2)
 	        {
 
-	            return  Integer.compare(comment1.getRadish(), comment2.getRadish());
+	            return  Integer.compare(comment2.getRadish(), comment1.getRadish());
 	        }
 	    });
 		return comments;

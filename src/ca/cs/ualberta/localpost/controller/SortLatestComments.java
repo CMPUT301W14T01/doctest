@@ -40,7 +40,7 @@ public class SortLatestComments implements SortComments {
 	        public int compare(CommentModel  comment1, CommentModel  comment2)
 	        {
 
-	            return  Long.compare(comment1.getTimestamp(), comment2.getTimestamp());
+	            return  Long.compare(comment2.getTimestamp(), comment1.getTimestamp());
 	        }
 	    });
 		return comments;

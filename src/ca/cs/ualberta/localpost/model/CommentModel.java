@@ -39,6 +39,7 @@ import android.location.Address;
  *
  */
 public abstract class CommentModel extends Observable{
+	Random rand = new Random();
 	//Drawables for thread/commentView
 	private String title;
 	private Address address;
@@ -68,7 +69,7 @@ public abstract class CommentModel extends Observable{
 		}
 		this.title = null;
 		this.content = null;
-		this.radish = 0;
+		this.radish = rand.nextInt(100);
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
@@ -139,9 +140,9 @@ public abstract class CommentModel extends Observable{
 			e.printStackTrace();		
 		}
 		this.content = content;
-		Random rand = new Random();
+		
 		//random for testing:
-		this.radish = rand.nextInt(100);
+		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
 		this.address = address;
 		this.timestamp = date;

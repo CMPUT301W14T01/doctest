@@ -43,14 +43,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
-<<<<<<< HEAD
-=======
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
->>>>>>> origin/master
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
@@ -61,19 +57,13 @@ import com.google.gson.Gson;
  * 
  */
 public class SubmitComment extends Activity {
-<<<<<<< HEAD
+
 //	/**Grabs the username from an intent */
 //	private String intentUsername;
 //	private String intentAddress;
 	
 	/**Creates a new StandardUserModel object */
-=======
-	// /**Grabs the username from an intent */
-	// private String intentUsername;
-	// private String intentAddress;
 
-	/** Creates a new StandardUserModel object */
->>>>>>> origin/master
 	private StandardUserModel user;
 
 	/** Button used to submit the comment */
@@ -88,13 +78,9 @@ public class SubmitComment extends Activity {
 	ImageView image;
 
 	private Address address;
-<<<<<<< HEAD
 	
 	/**Gson writer */
-=======
 
-	/** Gson writer */
->>>>>>> origin/master
 	private Gson gson = new Gson();
 
 	LatLng latlng;
@@ -111,7 +97,6 @@ public class SubmitComment extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.submit_comment);
 
-<<<<<<< HEAD
 		/**Grabs uername from MainActivity via intent */
 //		Bundle extras = getIntent().getExtras();
 //		intentUsername = extras.getString("username");
@@ -120,8 +105,7 @@ public class SubmitComment extends Activity {
 //		address = gson.fromJson(intentAddress, android.location.Address.class);
 //		
 		/**SetText for the button */
-=======
->>>>>>> origin/master
+
 		postButton = (Button) findViewById(R.id.postButton);
 		postButton.setText("Submit Comment");
 
@@ -202,20 +186,7 @@ public class SubmitComment extends Activity {
 			ElasticSearchOperations es = new ElasticSearchOperations();
 			es.execute(1, new_root.getPostId(), new_root, null);
 
-<<<<<<< HEAD
-		RootCommentModel new_root = new RootCommentModel(content, title, currentPicture);
-		new_root.setAuthor(user.getUsername());
-		assert(address == null);
-		new_root.setAddress(user.getAddress());
-//		Log.e("SelectedAddress", String.valueOf(address));
-//		Log.e("DefaultAddress", String.valueOf(user.getAddress()));
-		if (address != null)
-			new_root.setAddress(address);
-		
-		//Send to Server.
-		ElasticSearchOperations es = new ElasticSearchOperations();
-		es.execute(1,new_root.getPostId(),new_root);
-=======
+
 		} else if (commentType.equals("reply")) {
 			try {
 				//Create new child
@@ -244,7 +215,6 @@ public class SubmitComment extends Activity {
 				e.printStackTrace();
 			}
 		}
->>>>>>> origin/master
 
 		// assert (address == null);
 		// Log.e("SelectedAddress", String.valueOf(address));

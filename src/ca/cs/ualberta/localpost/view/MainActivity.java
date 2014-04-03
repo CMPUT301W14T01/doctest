@@ -144,9 +144,7 @@ public class MainActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.addNewComment:
-<<<<<<< HEAD
 
-=======
 			try {
 				standardUser = StandardUserModel.getInstance();
 				SharedPreferences app_preferences = getApplicationContext().getSharedPreferences("PREF", MODE_PRIVATE);
@@ -158,7 +156,6 @@ public class MainActivity extends FragmentActivity implements
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
->>>>>>> origin/master
 			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
 			startActivity(myIntent);
 			return true;
@@ -166,13 +163,14 @@ public class MainActivity extends FragmentActivity implements
 			Intent myIntent2 = new Intent(getApplicationContext(),UserProfile.class);
 			startActivity(myIntent2);
 		case R.id.action3_sub1:
-			Toast.makeText(getApplicationContext(),"Action1",Toast.LENGTH_SHORT).show();
+			Intent myIntent3 = new Intent(getApplicationContext(),UserProfile.class);
+			Toast.makeText(getApplicationContext(),"Only Pictures",Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.action3_sub2:
-			Toast.makeText(getApplicationContext(),"Action2",Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(),"No Pictures",Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.action3_sub3:
-			Toast.makeText(getApplicationContext(),"Action3",Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(),"All Comments",Toast.LENGTH_SHORT).show();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

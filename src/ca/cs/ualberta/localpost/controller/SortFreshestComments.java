@@ -48,7 +48,7 @@ public class SortFreshestComments implements SortComments {
 				FreshnessAlgorithm alg2 = new FreshnessAlgorithm(comment2.getRadish(), comment2.getTimestamp(), comment2.getAddress(), StandardUserModel.getInstance().getAddress());
 				comment1.setFreshness(alg1.getFreshness());
 				comment2.setFreshness(alg2.getFreshness());
-				return Integer.compare(comment1.getFreshness(), comment2.getFreshness());
+				return Integer.compare(comment2.getFreshness(), comment1.getFreshness());
 			}
 		});
 		
