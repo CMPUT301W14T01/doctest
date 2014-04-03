@@ -52,6 +52,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
 import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
@@ -79,7 +80,7 @@ public class UserProfile extends Activity implements OnClickListener {
 	private CommentListAdapter adapter;
 
 	/**Arraylist of RootCommentModels */
-	private ArrayList<RootCommentModel> model;
+	private ArrayList<CommentModel> model;
 	
 	private StandardUserModel user;
 
@@ -107,22 +108,27 @@ public class UserProfile extends Activity implements OnClickListener {
 		userNameText.setText(getUsername);
 
 		// Populate listview with user posted comments
-		//model = Serialize.loadFromFile("rootcomment.json",
-		//		getApplicationContext());
+		model = Serialize.loadFromFile("historycomment.json",
+				getApplicationContext());
 
-//		listView = (ListView) findViewById(R.id.profileCommentList);
-//		registerForContextMenu(listView);
-//		adapter = new CommentListAdapter(UserProfile.this,R.id.custom_adapter, model);
-//		listView.setAdapter(adapter);
-//
-//		//Sets onClickListener for each lisview element
-//		listView.setOnItemClickListener(new OnItemClickListener() {
-//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//				Toast.makeText(getApplicationContext(),
-//						"ThreadView Under Construction", Toast.LENGTH_SHORT)
-//						.show();
-//			}
-//		});
+		listView = (ListView) findViewById(R.id.profileCommentList);
+		registerForContextMenu(listView);
+		adapter = new CommentListAdapter(UserProfile.this,R.id.custom_adapter, model);
+		listView.setAdapter(adapter);
+
+		//Sets onClickListener for each lisview element
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//Toast.makeText(getApplicationContext(),	"ThreadView Under Construction", Toast.LENGTH_SHORT)
+				//		.show();
+				Gson gson = new Gson();
+				String modelString = gson.toJson(model.get(position));
+				Intent myIntent = new Intent(getApplicationContext(),ThreadView.class);
+				myIntent.putExtra("CommentModel", modelString);
+				
+				startActivity(myIntent);
+			}
+		});
 	}
 
 	/**
@@ -170,7 +176,7 @@ public class UserProfile extends Activity implements OnClickListener {
 				File file = new File(dir, "rootcomment.json");
 				boolean deleted = file.delete();
 				
-				for(RootCommentModel m: model){
+				for(CommentModel m: model){
 					Serialize.SaveComment(m, UserProfile.this,null);
 				}
 			}
