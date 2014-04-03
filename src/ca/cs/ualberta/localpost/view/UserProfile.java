@@ -23,11 +23,8 @@
 
 package ca.cs.ualberta.localpost.view;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -41,7 +38,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.WebChromeClient.CustomViewCallback;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -51,7 +47,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
+import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
@@ -69,9 +67,9 @@ public class UserProfile extends Activity implements OnClickListener {
 	private RelativeLayout favoriteLayout;
 	private RelativeLayout geoLayout;
 
-	/**Grabs Username via preferences*/
-	private SharedPreferences app_preferences;
-	private SharedPreferences.Editor editor;
+//	/**Grabs Username via preferences*/
+//	private SharedPreferences app_preferences;
+//	private SharedPreferences.Editor editor;
 
 	/**Views related to the activity view*/
 	private TextView userNameText;
@@ -79,7 +77,7 @@ public class UserProfile extends Activity implements OnClickListener {
 	private CommentListAdapter adapter;
 
 	/**Arraylist of RootCommentModels */
-	private ArrayList<RootCommentModel> model;
+	private ArrayList<CommentModel> model;
 	
 	private StandardUserModel user;
 
@@ -87,6 +85,13 @@ public class UserProfile extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_profile);
+		
+		try {
+			user = StandardUserModel.getInstance();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		// Set Views and Layouts
 		userNameText = (TextView) findViewById(R.id.profileUsername);
@@ -99,16 +104,37 @@ public class UserProfile extends Activity implements OnClickListener {
 		favoriteLayout.setOnClickListener(this);
 		geoLayout.setOnClickListener(this);
 
-		// Gets the username and sets it
-		app_preferences = getApplicationContext().getSharedPreferences("PREF",
-				MODE_PRIVATE);
+		userNameText.setText(user.getUsername());
+		
+//		ElasticSearchOperations task = new ElasticSearchOperations();
+//		//task.execute(4,null,null);
+//		try {
+//			model = task.execute(3,null,null).get();
+//			for (CommentModel c : model) {
+//			Serialize.SaveComment(c, getApplicationContext());
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		model = Serialize.loadFromFile("historycomment.json", getApplicationContext());
+//
+		listView = (ListView) findViewById(R.id.profileCommentList);
+		
+		registerForContextMenu(listView);
 
-		String getUsername = app_preferences.getString("username", "anonymous");
-		userNameText.setText(getUsername);
+		adapter = new CommentListAdapter(getApplicationContext(), R.id.custom_adapter, model);
 
-		// Populate listview with user posted comments
-		model = Serialize.loadFromFile("rootcomment.json",
-				getApplicationContext());
+		listView.setAdapter(adapter);
+
+		//Sets onClickListener for each lisview element
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Toast.makeText(getApplicationContext(),
+						"ThreadView Under Construction", Toast.LENGTH_SHORT)
+						.show();
+			}
+		});
 
 //		listView = (ListView) findViewById(R.id.profileCommentList);
 //		registerForContextMenu(listView);
@@ -129,13 +155,13 @@ public class UserProfile extends Activity implements OnClickListener {
 	 * Overrides onResume. This will update the listView with data 
 	 * that has been added.
 	 */
-//	@Override 
-//	public void onResume(){
-//		super.onResume();
-//		model = Serialize.loadFromFile("rootcomment.json", UserProfile.this);
-//		adapter = new CommentListAdapter(UserProfile.this, R.id.custom_adapter,model);
-//		listView.setAdapter(adapter);
-//	}
+	@Override 
+	public void onResume(){
+		super.onResume();
+		model = Serialize.loadFromFile("historycomment.json", UserProfile.this);
+		adapter = new CommentListAdapter(UserProfile.this, R.id.custom_adapter,model);
+		listView.setAdapter(adapter);
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -154,28 +180,28 @@ public class UserProfile extends Activity implements OnClickListener {
 		}
 	}
 	
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 1) {
-			if (resultCode == Activity.RESULT_OK) {
-				Gson gson = new Gson();
-				String returnObj = data.getStringExtra("returnObj");
-				String returnIndex = data.getStringExtra("returnIndex");
-				RootCommentModel edited_root = gson.fromJson(returnObj,RootCommentModel.class);
-
-				model.set(Integer.valueOf(returnIndex), edited_root);
-	
-				
-				File dir = getFilesDir();
-				File file = new File(dir, "rootcomment.json");
-				boolean deleted = file.delete();
-				
-				for(RootCommentModel m: model){
-					Serialize.SaveComment(m, UserProfile.this);
-				}
-			}
-		}
-	}
+//	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		super.onActivityResult(requestCode, resultCode, data);
+//		if (requestCode == 1) {
+//			if (resultCode == Activity.RESULT_OK) {
+//				Gson gson = new Gson();
+//				String returnObj = data.getStringExtra("returnObj");
+//				String returnIndex = data.getStringExtra("returnIndex");
+//				RootCommentModel edited_root = gson.fromJson(returnObj,RootCommentModel.class);
+//
+//				model.set(Integer.valueOf(returnIndex), edited_root);
+//	
+//				
+//				File dir = getFilesDir();
+//				File file = new File(dir, "rootcomment.json");
+//				boolean deleted = file.delete();
+//				
+//				for(CommentModel m: model){
+//					Serialize.SaveComment(m, UserProfile.this);
+//				}
+//			}
+//		}
+//	}
 	
 	public void editUsernameDialog(View view) {
 		

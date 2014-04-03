@@ -37,7 +37,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
+import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
@@ -54,7 +57,6 @@ public class EditComment extends Activity {
 	
 	/**Object and index obtained via intent */
 	private RootCommentModel intentObj;
-	private String intentIndex;
 	
 	/**Gson writer */
 	private Gson gson = new Gson();
@@ -64,6 +66,7 @@ public class EditComment extends Activity {
 	
 	private Address address;
 	LatLng latlng;
+	private StandardUserModel user;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,7 @@ public class EditComment extends Activity {
 		//Grab data from the intent
 		Bundle extras = getIntent().getExtras();
 		String temp = extras.getString("ModelObj");
-		intentIndex = extras.getString("Index");
+//		intentIndex = extras.getString("Index");
 		
 		intentObj = gson.fromJson(temp, RootCommentModel.class);
 
@@ -123,28 +126,32 @@ public class EditComment extends Activity {
 	 * @throws UnsupportedEncodingException Checks if there is an encoding problem
 	 */
 	public void add_root(View view){
+		try {
+			user = StandardUserModel.getInstance();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		String title = titleView.getText().toString();
 		String content = contentView.getText().toString();
 		
 		intentObj.setTitle(title);
 		intentObj.setContent(content);
-		intentObj.setAddress(address);
+		intentObj.setAuthor(user.getUsername());
+		intentObj.setAddress(user.getAddress());
+//		Log.e("SelectedAddress", String.valueOf(address));
+//		Log.e("DefaultAddress", String.valueOf(user.getAddress()));
+		if (address != null)
+			intentObj.setAddress(address);
 		
-		onBackPressed();
-	}
-	
-	/**
-	 * Overrides onBackPress. Sends the new data back to
-	 * UserProfile.class
-	 */
-	@Override
-	public void onBackPressed(){
-		Intent myIntent = new Intent(EditComment.this,UserProfile.class);
-		String returnObj = gson.toJson(intentObj);
-		myIntent.putExtra("returnObj",returnObj);
-		myIntent.putExtra("returnIndex", intentIndex);
-		setResult(RESULT_OK, myIntent);
-		finish();
+		//Send to Server.
+		ElasticSearchOperations es = new ElasticSearchOperations();
+		es.execute(1,intentObj.getPostId(),intentObj);
+		
+		Serialize.SaveComment(intentObj, EditComment.this);
+		
+		super.onBackPressed();
 	}
 
 	@Override

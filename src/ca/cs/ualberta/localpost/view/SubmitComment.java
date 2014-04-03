@@ -40,6 +40,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
+import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
@@ -136,7 +137,8 @@ public class SubmitComment extends Activity {
 		//Send to Server.
 		ElasticSearchOperations es = new ElasticSearchOperations();
 		es.execute(1,new_root.getPostId(),new_root);
-
+		
+		Serialize.SaveComment(new_root, SubmitComment.this);
 
 		//Serialize.SaveInFile(new_root, SubmitComment.this);
 		super.onBackPressed();

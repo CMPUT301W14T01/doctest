@@ -40,7 +40,9 @@ import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
+import ca.cs.ualberta.localpost.view.EditComment;
 import ca.cs.ualberta.localpost.view.MainActivity;
+import ca.cs.ualberta.localpost.view.SubmitComment;
 
 import com.google.gson.Gson;
 
@@ -78,6 +80,12 @@ public class Serialize {
 		if(context.getClass().equals(MainActivity.class)){
 			filename = favoritecomment;
 		}
+		if(context.getClass().equals(SubmitComment.class)){
+			filename = historycomment;
+		}
+		if(context.getClass().equals(EditComment.class)){
+			filename = historycomment;
+		}
 				
 		String modelJson = gson.toJson(new_root);
 		write(modelJson, context);
@@ -111,8 +119,8 @@ public class Serialize {
 	 * @param context // TODO
 	 * @return arraylist of RootCommentModels
 	 */
-	public static ArrayList<RootCommentModel> loadFromFile(String filename, Context context) {
-		ArrayList<RootCommentModel> model = new ArrayList<RootCommentModel>();
+	public static ArrayList<CommentModel> loadFromFile(String filename, Context context) {
+		ArrayList<CommentModel> model = new ArrayList<CommentModel>();
 		FileInputStream FileOpen;
 		try {
 			FileOpen = context.getApplicationContext().openFileInput(filename);
@@ -122,7 +130,7 @@ public class Serialize {
 			String input;
 			while ((input = buffer.readLine()) != null) {
 				if(filename.equals(cachedrootcomment) || filename.equals(favoritecomment)){
-					RootCommentModel obj = gson.fromJson(input,RootCommentModel.class);
+					CommentModel obj = gson.fromJson(input,CommentModel.class);
 					model.add(obj);
 				}
 				else if(filename.equals(cachedchildcomment)){
