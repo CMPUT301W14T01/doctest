@@ -74,13 +74,9 @@ public class FreshestTabView extends Fragment {
 
 		// Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container, false);
-<<<<<<< HEAD
-=======
 		
 		//ElasticSearchOperations task = new ElasticSearchOperations();
 		// task.execute(4,null,null);
-		//
->>>>>>> origin/master
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		return rootView;
 	}
@@ -95,19 +91,7 @@ public class FreshestTabView extends Fragment {
 		new Handler().postDelayed(new Runnable() {
 			//ArrayList<CommentModel> model = new ArrayList<CommentModel>();
 			public void run() {
-<<<<<<< HEAD
-				try {
-					model = new ElasticSearchOperations().execute(3, null,
-							null, null).get();
-					
-					SortFreshestComments sort = new SortFreshestComments();
-					model = sort.sortComments(model);
-					CommentListAdapter adapter = new CommentListAdapter(
-							getActivity(), R.id.custom_adapter, model);
-					listView.setAdapter(adapter);
-				} catch (Exception e) {
-					e.printStackTrace();
-=======
+
 				ConnectivityCheck conn = new ConnectivityCheck(getActivity());
 				if (conn.isConnectingToInternet()) {
 					
@@ -126,8 +110,10 @@ public class FreshestTabView extends Fragment {
 				} else {
 					
 					model = Serialize.loadFromFile("cachedrootcomment.json", getActivity());
->>>>>>> origin/master
+
 				}
+				SortFreshestComments sort = new SortFreshestComments();
+				model = sort.sortComments(model);
 				
 				adapter = new CommentListAdapter(
 						getActivity(), R.id.custom_adapter, model);

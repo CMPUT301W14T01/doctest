@@ -44,10 +44,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
-<<<<<<< HEAD
-=======
+
 import ca.cs.ualberta.localpost.controller.Serialize;
->>>>>>> origin/master
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
@@ -62,7 +60,6 @@ import com.google.gson.Gson;
  * 
  */
 public class SubmitComment extends Activity {
-<<<<<<< HEAD
 
 //	/**Grabs the username from an intent */
 //	private String intentUsername;
@@ -70,13 +67,7 @@ public class SubmitComment extends Activity {
 	
 	/**Creates a new StandardUserModel object */
 
-=======
-	// /**Grabs the username from an intent */
-	// private String intentUsername;
-	// private String intentAddress;
 
-	/** Creates a new StandardUserModel object */
->>>>>>> origin/master
 	private StandardUserModel user;
 
 	/** Button used to submit the comment */
@@ -91,14 +82,10 @@ public class SubmitComment extends Activity {
 	ImageView image;
 
 	private Address address;
-<<<<<<< HEAD
 	
 	/**Gson writer */
 
-=======
 
-	/** Gson writer */
->>>>>>> origin/master
 	private Gson gson = new Gson();
 
 	LatLng latlng;
@@ -115,7 +102,6 @@ public class SubmitComment extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.submit_comment);
 
-<<<<<<< HEAD
 		/**Grabs uername from MainActivity via intent */
 //		Bundle extras = getIntent().getExtras();
 //		intentUsername = extras.getString("username");
@@ -125,8 +111,7 @@ public class SubmitComment extends Activity {
 //		
 		/**SetText for the button */
 
-=======
->>>>>>> origin/master
+
 		postButton = (Button) findViewById(R.id.postButton);
 		postButton.setText("Submit Comment");
 
@@ -206,12 +191,7 @@ public class SubmitComment extends Activity {
 			Serialize.SaveComment(new_root, this, "history");
 			ElasticSearchOperations es = new ElasticSearchOperations();
 			es.execute(1, new_root.getPostId(), new_root, null);
-<<<<<<< HEAD
 
-
-=======
-			
->>>>>>> origin/master
 		} else if (commentType.equals("reply")) {
 			try {
 				//Create new child

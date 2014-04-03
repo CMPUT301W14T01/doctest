@@ -51,7 +51,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-<<<<<<< HEAD
+
 
 public class ElasticSearchOperations extends
 		AsyncTask<Object, Integer, ArrayList<CommentModel>> {
@@ -59,13 +59,7 @@ public class ElasticSearchOperations extends
 	private static Gson gson;
 	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/chautran/";
 	//http://cmput301.softwareprocess.es:8080/testing/chautran/_search?pretty=1&size=100
-=======
 
-public class ElasticSearchOperations extends AsyncTask<Object, Integer, ArrayList<CommentModel>> {
-
-	private static Gson gson;
-	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/timotiiii/";
->>>>>>> origin/master
 	private HttpClient httpclient = new DefaultHttpClient();
 	private Integer index;
 	private String uuid;

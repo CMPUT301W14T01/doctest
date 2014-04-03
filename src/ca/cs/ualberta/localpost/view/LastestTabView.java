@@ -147,7 +147,7 @@ public class LastestTabView extends Fragment {
 			int index = (int) info.id;
 			Toast.makeText(getActivity(), "Comment has been Favorited",
 					Toast.LENGTH_SHORT).show();
-			Serialize.SaveComment(model.get(index), getActivity());
+			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
 			return true;
 		}
 		return super.onContextItemSelected(item);
