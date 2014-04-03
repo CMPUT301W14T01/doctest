@@ -36,8 +36,11 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.controller.TabsPagerAdapter;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
@@ -66,8 +69,16 @@ public class MainActivity extends FragmentActivity implements
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_main);
+		
+		try {
+			standardUser = Serialize.loaduser(getApplicationContext());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 //		Intent intent = new Intent(this,ThreadView.class);
 //		startActivity(intent);
@@ -80,7 +91,7 @@ public class MainActivity extends FragmentActivity implements
 		viewPager.setAdapter(mAdapter);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+		Log.e("Main on create done", "fuck this");
 		for (String tab : tabs) {
 			actionBar.addTab(actionBar.newTab().setText(tab)
 					.setTabListener(this));
@@ -134,7 +145,6 @@ public class MainActivity extends FragmentActivity implements
 		switch (item.getItemId()) {
 		case R.id.addNewComment:
 			try {
-				standardUser = StandardUserModel.getInstance();
 				SharedPreferences app_preferences = getApplicationContext().getSharedPreferences("PREF", MODE_PRIVATE);
 				String getUsername = app_preferences.getString("username", "anonymous");
 				standardUser.setUsername(getUsername);
@@ -150,6 +160,15 @@ public class MainActivity extends FragmentActivity implements
 		case R.id.viewUserProfile:
 			Intent myIntent2 = new Intent(getApplicationContext(),UserProfile.class);
 			startActivity(myIntent2);
+		case R.id.action3_sub1:
+			Toast.makeText(getApplicationContext(),"Action1",Toast.LENGTH_SHORT).show();
+			return true;
+		case R.id.action3_sub2:
+			Toast.makeText(getApplicationContext(),"Action2",Toast.LENGTH_SHORT).show();
+			return true;
+		case R.id.action3_sub3:
+			Toast.makeText(getApplicationContext(),"Action3",Toast.LENGTH_SHORT).show();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

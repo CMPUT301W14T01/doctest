@@ -47,7 +47,7 @@ public abstract class CommentModel extends Observable{
 	private long timestamp;
 
 	//Internal data for controllers
-	private ArrayList<CommentModel> children = new ArrayList<CommentModel>();
+	private ArrayList<String> children = new ArrayList<String>();
 	private java.util.UUID postId = UUID.randomUUID();
 	private int radish;
 	long date = new Date().getTime();
@@ -240,17 +240,21 @@ public abstract class CommentModel extends Observable{
 	}
 
 
-	public ArrayList<CommentModel> getChildren() {
+	public ArrayList<String> getChildren() {
 		return children;
 	}
 
-	public void addChild(ChildCommentModel child) {
-		this.children.add(child);
+	public void addChild(String string) {
+		this.children.add(string);
 	}
-	public void addChildren(ArrayList<ChildCommentModel> children) {
-		for(ChildCommentModel child : children){
-			this.addChild(child);
-		}
+//	public void addChildren(ArrayList<ChildCommentModel> children) {
+//		for(ChildCommentModel child : children){
+//			this.addChild(child);
+//		}
+//	}
+
+	public void setChildren(ArrayList<String> children) {
+		this.children = children;
 	}
 
 	

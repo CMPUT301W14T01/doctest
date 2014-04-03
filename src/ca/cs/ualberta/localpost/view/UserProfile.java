@@ -23,6 +23,7 @@
 
 package ca.cs.ualberta.localpost.view;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -30,6 +31,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.ContextMenu;
@@ -47,7 +49,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
-import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
@@ -80,14 +81,18 @@ public class UserProfile extends Activity implements OnClickListener {
 	private ArrayList<CommentModel> model;
 	
 	private StandardUserModel user;
+	Gson gson;
+	Address address;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_profile);
 		
+		gson = new Gson();
+		
 		try {
-			user = StandardUserModel.getInstance();
+			user = Serialize.loaduser(getApplicationContext());
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -174,34 +179,43 @@ public class UserProfile extends Activity implements OnClickListener {
 			startActivity(intent);
 			break;
 		case R.id.profileGeoLayout:
-			Toast.makeText(getApplicationContext(), "Geolocal is Under con.",
-					Toast.LENGTH_SHORT).show();
+			Intent intent1 = new Intent(this, MapsView.class);
+			startActivityForResult(intent1,1);
 			break;
 		}
 	}
+
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 1) {
+			if (resultCode == Activity.RESULT_OK) {
+				Gson gson = new Gson();
+				String returnObj = data.getStringExtra("returnObj");
+				String returnIndex = data.getStringExtra("returnIndex");
+				RootCommentModel edited_root = gson.fromJson(returnObj,RootCommentModel.class);
+
+				model.set(Integer.valueOf(returnIndex), edited_root);
 	
-//	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//		super.onActivityResult(requestCode, resultCode, data);
-//		if (requestCode == 1) {
-//			if (resultCode == Activity.RESULT_OK) {
-//				Gson gson = new Gson();
-//				String returnObj = data.getStringExtra("returnObj");
-//				String returnIndex = data.getStringExtra("returnIndex");
-//				RootCommentModel edited_root = gson.fromJson(returnObj,RootCommentModel.class);
-//
-//				model.set(Integer.valueOf(returnIndex), edited_root);
-//	
-//				
-//				File dir = getFilesDir();
-//				File file = new File(dir, "rootcomment.json");
-//				boolean deleted = file.delete();
-//				
-//				for(CommentModel m: model){
-//					Serialize.SaveComment(m, UserProfile.this);
-//				}
-//			}
-//		}
-//	}
+				
+				File dir = getFilesDir();
+				File file = new File(dir, "rootcomment.json");
+				boolean deleted = file.delete();
+				
+				for(CommentModel m: model){
+					Serialize.SaveComment(m, UserProfile.this,null);
+				}
+			}
+		}
+		if (requestCode == 1) {
+			if (resultCode == RESULT_OK) {
+				String intentIndex = data.getStringExtra("address");
+				address = gson.fromJson(intentIndex,
+						android.location.Address.class);
+				user.setAddress(address);
+			} else
+				super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
 	
 	public void editUsernameDialog(View view) {
 		

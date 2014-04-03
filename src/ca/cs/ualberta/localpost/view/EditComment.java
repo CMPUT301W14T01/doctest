@@ -147,9 +147,10 @@ public class EditComment extends Activity {
 		
 		//Send to Server.
 		ElasticSearchOperations es = new ElasticSearchOperations();
-		es.execute(1,intentObj.getPostId(),intentObj);
+		es.execute(1,intentObj.getPostId(),intentObj, null);
 		
-		Serialize.SaveComment(intentObj, EditComment.this);
+		Serialize.update(intentObj, this, "historycomment.json");
+		Serialize.SaveComment(intentObj, EditComment.this, "history");
 		
 		super.onBackPressed();
 	}
