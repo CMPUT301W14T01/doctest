@@ -94,7 +94,6 @@ public class UserProfile extends Activity implements OnClickListener {
 		try {
 			user = Serialize.loaduser(getApplicationContext());
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -122,30 +121,15 @@ public class UserProfile extends Activity implements OnClickListener {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-		model = Serialize.loadFromFile("historycomment.json", getApplicationContext());
-//
 		listView = (ListView) findViewById(R.id.profileCommentList);
 		
 		registerForContextMenu(listView);
 
 		adapter = new CommentListAdapter(getApplicationContext(), R.id.custom_adapter, model);
 
-<<<<<<< HEAD
-		listView.setAdapter(adapter);
-
-		//Sets onClickListener for each lisview element
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Toast.makeText(getApplicationContext(),
-						"ThreadView Under Construction", Toast.LENGTH_SHORT)
-						.show();
-			}
-		});
-=======
 		// Populate listview with user posted comments
 		model = Serialize.loadFromFile("historycomment.json",
 				getApplicationContext());
->>>>>>> origin/master
 
 		listView = (ListView) findViewById(R.id.profileCommentList);
 		registerForContextMenu(listView);
@@ -186,18 +170,18 @@ public class UserProfile extends Activity implements OnClickListener {
 			editUsernameDialog(v);
 			break;
 		case R.id.profileFavoriteLayout:
-			Intent intent = new Intent(this, FavoritesView.class);
+			Intent intent = new Intent(getApplicationContext(), FavoritesView.class);
 			startActivity(intent);
 			break;
 		case R.id.profileGeoLayout:
-			Intent intent1 = new Intent(this, MapsView.class);
-			startActivityForResult(intent1,1);
+			Intent intent1 = new Intent(getApplicationContext(), MapsView.class);
+			startActivityForResult(intent1,2);
 			break;
 		}
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+		//super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 1) {
 			if (resultCode == Activity.RESULT_OK) {
 				Gson gson = new Gson();
@@ -217,12 +201,13 @@ public class UserProfile extends Activity implements OnClickListener {
 				}
 			}
 		}
-		if (requestCode == 1) {
+		if (requestCode == 2) {
 			if (resultCode == RESULT_OK) {
 				String intentIndex = data.getStringExtra("address");
 				address = gson.fromJson(intentIndex,
 						android.location.Address.class);
 				user.setAddress(address);
+				Serialize.SaveUser(user, getApplicationContext());
 			} else
 				super.onActivityResult(requestCode, resultCode, data);
 		}
@@ -239,9 +224,8 @@ public class UserProfile extends Activity implements OnClickListener {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				try {
-					user = StandardUserModel.getInstance();
+					user = Serialize.loaduser(getApplicationContext());
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				Editable value = input.getText();
@@ -258,7 +242,8 @@ public class UserProfile extends Activity implements OnClickListener {
 						Toast.LENGTH_SHORT).show();
 				try {
 					user.setUsername(String.valueOf(value));
-					user.setAddress(new GPSLocation(getApplicationContext()).getAddress());
+					Serialize.SaveUser(user, getApplicationContext());
+					//user.setAddress(new GPSLocation(getApplicationContext()).getAddress());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

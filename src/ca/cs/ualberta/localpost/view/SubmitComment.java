@@ -157,10 +157,11 @@ public class SubmitComment extends Activity {
 	 */
 	public void add_root(View view) throws InvalidKeyException,
 			NoSuchAlgorithmException, UnsupportedEncodingException {
-		user = StandardUserModel.getInstance();
+		user = Serialize.loaduser(getApplicationContext());
 
 		String title;
 		String content;
+		
 		ConnectivityCheck conn = new ConnectivityCheck(this);
 		if (conn.isConnectingToInternet()) {
 		if (commentType.equals("submit")) {

@@ -141,8 +141,8 @@ public class Serialize {
 		check_if_exist(file, context);
 		for(CommentModel r : rootlist){
 			if(r.getPostId().toString().equals(updatedroot.getPostId().toString())){
-				r.setChildren(updatedroot.getChildren());
-				//r = updatedroot;
+				//r.setChildren(updatedroot.getChildren());
+				r = updatedroot;
 			}
 			SaveComment(r, context, dir);
 		}

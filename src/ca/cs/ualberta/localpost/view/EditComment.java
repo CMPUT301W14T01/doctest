@@ -31,12 +31,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
@@ -126,8 +129,10 @@ public class EditComment extends Activity {
 	 * @throws UnsupportedEncodingException Checks if there is an encoding problem
 	 */
 	public void add_root(View view){
+		ConnectivityCheck conn = new ConnectivityCheck(this);
+		if (conn.isConnectingToInternet()) {
 		try {
-			user = StandardUserModel.getInstance();
+			user = Serialize.loaduser(getApplicationContext());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -140,8 +145,8 @@ public class EditComment extends Activity {
 		intentObj.setContent(content);
 		intentObj.setAuthor(user.getUsername());
 		intentObj.setAddress(user.getAddress());
-//		Log.e("SelectedAddress", String.valueOf(address));
-//		Log.e("DefaultAddress", String.valueOf(user.getAddress()));
+		//Log.e("SelectedAddress", String.valueOf(address));
+		//Log.e("DefaultAddress", String.valueOf(user.getAddress()));
 		if (address != null)
 			intentObj.setAddress(address);
 		
@@ -149,10 +154,14 @@ public class EditComment extends Activity {
 		ElasticSearchOperations es = new ElasticSearchOperations();
 		es.execute(1,intentObj.getPostId(),intentObj, null);
 		
+		//Serialize.update(intentObj, this, "historycomment.json");
+		//Serialize.SaveComment(intentObj, EditComment.this, "history");
 		Serialize.update(intentObj, this, "historycomment.json");
-		Serialize.SaveComment(intentObj, EditComment.this, "history");
 		
 		super.onBackPressed();
+	}
+	else{
+		Toast.makeText(this, "You need to be connected!", Toast.LENGTH_SHORT).show();}
 	}
 
 	@Override

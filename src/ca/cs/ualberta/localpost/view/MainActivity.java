@@ -31,7 +31,6 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -74,12 +73,23 @@ public class MainActivity extends FragmentActivity implements
 		
 		setContentView(R.layout.activity_main);
 		
+		// Loads existing user or creates a new one
 		try {
 			standardUser = Serialize.loaduser(getApplicationContext());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		// Set the users default location
+		GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
+		Address address = gpsLocation.getAddress();
+		standardUser.setAddress(address);
+		
+		// Save users current location in file
+		Serialize.SaveUser(standardUser, getApplicationContext());
+		
+		Log.e("Address", String.valueOf(address));
+		Log.e("user", String.valueOf(standardUser));
 //		Intent intent = new Intent(this,ThreadView.class);
 //		startActivity(intent);
 
@@ -91,7 +101,7 @@ public class MainActivity extends FragmentActivity implements
 		viewPager.setAdapter(mAdapter);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		Log.e("Main on create done", "fuck this");
+		//Log.e("Main on create done", "fuck this");
 		for (String tab : tabs) {
 			actionBar.addTab(actionBar.newTab().setText(tab)
 					.setTabListener(this));
@@ -144,16 +154,6 @@ public class MainActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.addNewComment:
-			try {
-				SharedPreferences app_preferences = getApplicationContext().getSharedPreferences("PREF", MODE_PRIVATE);
-				String getUsername = app_preferences.getString("username", "anonymous");
-				standardUser.setUsername(getUsername);
-				GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
-				Address address = gpsLocation.getAddress();
-				standardUser.setAddress(address);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
 			startActivity(myIntent);
 			return true;
