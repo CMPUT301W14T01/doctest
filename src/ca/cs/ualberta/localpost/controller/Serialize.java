@@ -24,6 +24,7 @@
 package ca.cs.ualberta.localpost.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,16 +34,18 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
-import ca.cs.ualberta.localpost.view.MainActivity;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Serialize an Object
@@ -50,7 +53,7 @@ import com.google.gson.Gson;
  *
  */
 public class Serialize {
-	private static Gson gson = new Gson();
+	private static Gson gson;
 	//public static final String rootcomment = "rootcomment.json";
 	//public static final String childcomment = "childcomment.json";
 	
@@ -61,30 +64,38 @@ public class Serialize {
 	public static final String userprofile = "userprofile.json";
 	private static String filename = null;
 	
+	
+	
 	/**
 	 * This function takes comment model, serializes it and saves it
 	 * to a local file using GSON.
 	 * @param new_root comment model that will be saved in file
 	 * @param context // TODO
 	 */
-	public static void SaveComment(CommentModel new_root, Context context) {
-		
-		if(new_root instanceof RootCommentModel){
+	public static void SaveComment(CommentModel new_root, Context context, String parentid) {
+		constructGson();
+		String modelJson = null;
+		Log.e("Saving", "Calls saving");
+		if(new_root instanceof RootCommentModel && (parentid == null)){
 			filename = cachedrootcomment;
 		}
 		else if(new_root instanceof ChildCommentModel){
-			filename = cachedchildcomment;
+			filename = parentid;
 		}
-		if(context.getClass().equals(MainActivity.class)){
+		else if(parentid.equals("favourite")){
 			filename = favoritecomment;
+			Log.e("Saving", "Finds the right file");
 		}
-				
-		String modelJson = gson.toJson(new_root);
+		else if(parentid.equals("history")){
+			filename = historycomment;	
+		}
+		modelJson = gson.toJson(new_root);
 		write(modelJson, context);
 	}
 	
+	
 	public static void SaveUser(StandardUserModel user, Context context) {
-		
+		check_if_exist(userprofile, context);
 		filename = userprofile;
 		String modelJson = gson.toJson(user);
 		write(modelJson, context);
@@ -93,13 +104,49 @@ public class Serialize {
 	public static void write(String modelJson, Context context){
 		try {
 			OutputStream outputStream = context.getApplicationContext()
-					.openFileOutput(filename, Context.MODE_PRIVATE);
+					.openFileOutput(filename, Context.MODE_APPEND);
 			OutputStreamWriter fileWriter = new OutputStreamWriter(outputStream);
 			fileWriter.write(modelJson + "\r\n");
 			fileWriter.close();
+			Log.e("Saving", "Finishes writting");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void check_if_exist(String file, Context context){
+		File listfile = context.getFilesDir();
+		for(String c: listfile.list()){
+			Log.e("SAVING", "list of files");
+			if(c.equals(file)){
+				Log.e("SAVING", "files do exist");
+				File dir = context.getFilesDir();
+				File file1 = new File(dir, file);
+				boolean deleted = file1.delete();
+			}
+		}
+		
+	}
+	
+	public static void update(CommentModel updatedroot, Context context, String file){
+		ArrayList<CommentModel> rootlist = new ArrayList<CommentModel>();
+		String dir = null;
+		if(file.equals(favoritecomment)){
+			dir = "favourite";
+		}
+		else{
+			dir = "history";
+		}
+		rootlist = loadFromFile(file, context);
+		check_if_exist(file, context);
+		for(CommentModel r : rootlist){
+			if(r.getPostId().toString().equals(updatedroot.getPostId().toString())){
+				//r.setChildren(updatedroot.getChildren());
+				r = updatedroot;
+			}
+			SaveComment(r, context, dir);
+		}
+		
 	}
 	
 
@@ -111,25 +158,26 @@ public class Serialize {
 	 * @param context // TODO
 	 * @return arraylist of RootCommentModels
 	 */
-	public static ArrayList<RootCommentModel> loadFromFile(String filename, Context context) {
-		ArrayList<RootCommentModel> model = new ArrayList<RootCommentModel>();
+	public static ArrayList<CommentModel> loadFromFile(String filename, Context context) {
+		constructGson();
+		ArrayList<CommentModel> model = new ArrayList<CommentModel>();
 		FileInputStream FileOpen;
+		Log.e("Loading", "Starts loading");
 		try {
 			FileOpen = context.getApplicationContext().openFileInput(filename);
 			InputStreamReader FileReader = new InputStreamReader(FileOpen);
 			BufferedReader buffer = new BufferedReader(FileReader);
-
+			
 			String input;
 			while ((input = buffer.readLine()) != null) {
-				if(filename.equals(cachedrootcomment) || filename.equals(favoritecomment)){
+				if(filename.equals(cachedrootcomment) || filename.equals(favoritecomment) || filename.equals(historycomment)){
+					Log.e("Loading", "Loads from right file");
+					Log.e("Loading", filename);
 					RootCommentModel obj = gson.fromJson(input,RootCommentModel.class);
 					model.add(obj);
 				}
-				else if(filename.equals(cachedchildcomment)){
-					Log.e("Child", input);
-					ChildCommentModel obj2 = gson.fromJson(input,ChildCommentModel.class);
-					Log.e("ObjChild", obj2.getTitle());
-				}
+
+				
 				else if(filename.equals(userprofile)){
 					StandardUserModel obj2 = gson.fromJson(input,StandardUserModel.class);
 				}
@@ -140,7 +188,31 @@ public class Serialize {
 		}
 		return model;
 	}
+	
+	public static HashMap<String,ChildCommentModel> loadchildFromFile(String filename, Context context) {
+		constructGson();
+		ChildCommentModel model = new ChildCommentModel();
+		HashMap<String,ChildCommentModel> hash = new HashMap<String,ChildCommentModel>();
+		FileInputStream FileOpen;
+		try {
+			FileOpen = context.getApplicationContext().openFileInput(filename);
+			InputStreamReader FileReader = new InputStreamReader(FileOpen);
+			BufferedReader buffer = new BufferedReader(FileReader);
+
+			String input;
+			while ((input = buffer.readLine()) != null) {					
+					model = gson.fromJson(input,ChildCommentModel.class);
+					hash.put(model.getPostId().toString(), model);
+				}
+			return hash;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return hash;
+	}
+	
 	public static StandardUserModel loaduser(Context context) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+		constructGson();
 		StandardUserModel user = StandardUserModel.getInstance();
 		filename = userprofile;
 		FileInputStream FileOpen;
@@ -158,5 +230,11 @@ public class Serialize {
 			e.printStackTrace();
 		}
 		return user;
+	}
+	
+	private static void constructGson() {
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+		gson = builder.create();
 	}
 }

@@ -31,14 +31,15 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.controller.TabsPagerAdapter;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
@@ -67,8 +68,11 @@ public class MainActivity extends FragmentActivity implements
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_main);
+<<<<<<< HEAD
 		try {
 			standardUser = StandardUserModel.getInstance();
 			SharedPreferences app_preferences = getApplicationContext().getSharedPreferences("PREF", MODE_PRIVATE);
@@ -80,6 +84,26 @@ public class MainActivity extends FragmentActivity implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+=======
+		
+		// Loads existing user or creates a new one
+		try {
+			standardUser = Serialize.loaduser(getApplicationContext());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// Set the users default location
+		GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
+		Address address = gpsLocation.getAddress();
+		standardUser.setAddress(address);
+		
+		// Save users current location in file
+		Serialize.SaveUser(standardUser, getApplicationContext());
+		
+		Log.e("Address", String.valueOf(address));
+		Log.e("user", String.valueOf(standardUser));
+>>>>>>> origin/master
 //		Intent intent = new Intent(this,ThreadView.class);
 //		startActivity(intent);
 
@@ -91,7 +115,7 @@ public class MainActivity extends FragmentActivity implements
 		viewPager.setAdapter(mAdapter);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+		//Log.e("Main on create done", "fuck this");
 		for (String tab : tabs) {
 			actionBar.addTab(actionBar.newTab().setText(tab)
 					.setTabListener(this));
@@ -144,6 +168,7 @@ public class MainActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.addNewComment:
+<<<<<<< HEAD
 
 			try {
 				standardUser = StandardUserModel.getInstance();
@@ -156,6 +181,8 @@ public class MainActivity extends FragmentActivity implements
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+=======
+>>>>>>> origin/master
 			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
 			startActivity(myIntent);
 			return true;

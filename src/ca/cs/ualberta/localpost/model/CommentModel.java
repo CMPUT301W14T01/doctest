@@ -265,5 +265,9 @@ public abstract class CommentModel extends Observable{
 //		}
 //	}
 
+	public void setChildren(ArrayList<String> children) {
+		this.children = children;
+	}
+
 	
 }

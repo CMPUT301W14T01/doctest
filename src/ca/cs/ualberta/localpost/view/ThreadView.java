@@ -24,9 +24,11 @@
 package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,16 +45,20 @@ import android.widget.TableLayout.LayoutParams;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
+import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 
 import com.google.gson.Gson;
+
 //-- Temporary import for tests
 
 /**
- * Displays a comment and all the replies associated
- * with the comment
+ * Displays a comment and all the replies associated with the comment
+ * 
  * @author Team 01
  */
 public class ThreadView extends Activity {
@@ -62,93 +68,108 @@ public class ThreadView extends Activity {
 	private RootCommentModel topLevel;
 	private String parentID = null;
 	Gson gson = new Gson();
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.table);
 
-		//Creates a Table
+		// Creates a Table
 		table = (TableLayout) findViewById(R.id.table_layout);
-		//testDrawable();
-		
+		// testDrawable();
+
 		final Bundle extras = getIntent().getExtras();
 		String temp = extras.getString("CommentModel");
 		topLevel = gson.fromJson(temp, RootCommentModel.class);
-		//Log.e("topLevel",topLevel.getChildren().get(0).toString());
+		// Log.e("topLevel",topLevel.getChildren().get(0).toString());
 		threadExpand(topLevel, 0);
 	}
-	
+
 	@Override
-	public void onResume(){
+	public void onResume() {
 		super.onResume();
-		Log.e("onResume","ThreadView");
+		
 	}
 
 	public void threadExpand(CommentModel comment, int level) {
 		draw(comment, level);
 		++level;
-		ArrayList<String> commentChildren = comment.getChildren(); //List of UUIDS
-		
-		if(level<depthTolerance && !commentChildren.isEmpty()){
-			for(String c : commentChildren){
-				ElasticSearchOperations es = new ElasticSearchOperations();
-				try {
-					ArrayList<CommentModel> model = es.execute(2,null,null, c).get();
-					threadExpand(model.get(0), level);
-				} catch (Exception e) {
-					e.printStackTrace();
+		ArrayList<String> commentChildren = comment.getChildren(); // List of
+																	// UUIDS
+
+		if (level < depthTolerance && !commentChildren.isEmpty()) {
+			ConnectivityCheck conn = new ConnectivityCheck(this);
+			if (conn.isConnectingToInternet()) {
+				for (String c : commentChildren) {
+					ElasticSearchOperations es = new ElasticSearchOperations();
+					try {
+						ArrayList<CommentModel> model = es.execute(2, null,null, c).get();
+						Serialize.check_if_exist(topLevel.getPostId().toString(), this);
+						Serialize.SaveComment(model.get(0), this, topLevel.getPostId().toString());
+						threadExpand(model.get(0), level);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			else{
+				HashMap<String, ChildCommentModel> childlist = Serialize.loadchildFromFile(topLevel.getPostId().toString(), this);
+				for (String c : commentChildren){
+					threadExpand(childlist.get(c), level);
 				}
 			}
 		}
 	}
-	
-	public void draw(final CommentModel comment, int level){
-		TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.row, null);
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-		
+
+	public void draw(final CommentModel comment, int level) {
+		TableRow row = (TableRow) LayoutInflater.from(this).inflate(
+				R.layout.row, null);
+		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+
 		// Pad root comments vertically and child comments horizontally
-		if(level < depthTolerance){
-			params.setMargins(level*marginBase, 0, 0, 0);
+		if (level < depthTolerance) {
+			params.setMargins(level * marginBase, 0, 0, 0);
 		}
 
 		row.setLayoutParams(params);
-		
-		//Register onclick
+
+		// Register onclick
 		registerForContextMenu(row);
-		
-		//Set Tag for use in threadview context menu
+
+		// Set Tag for use in threadview context menu
 		row.setTag(comment.getPostId());
 
-		//Log.e("getUUID",comment.getPostId().toString());
+		// Log.e("getUUID",comment.getPostId().toString());
 
-		((TextView) row.findViewById(R.id.commentTitle)).setText(comment.getContent());
+		((TextView) row.findViewById(R.id.commentTitle)).setText(comment
+				.getContent());
 		table.addView(row);
 		row = null;
 	}
-	
-	public void testDrawable(){
-		/*
-		 * ("test0","title0")
-		 * 			|-- ("test1","title1")
-		 * 			|-- ("test2","title2")
-		 * 						|-- ("test3","title3")
-		 */
-		
-//		CommentModel testCommentTree = new RootCommentModel("test0","title0");
-//			CommentModel tct1 = new ChildCommentModel("test1","title1");
-//			CommentModel tct2 = new ChildCommentModel("test2","title2");
-//				tct2.addChild(new ChildCommentModel("test3","title3"));
-//			CommentModel tct4 = new ChildCommentModel("test4","test4");
-//		testCommentTree.addChild((ChildCommentModel) tct1);
-//		testCommentTree.addChild((ChildCommentModel) tct2);
-//		testCommentTree.addChild((ChildCommentModel) tct4);
 
-		//threadExpand(testCommentTree,0);
+	public void testDrawable() {
+		/*
+		 * ("test0","title0") |-- ("test1","title1") |-- ("test2","title2") |--
+		 * ("test3","title3")
+		 */
+
+		// CommentModel testCommentTree = new
+		// RootCommentModel("test0","title0");
+		// CommentModel tct1 = new ChildCommentModel("test1","title1");
+		// CommentModel tct2 = new ChildCommentModel("test2","title2");
+		// tct2.addChild(new ChildCommentModel("test3","title3"));
+		// CommentModel tct4 = new ChildCommentModel("test4","test4");
+		// testCommentTree.addChild((ChildCommentModel) tct1);
+		// testCommentTree.addChild((ChildCommentModel) tct2);
+		// testCommentTree.addChild((ChildCommentModel) tct4);
+
+		// threadExpand(testCommentTree,0);
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		parentID = v.getTag().toString();
 		menu.add(0, Menu.FIRST, 0, "Reply");
@@ -156,20 +177,23 @@ public class ThreadView extends Activity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
 		switch (item.getItemId()) {
 		case Menu.FIRST:
-			//Log.e("Tag",parentID);
-			Toast.makeText(getApplicationContext(), "Reply", Toast.LENGTH_SHORT).show();
-			Intent newIntent = new Intent(getApplicationContext(),SubmitComment.class);
-			newIntent.putExtra("parentID",parentID);
-			newIntent.putExtra("commentType","reply");
+			// Log.e("Tag",parentID);
+			Toast.makeText(getApplicationContext(), "Reply", Toast.LENGTH_SHORT)
+					.show();
+			Intent newIntent = new Intent(getApplicationContext(),
+					SubmitComment.class);
+			newIntent.putExtra("parentID", parentID);
+			newIntent.putExtra("commentType", "reply");
 			startActivity(newIntent);
 			return true;
 		}
 		return super.onContextItemSelected(item);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

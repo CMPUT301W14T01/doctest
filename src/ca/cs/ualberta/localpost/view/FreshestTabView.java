@@ -43,10 +43,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
+import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import ca.cs.ualberta.localpost.controller.SortFreshestComments;
 import ca.cs.ualberta.localpost.controller.Serialize;
-import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 
 import com.google.gson.Gson;
@@ -74,6 +74,13 @@ public class FreshestTabView extends Fragment {
 
 		// Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container, false);
+<<<<<<< HEAD
+=======
+		
+		//ElasticSearchOperations task = new ElasticSearchOperations();
+		// task.execute(4,null,null);
+		//
+>>>>>>> origin/master
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		return rootView;
 	}
@@ -86,9 +93,9 @@ public class FreshestTabView extends Fragment {
 	public void onResume() {
 		super.onResume();
 		new Handler().postDelayed(new Runnable() {
-			ArrayList<CommentModel> model = new ArrayList<CommentModel>();
-
+			//ArrayList<CommentModel> model = new ArrayList<CommentModel>();
 			public void run() {
+<<<<<<< HEAD
 				try {
 					model = new ElasticSearchOperations().execute(3, null,
 							null, null).get();
@@ -100,18 +107,45 @@ public class FreshestTabView extends Fragment {
 					listView.setAdapter(adapter);
 				} catch (Exception e) {
 					e.printStackTrace();
+=======
+				ConnectivityCheck conn = new ConnectivityCheck(getActivity());
+				if (conn.isConnectingToInternet()) {
+					
+					try {
+						model = new ElasticSearchOperations().execute(3, null,
+								null, null).get();
+						Serialize.check_if_exist("cachedrootcomment.json", getActivity());
+						for (CommentModel c : model) {
+							Serialize.SaveComment(c, getActivity(), null);
+							Serialize.update(c, getActivity(), "favoritecomment.json");
+							Serialize.update(c, getActivity(), "historycomment.json");
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					
+					model = Serialize.loadFromFile("cachedrootcomment.json", getActivity());
+>>>>>>> origin/master
 				}
+				
+				adapter = new CommentListAdapter(
+						getActivity(), R.id.custom_adapter, model);
+				listView.setAdapter(adapter);
 				registerForContextMenu(listView);
-
+				
 				listView.setOnItemClickListener(new OnItemClickListener() {
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
+						
 						Gson gson = new Gson();
 						String modelString = gson.toJson(model.get(position));
 						Intent myIntent = new Intent(getActivity(),
 								ThreadView.class);
 						myIntent.putExtra("CommentModel", modelString);
+						
 						startActivity(myIntent);
+						
 					}
 				});
 			}
@@ -147,7 +181,7 @@ public class FreshestTabView extends Fragment {
 			int index = (int) info.id;
 			Toast.makeText(getActivity(), "Comment has been Favorited",
 					Toast.LENGTH_SHORT).show();
-			Serialize.SaveComment(model.get(index), getActivity());
+			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
 			return true;
 		}
 		return super.onContextItemSelected(item);

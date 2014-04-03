@@ -11,10 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -24,6 +21,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,6 +43,7 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	private GoogleMap googleMap;
 	private LatLng latLng;
 	private Address address;
+	StandardUserModel user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,12 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		setUpMapIfNeeded();		
 
 		// Initialize the marker
+		// TODO Change to make it display the new user selected location
+		try {
+			user = Serialize.loaduser(getApplicationContext());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		initMarker();
 
 		// Getting reference to btn_find of the layout maps_view
@@ -112,10 +118,10 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	 * Initialize the marker when the map view is opened
 	 */
 	private void initMarker() {
-		LocationManager service = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
-		String provider = getBestProvider(service);
-		Location location = service.getLastKnownLocation(provider);
-		latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//		LocationManager service = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
+//		String provider = getBestProvider(service);
+//		Location location = service.getLastKnownLocation(provider);
+		latLng = new LatLng(user.getAddress().getLatitude(), user.getAddress().getLongitude());
 
 		googleMap.clear();
 		
@@ -259,13 +265,13 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	 * @param locationManager
 	 * @return the location manager with the best supplier
 	 */
-	private String getBestProvider(LocationManager locationManager){
-		Criteria criteria = new Criteria();
-		criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-		criteria.setPowerRequirement(Criteria.POWER_LOW);
-		criteria.setCostAllowed(false);
-		return locationManager.getBestProvider(criteria, true);
-	}
+//	private String getBestProvider(LocationManager locationManager){
+//		Criteria criteria = new Criteria();
+//		criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+//		criteria.setPowerRequirement(Criteria.POWER_LOW);
+//		criteria.setCostAllowed(false);
+//		return locationManager.getBestProvider(criteria, true);
+//	}
 
 	/**
 	 * Method that passes an object of the address of the marker back to the previous activity, whose InfoWindow has been clicked		

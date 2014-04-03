@@ -93,13 +93,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.7" 
-        android:background="@drawable/layout_border">
+        android:textColor="#000000">
 
         <ListView
             android:id="@+id/profileCommentList"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:divider="@android:color/black"
+            android:textColor="#000000"
             android:dividerHeight="0.5sp" >
         </ListView>
     </LinearLayout>
