@@ -124,7 +124,7 @@ public class FreshestTabView extends Fragment {
 				listView.setAdapter(adapter);
 				registerForContextMenu(listView);
 
-		
+
 				listView.setOnItemClickListener(new OnItemClickListener() {
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
@@ -151,26 +151,27 @@ public class FreshestTabView extends Fragment {
 		menu.add(0, Menu.FIRST + 1, 0, "DownRad");
 		menu.add(0, Menu.FIRST + 2, 0, "Favorite");
 		menu.add(0, Menu.FIRST + 3, 0, "Read Later");
+		menu.add(0, Menu.FIRST + 4, 0, "Map the Thread Yo");
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		ConnectivityCheck conn = new ConnectivityCheck(getActivity());
-		
+
 		// Get item list index
 		ElasticSearchOperations es = new ElasticSearchOperations();
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
 		int index = (int) info.id;
 		switch (item.getItemId()) {
-		
+
 		case Menu.FIRST:
 			if(conn.isConnectingToInternet()){
-			Log.e("Increment", "UpRad");
-			Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
-			model.get(index).incRadish();
-			es.execute(1, model.get(index).getPostId().toString(), model.get(index),null);
-			return true;
+				Log.e("Increment", "UpRad");
+				Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
+				model.get(index).incRadish();
+				es.execute(1, model.get(index).getPostId().toString(), model.get(index),null);
+				return true;
 			}
 			else{
 				Toast.makeText(getActivity(), "You require connectivity to Uprad",
@@ -179,11 +180,11 @@ public class FreshestTabView extends Fragment {
 			}
 		case Menu.FIRST + 1:
 			if(conn.isConnectingToInternet()){
-			Log.e("Decrement", "DownRad");
-			Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
-			model.get(index).decRadish();
-			es.execute(1, model.get(index).getPostId().toString(), model.get(index),null);
-			return true;
+				Log.e("Decrement", "DownRad");
+				Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
+				model.get(index).decRadish();
+				es.execute(1, model.get(index).getPostId().toString(), model.get(index),null);
+				return true;
 			}
 			else{
 				Toast.makeText(getActivity(), "You require connectivity to Downrad",
@@ -192,15 +193,15 @@ public class FreshestTabView extends Fragment {
 			}
 		case Menu.FIRST + 3:
 			if(conn.isConnectingToInternet()){
-			// TODO Check if that comment already exists favorites.json
-			Toast.makeText(getActivity(), "Comment has been cached for later read",
-					Toast.LENGTH_SHORT).show();
-			model.get(index).setIsmarked(true);
-			es.execute(1, model.get(index).getPostId(), model.get(index),null);
-			listView.getChildAt(index).setBackgroundColor(Color.YELLOW);
-			Serialize.SaveComment(model.get(index), getActivity(), "readlater");
-			Serialize.update(model.get(index), getActivity(), "readlater.json");
-			return true;	
+				// TODO Check if that comment already exists favorites.json
+				Toast.makeText(getActivity(), "Comment has been cached for later read",
+						Toast.LENGTH_SHORT).show();
+				model.get(index).setIsmarked(true);
+				es.execute(1, model.get(index).getPostId(), model.get(index),null);
+				listView.getChildAt(index).setBackgroundColor(Color.YELLOW);
+				Serialize.SaveComment(model.get(index), getActivity(), "readlater");
+				Serialize.update(model.get(index), getActivity(), "readlater.json");
+				return true;	
 			}
 			else{
 				Toast.makeText(getActivity(), "You require connectivity to cache a thread for later read",
@@ -209,12 +210,24 @@ public class FreshestTabView extends Fragment {
 			}
 		case Menu.FIRST + 2:
 			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
-			// TODO Check if that comment already exists favorites.json
-			Toast.makeText(getActivity(), "Comment has been Favorited",
-					Toast.LENGTH_SHORT).show();
-			
-			Serialize.update(model.get(index), getActivity(), "favoritecomment.json");
-			return true;
+		// TODO Check if that comment already exists favorites.json
+		Toast.makeText(getActivity(), "Comment has been Favorited",
+				Toast.LENGTH_SHORT).show();			
+		Serialize.update(model.get(index), getActivity(), "favoritecomment.json");
+		return true;
+
+		case Menu.FIRST + 4:
+			if(conn.isConnectingToInternet()){
+				Intent intentMapThread = new Intent(getActivity(), MapsView.class);
+				intentMapThread.putExtra("mapthread", String.valueOf(model));
+				startActivity(intentMapThread);
+				return true;	
+			}
+			else{
+				Toast.makeText(getActivity(), "Yo you require connectivity to view a map thread",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
 		}
 		return super.onContextItemSelected(item);
 	}

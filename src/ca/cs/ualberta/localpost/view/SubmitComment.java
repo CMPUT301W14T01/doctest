@@ -188,6 +188,8 @@ public class SubmitComment extends Activity {
 					currentPicture);
 			new_root.setAuthor(user.getUsername());
 			new_root.setAddress(user.getAddress());
+			if (address != null)
+				new_root.setAddress(address);
 			Serialize.SaveComment(new_root, this, "history");
 			ElasticSearchOperations es = new ElasticSearchOperations();
 			es.execute(1, new_root.getPostId(), new_root, null);
@@ -198,6 +200,8 @@ public class SubmitComment extends Activity {
 				content = contentView.getText().toString();
 				ChildCommentModel new_child = new ChildCommentModel(content,null, currentPicture);
 				new_child.setAddress(user.getAddress());
+				if (address != null)
+					new_child.setAddress(address);
 				new_child.setAuthor(user.getUsername());
 				
 				//Find Parent and add to its array

@@ -58,6 +58,8 @@ public class EditComment extends Activity {
 	private EditText titleView;
 	private EditText contentView;
 	
+	public static final int OBTAIN_EDIT_COMMENT_CODE = 100;
+	
 	/**Object and index obtained via intent */
 	private RootCommentModel intentObj;
 	
@@ -102,7 +104,7 @@ public class EditComment extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(), MapsView.class);
-				startActivityForResult(intent, 1);
+				startActivityForResult(intent, OBTAIN_EDIT_COMMENT_CODE);
 			}
 
 		});
@@ -111,7 +113,7 @@ public class EditComment extends Activity {
 	@Override
     public void onActivityResult(int requestCode,int resultCode,Intent data)
     {
-		if (requestCode == 1){
+		if (requestCode == OBTAIN_EDIT_COMMENT_CODE){
 			if (resultCode == RESULT_OK){
 				String intentIndex = data.getStringExtra("address");
 				address = gson.fromJson(intentIndex, android.location.Address.class);

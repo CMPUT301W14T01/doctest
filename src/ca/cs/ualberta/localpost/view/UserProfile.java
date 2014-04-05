@@ -67,6 +67,9 @@ public class UserProfile extends Activity implements OnClickListener {
 	private RelativeLayout usernameLayout;
 	private RelativeLayout favoriteLayout;
 	private RelativeLayout geoLayout;
+	
+	public static final int OBTAIN_EDIT_COMMENT_CODE = 100;
+	public static final int OBTAIN_EDIT_USER_LOCATION_CODE = 101;
 
 //	/**Grabs Username via preferences*/
 //	private SharedPreferences app_preferences;
@@ -110,17 +113,6 @@ public class UserProfile extends Activity implements OnClickListener {
 
 		userNameText.setText(user.getUsername());
 		
-//		ElasticSearchOperations task = new ElasticSearchOperations();
-//		//task.execute(4,null,null);
-//		try {
-//			model = task.execute(3,null,null).get();
-//			for (CommentModel c : model) {
-//			Serialize.SaveComment(c, getApplicationContext());
-//			}
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
 		listView = (ListView) findViewById(R.id.profileCommentList);
 		
 		registerForContextMenu(listView);
@@ -170,19 +162,19 @@ public class UserProfile extends Activity implements OnClickListener {
 			editUsernameDialog(v);
 			break;
 		case R.id.profileFavoriteLayout:
-			Intent intent = new Intent(getApplicationContext(), FavoritesView.class);
-			startActivity(intent);
+			Intent intentFavorites = new Intent(getApplicationContext(), FavoritesView.class);
+			startActivity(intentFavorites);
 			break;
 		case R.id.profileGeoLayout:
-			Intent intent1 = new Intent(getApplicationContext(), MapsView.class);
-			startActivityForResult(intent1,2);
+			Intent intentUserLocation = new Intent(getApplicationContext(), MapsView.class);
+			startActivityForResult(intentUserLocation, OBTAIN_EDIT_USER_LOCATION_CODE);
 			break;
 		}
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		//super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 1) {
+		if (requestCode == OBTAIN_EDIT_COMMENT_CODE) {
 			if (resultCode == Activity.RESULT_OK) {
 				Gson gson = new Gson();
 				String returnObj = data.getStringExtra("returnObj");
@@ -190,8 +182,7 @@ public class UserProfile extends Activity implements OnClickListener {
 				RootCommentModel edited_root = gson.fromJson(returnObj,RootCommentModel.class);
 
 				model.set(Integer.valueOf(returnIndex), edited_root);
-	
-				
+					
 				File dir = getFilesDir();
 				File file = new File(dir, "rootcomment.json");
 				boolean deleted = file.delete();
@@ -201,7 +192,7 @@ public class UserProfile extends Activity implements OnClickListener {
 				}
 			}
 		}
-		if (requestCode == 2) {
+		if (requestCode == OBTAIN_EDIT_USER_LOCATION_CODE) {
 			if (resultCode == RESULT_OK) {
 				String intentIndex = data.getStringExtra("address");
 				address = gson.fromJson(intentIndex,
@@ -280,7 +271,7 @@ public class UserProfile extends Activity implements OnClickListener {
 			String x = gson.toJson(model.get(index));
 			myIntent.putExtra("ModelObj", x);
 			myIntent.putExtra("Index", String.valueOf(index));
-			startActivityForResult(myIntent, 1);
+			startActivityForResult(myIntent, OBTAIN_EDIT_COMMENT_CODE);
 			return true;
 		}
 		return super.onContextItemSelected(item);
