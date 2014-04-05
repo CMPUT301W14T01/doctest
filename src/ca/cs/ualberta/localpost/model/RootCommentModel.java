@@ -23,6 +23,7 @@
 
 package ca.cs.ualberta.localpost.model;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Address;
 
@@ -34,31 +35,15 @@ import android.location.Address;
  */
 public class RootCommentModel extends CommentModel {
 	
-	/**
-	 * Basic constructors for root comment model: 
-	 * This constructor is used for creating the class
-	 */
-	public RootCommentModel(){
-		super();
-	}
-	
-	/**
-	 * This constructor is used while we can't yet add locations and pictures to our comments
-	 * @param content : the content of the comment
-	 * @param title : the comment's title
-	 */
-	public RootCommentModel(String content, String title) {
-		super(content, title);
-	}
-	
+
 	/**
 	 * This constructor is used while we can't yet add locations to our comments
 	 * @param content : the content of the comment
 	 * @param title : the comment's title
 	 * @param picture : the comment's picture
 	 */
-	public RootCommentModel(String content, String title, Bitmap picture) {
-		super(content, title, picture);
+	public RootCommentModel(String content, String title, Bitmap picture, Context context) {
+		super(content, title, picture, context);
 	}
 	
 	/**
@@ -68,8 +53,8 @@ public class RootCommentModel extends CommentModel {
 	 * @param location : it's location
 	 * @param picture : the attached picture
 	 */
-	public RootCommentModel(String content, String title, Address address, Bitmap picture) {
-		super(content, title, address, picture);
+	public RootCommentModel(String content, String title, Address address, Bitmap picture, Context context) {
+		super(content, title, address, picture, context);
 	}
 
 }

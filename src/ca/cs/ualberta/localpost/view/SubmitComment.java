@@ -185,7 +185,7 @@ public class SubmitComment extends Activity {
 			content = contentView.getText().toString();
 
 			RootCommentModel new_root = new RootCommentModel(content, title,
-					currentPicture);
+					currentPicture, this);
 			new_root.setAuthor(user.getUsername());
 			new_root.setAddress(user.getAddress());
 			Serialize.SaveComment(new_root, this, "history");
@@ -196,7 +196,7 @@ public class SubmitComment extends Activity {
 			try {
 				//Create new child
 				content = contentView.getText().toString();
-				ChildCommentModel new_child = new ChildCommentModel(content,null, currentPicture);
+				ChildCommentModel new_child = new ChildCommentModel(content,null, currentPicture, this);
 				new_child.setAddress(user.getAddress());
 				new_child.setAuthor(user.getUsername());
 				

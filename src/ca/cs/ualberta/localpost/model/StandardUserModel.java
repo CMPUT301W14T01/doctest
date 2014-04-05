@@ -4,17 +4,23 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
+import android.content.Context;
+
 public class StandardUserModel extends UserModel {
 	 private static StandardUserModel instance = null;
 	 
-	 protected StandardUserModel() {
+	 protected StandardUserModel(Context context) {
 	      // Exists only to defeat instantiation.
-		 super();
+		 super(context);
 	   }
-	 public static StandardUserModel getInstance() {
+	 public static StandardUserModel getInstance(Context context) {
 	      if(instance == null) {
-	         instance = new StandardUserModel();
+	         instance = new StandardUserModel(context);
 	      }
+	      return instance;
+	   }
+	 
+	 public static StandardUserModel getInstance() {
 	      return instance;
 	   }
 

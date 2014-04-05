@@ -26,9 +26,10 @@ package ca.cs.ualberta.localpost.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
 import android.annotation.SuppressLint;
+import android.content.Context;
 import ca.cs.ualberta.localpost.model.CommentModel;
-import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 public class SortFreshestComments implements SortComments {

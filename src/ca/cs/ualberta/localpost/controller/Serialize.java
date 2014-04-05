@@ -203,7 +203,7 @@ public class Serialize {
 	
 	public static HashMap<String,ChildCommentModel> loadchildFromFile(String filename, Context context) {
 		constructGson();
-		ChildCommentModel model = new ChildCommentModel();
+		ChildCommentModel model = new ChildCommentModel(context);
 		HashMap<String,ChildCommentModel> hash = new HashMap<String,ChildCommentModel>();
 		FileInputStream FileOpen;
 		try {
@@ -225,7 +225,7 @@ public class Serialize {
 	
 	public static StandardUserModel loaduser(Context context) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		constructGson();
-		StandardUserModel user = StandardUserModel.getInstance();
+		StandardUserModel user = StandardUserModel.getInstance(context);
 		filename = userprofile;
 		FileInputStream FileOpen;
 		try {

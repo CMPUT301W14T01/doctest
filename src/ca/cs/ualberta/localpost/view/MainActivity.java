@@ -160,7 +160,7 @@ public class MainActivity extends FragmentActivity implements
 		case R.id.addNewComment:
 
 			try {
-				standardUser = StandardUserModel.getInstance();
+				standardUser = StandardUserModel.getInstance(this);
 				SharedPreferences app_preferences = getApplicationContext()
 						.getSharedPreferences("PREF", MODE_PRIVATE);
 				String getUsername = app_preferences.getString("username",
