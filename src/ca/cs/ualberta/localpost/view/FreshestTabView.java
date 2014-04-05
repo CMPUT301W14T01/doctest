@@ -75,8 +75,6 @@ public class FreshestTabView extends Fragment {
 		// Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container, false);
 
-		// ElasticSearchOperations task = new ElasticSearchOperations();
-		// task.execute(4,null,null);
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		return rootView;
 	}
@@ -116,8 +114,8 @@ public class FreshestTabView extends Fragment {
 							getActivity());
 
 				}
-				SortFreshestComments sort = new SortFreshestComments();
-				model = sort.sortComments(model);
+				//SortFreshestComments sort = new SortFreshestComments();
+				//model = sort.sortComments(model);
 
 				adapter = new CommentListAdapter(getActivity(),
 						R.id.custom_adapter, model);

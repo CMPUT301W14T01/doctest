@@ -46,36 +46,36 @@ import ca.cs.ualberta.localpost.controller.TabsPagerAdapter;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 /**
- * Main code was provided from Android Hive. Code was changed to fix
- * project requirements.
+ * Main code was provided from Android Hive. Code was changed to fix project
+ * requirements.
+ * 
  * @author Team 01
- *
+ * 
  */
-//Some code was provided from:
-//http://www.androidhive.info/2013/10/android-tab-layout-with-swipeable-views-1/
+// Some code was provided from:
+// http://www.androidhive.info/2013/10/android-tab-layout-with-swipeable-views-1/
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener, Observer {
-	
-	/**Adapters used to create the tabbed views/fragments */
+
+	/** Adapters used to create the tabbed views/fragments */
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
-	private String[] tabs = { "Fresh", "Lastest", "Greatest" };
-	
-	//public Bitmap picture;
-	/**Creates a model object of StandardUserModel.class */
+	private String[] tabs = { "Fresh", "Lastest", "Greatest","No Pics","Pics" };
+
+	// public Bitmap picture;
+	/** Creates a model object of StandardUserModel.class */
 	private StandardUserModel standardUser;
 
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_main);
 
-		
 		// Loads existing user or creates a new one
 		try {
 			standardUser = Serialize.loaduser(getApplicationContext());
@@ -83,21 +83,18 @@ public class MainActivity extends FragmentActivity implements
 			e.printStackTrace();
 		}
 		ConnectivityCheck conn = new ConnectivityCheck(this);
-		if(conn.isConnectingToInternet()){
-		// Set the users default location
-		GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
-		Address address = gpsLocation.getAddress();
-		standardUser.setAddress(address);
+		if (conn.isConnectingToInternet()) {
+			// Set the users default location
+			//GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
+			//Address address = gpsLocation.getAddress();
+			//standardUser.setAddress(address);
 		}
 		// Save users current location in file
 		Serialize.SaveUser(standardUser, getApplicationContext());
-		
-		
-		Log.e("user", String.valueOf(standardUser));
-//		Intent intent = new Intent(this,ThreadView.class);
-//		startActivity(intent);
 
-		/**Generate The Tab Views*/
+		Log.e("user", String.valueOf(standardUser));
+		
+		/** Generate The Tab Views */
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
@@ -105,7 +102,7 @@ public class MainActivity extends FragmentActivity implements
 		viewPager.setAdapter(mAdapter);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		//Log.e("Main on create done", "fuck this");
+		// Log.e("Main on create done", "fuck this");
 		for (String tab : tabs) {
 			actionBar.addTab(actionBar.newTab().setText(tab)
 					.setTabListener(this));
@@ -149,10 +146,13 @@ public class MainActivity extends FragmentActivity implements
 		return true;
 	}
 
-	/**Adds the following items to action bar icons 
+	/**
+	 * Adds the following items to action bar icons
 	 * 
-	 * @param item	Takes in a menu item
-	 * @return Returns a action bar with new comment and view user profile buttons.
+	 * @param item
+	 *            Takes in a menu item
+	 * @return Returns a action bar with new comment and view user profile
+	 *         buttons.
 	 * */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -161,32 +161,27 @@ public class MainActivity extends FragmentActivity implements
 
 			try {
 				standardUser = StandardUserModel.getInstance();
-				SharedPreferences app_preferences = getApplicationContext().getSharedPreferences("PREF", MODE_PRIVATE);
-				String getUsername = app_preferences.getString("username", "anonymous");
+				SharedPreferences app_preferences = getApplicationContext()
+						.getSharedPreferences("PREF", MODE_PRIVATE);
+				String getUsername = app_preferences.getString("username",
+						"anonymous");
 				standardUser.setUsername(getUsername);
-				GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
+				GPSLocation gpsLocation = new GPSLocation(
+						getApplicationContext());
 				Address address = gpsLocation.getAddress();
 				standardUser.setAddress(address);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
-			Intent myIntent = new Intent(getApplicationContext(),SubmitComment.class);
+			Intent myIntent = new Intent(getApplicationContext(),
+					SubmitComment.class);
 			startActivity(myIntent);
 			return true;
 		case R.id.viewUserProfile:
-			Intent myIntent2 = new Intent(getApplicationContext(),UserProfile.class);
+			Intent myIntent2 = new Intent(getApplicationContext(),
+					UserProfile.class);
 			startActivity(myIntent2);
-			return true;
-		case R.id.action3_sub1:
-			Intent myIntent3 = new Intent(getApplicationContext(),UserProfile.class);
-			Toast.makeText(getApplicationContext(),"Only Pictures",Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.action3_sub2:
-			Toast.makeText(getApplicationContext(),"No Pictures",Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.action3_sub3:
-			Toast.makeText(getApplicationContext(),"All Comments",Toast.LENGTH_SHORT).show();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -195,6 +190,6 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public void update(Observable observable, Object data) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
 	}
 }
