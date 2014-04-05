@@ -206,7 +206,7 @@ public class SubmitComment extends Activity {
 				CommentModel temp = array.get(0);
 				Log.e("temp", temp.getPostId().toString());
 				temp.addChild(new_child.getPostId().toString());
-				Serialize.SaveComment(temp, this, "historycomment.json");
+				Serialize.SaveComment(temp, this, "history");
 				Serialize.update(temp, this, "favoritecomment.json");
 				Serialize.update(temp, this, "historycomment.json");
 				

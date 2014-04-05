@@ -26,6 +26,7 @@ package ca.cs.ualberta.localpost.view;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -62,11 +63,10 @@ public class FreshestTabView extends Fragment {
 	private ListView listView;
 	private CommentListAdapter adapter;
 	ArrayList<CommentModel> model;
-	
-	public void setIsPictures(int option){
+
+	public void setIsPictures(int option) {
 		this.isPictures = option;
 	}
-
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,8 +74,8 @@ public class FreshestTabView extends Fragment {
 
 		// Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container, false);
-		
-		//ElasticSearchOperations task = new ElasticSearchOperations();
+
+		// ElasticSearchOperations task = new ElasticSearchOperations();
 		// task.execute(4,null,null);
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		return rootView;
@@ -89,49 +89,54 @@ public class FreshestTabView extends Fragment {
 	public void onResume() {
 		super.onResume();
 		new Handler().postDelayed(new Runnable() {
-			//ArrayList<CommentModel> model = new ArrayList<CommentModel>();
+			// ArrayList<CommentModel> model = new ArrayList<CommentModel>();
 			public void run() {
 
 				ConnectivityCheck conn = new ConnectivityCheck(getActivity());
 				if (conn.isConnectingToInternet()) {
-					
+
 					try {
 						model = new ElasticSearchOperations().execute(3, null,
 								null, null).get();
-						Serialize.check_if_exist("cachedrootcomment.json", getActivity());
+						Serialize.check_if_exist("cachedrootcomment.json",
+								getActivity());
 						for (CommentModel c : model) {
 							Serialize.SaveComment(c, getActivity(), null);
-							Serialize.update(c, getActivity(), "favoritecomment.json");
-							Serialize.update(c, getActivity(), "historycomment.json");
+							Serialize.update(c, getActivity(),
+									"favoritecomment.json");
+							Serialize.update(c, getActivity(),
+									"historycomment.json");
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				} else {
-					
-					model = Serialize.loadFromFile("cachedrootcomment.json", getActivity());
+
+					model = Serialize.loadFromFile("cachedrootcomment.json",
+							getActivity());
 
 				}
 				SortFreshestComments sort = new SortFreshestComments();
 				model = sort.sortComments(model);
-				
-				adapter = new CommentListAdapter(
-						getActivity(), R.id.custom_adapter, model);
+
+				adapter = new CommentListAdapter(getActivity(),
+						R.id.custom_adapter, model);
 				listView.setAdapter(adapter);
 				registerForContextMenu(listView);
-				
+
+		
 				listView.setOnItemClickListener(new OnItemClickListener() {
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
-						
+
 						Gson gson = new Gson();
 						String modelString = gson.toJson(model.get(position));
 						Intent myIntent = new Intent(getActivity(),
 								ThreadView.class);
 						myIntent.putExtra("CommentModel", modelString);
-						
+
 						startActivity(myIntent);
-						
+
 					}
 				});
 			}
@@ -145,29 +150,70 @@ public class FreshestTabView extends Fragment {
 		menu.add(0, Menu.FIRST, 0, "UpRad");
 		menu.add(0, Menu.FIRST + 1, 0, "DownRad");
 		menu.add(0, Menu.FIRST + 2, 0, "Favorite");
+		menu.add(0, Menu.FIRST + 3, 0, "Read Later");
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		ConnectivityCheck conn = new ConnectivityCheck(getActivity());
+		
 		// Get item list index
+		ElasticSearchOperations es = new ElasticSearchOperations();
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
+		int index = (int) info.id;
 		switch (item.getItemId()) {
+		
 		case Menu.FIRST:
+			if(conn.isConnectingToInternet()){
 			Log.e("Increment", "UpRad");
 			Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
-
+			model.get(index).incRadish();
+			es.execute(1, model.get(index).getPostId().toString(), model.get(index),null);
 			return true;
+			}
+			else{
+				Toast.makeText(getActivity(), "You require connectivity to Uprad",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
 		case Menu.FIRST + 1:
+			if(conn.isConnectingToInternet()){
 			Log.e("Decrement", "DownRad");
 			Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
+			model.get(index).decRadish();
+			es.execute(1, model.get(index).getPostId().toString(), model.get(index),null);
 			return true;
-		case Menu.FIRST + 2:
+			}
+			else{
+				Toast.makeText(getActivity(), "You require connectivity to Downrad",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
+		case Menu.FIRST + 3:
+			if(conn.isConnectingToInternet()){
 			// TODO Check if that comment already exists favorites.json
-			int index = (int) info.id;
+			Toast.makeText(getActivity(), "Comment has been cached for later read",
+					Toast.LENGTH_SHORT).show();
+			model.get(index).setIsmarked(true);
+			es.execute(1, model.get(index).getPostId(), model.get(index),null);
+			listView.getChildAt(index).setBackgroundColor(Color.YELLOW);
+			Serialize.SaveComment(model.get(index), getActivity(), "readlater");
+			Serialize.update(model.get(index), getActivity(), "readlater.json");
+			return true;	
+			}
+			else{
+				Toast.makeText(getActivity(), "You require connectivity to cache a thread for later read",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
+		case Menu.FIRST + 2:
+			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
+			// TODO Check if that comment already exists favorites.json
 			Toast.makeText(getActivity(), "Comment has been Favorited",
 					Toast.LENGTH_SHORT).show();
-			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
+			
+			Serialize.update(model.get(index), getActivity(), "favoritecomment.json");
 			return true;
 		}
 		return super.onContextItemSelected(item);

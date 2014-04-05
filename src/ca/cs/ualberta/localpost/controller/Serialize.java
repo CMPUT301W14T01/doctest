@@ -61,6 +61,7 @@ public class Serialize {
 	public static final String cachedrootcomment = "cachedrootcomment.json";
 	public static final String cachedchildcomment = "cachedchildcomment.json";
 	public static final String historycomment = "historycomment.json";
+	public static final String readlater = "readlater.json";
 	public static final String userprofile = "userprofile.json";
 	private static String filename = null;
 	
@@ -75,7 +76,7 @@ public class Serialize {
 	public static void SaveComment(CommentModel new_root, Context context, String parentid) {
 		constructGson();
 		String modelJson = null;
-		Log.e("Saving", "Calls saving");
+		
 		if(new_root instanceof RootCommentModel && (parentid == null)){
 			filename = cachedrootcomment;
 		}
@@ -84,10 +85,18 @@ public class Serialize {
 		}
 		else if(parentid.equals("favourite")){
 			filename = favoritecomment;
-			Log.e("Saving", "Finds the right file");
 		}
 		else if(parentid.equals("history")){
 			filename = historycomment;	
+		}
+		else if(parentid.equals("readlater")){
+			filename = readlater;
+		}
+		ArrayList<CommentModel> rootlist = loadFromFile(filename, context);
+		for(CommentModel r: rootlist){
+			if(new_root.getPostId().equals(r.getPostId())){
+				return;
+			}
 		}
 		modelJson = gson.toJson(new_root);
 		write(modelJson, context);
@@ -133,16 +142,19 @@ public class Serialize {
 		String dir = null;
 		if(file.equals(favoritecomment)){
 			dir = "favourite";
+			Log.e("outside", "finds right file");
 		}
 		else{
 			dir = "history";
 		}
 		rootlist = loadFromFile(file, context);
+		Log.e("load", String.valueOf(rootlist.size()));
 		check_if_exist(file, context);
 		for(CommentModel r : rootlist){
 			if(r.getPostId().toString().equals(updatedroot.getPostId().toString())){
 				//r.setChildren(updatedroot.getChildren());
 				r = updatedroot;
+				Log.e("inside loop", "here");
 			}
 			SaveComment(r, context, dir);
 		}

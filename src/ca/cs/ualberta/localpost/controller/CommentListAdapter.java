@@ -28,6 +28,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,9 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 		
 		if(convertView == null){
 			convertView = inflater.inflate(R.layout.comment_list_adapter, null);
+			if(model.Ismarked()){
+				convertView.setBackgroundColor(Color.YELLOW);
+			}
 			holder = new ViewHolder();
 			holder.username = (TextView) convertView.findViewById(R.id.CommentUsername);
 			holder.title = (TextView) convertView.findViewById(R.id.commentTitle);
@@ -85,7 +89,7 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 		holder.title.setText(model.getTitle());
 		holder.username.setText(model.getAuthor());
 		holder.radish.setText(Integer.toString(model.getRadish()));
-		//holder.picture.setImageBitmap(model.getPicture());
+		holder.picture.setImageBitmap(model.getPicture());
 		if (model.getAddress() == null){
 			holder.location.setText("@ No location");
 		}

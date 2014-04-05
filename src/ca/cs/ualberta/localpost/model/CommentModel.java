@@ -47,6 +47,7 @@ public abstract class CommentModel extends Observable{
 	private String content;
 	private Bitmap picture;
 	private long timestamp;
+	private boolean ismarked;
 
 	//Internal data for controllers
 	private ArrayList<String> children = new ArrayList<String>();
@@ -122,6 +123,7 @@ public abstract class CommentModel extends Observable{
 		this.picture = picture;
 		this.author = getAuthor();
 		this.address = user.getAddress();
+		this.ismarked = false;
 	}
 	
 	/**
@@ -267,6 +269,14 @@ public abstract class CommentModel extends Observable{
 
 	public void setChildren(ArrayList<String> children) {
 		this.children = children;
+	}
+
+	public boolean Ismarked() {
+		return ismarked;
+	}
+
+	public void setIsmarked(boolean ismarked) {
+		this.ismarked = ismarked;
 	}
 
 	

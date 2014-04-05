@@ -40,6 +40,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.controller.TabsPagerAdapter;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
@@ -81,16 +82,17 @@ public class MainActivity extends FragmentActivity implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		ConnectivityCheck conn = new ConnectivityCheck(this);
+		if(conn.isConnectingToInternet()){
 		// Set the users default location
 		GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
 		Address address = gpsLocation.getAddress();
 		standardUser.setAddress(address);
-		
+		}
 		// Save users current location in file
 		Serialize.SaveUser(standardUser, getApplicationContext());
 		
-		Log.e("Address", String.valueOf(address));
+		
 		Log.e("user", String.valueOf(standardUser));
 //		Intent intent = new Intent(this,ThreadView.class);
 //		startActivity(intent);
@@ -175,6 +177,7 @@ public class MainActivity extends FragmentActivity implements
 		case R.id.viewUserProfile:
 			Intent myIntent2 = new Intent(getApplicationContext(),UserProfile.class);
 			startActivity(myIntent2);
+			return true;
 		case R.id.action3_sub1:
 			Intent myIntent3 = new Intent(getApplicationContext(),UserProfile.class);
 			Toast.makeText(getApplicationContext(),"Only Pictures",Toast.LENGTH_SHORT).show();
