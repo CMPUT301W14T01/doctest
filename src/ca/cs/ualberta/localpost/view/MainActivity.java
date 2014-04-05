@@ -85,9 +85,9 @@ public class MainActivity extends FragmentActivity implements
 		ConnectivityCheck conn = new ConnectivityCheck(this);
 		if (conn.isConnectingToInternet()) {
 			// Set the users default location
-			//GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
-			//Address address = gpsLocation.getAddress();
-			//standardUser.setAddress(address);
+//			GPSLocation gpsLocation = new GPSLocation(getApplicationContext());
+//			Address address = gpsLocation.getAddress();
+//			standardUser.setAddress(address);
 		}
 		// Save users current location in file
 		Serialize.SaveUser(standardUser, getApplicationContext());
