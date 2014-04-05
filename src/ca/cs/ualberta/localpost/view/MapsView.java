@@ -15,6 +15,7 @@ import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -22,11 +23,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -34,16 +37,29 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
-public class MapsView extends FragmentActivity implements OnInfoWindowClickListener, OnMarkerDragListener{
+public class MapsView extends FragmentActivity implements OnInfoWindowClickListener, OnMarkerDragListener, OnMapClickListener{
 
 	/** Source: http://wptrafficanalyzer.in/blog/android-geocoding-showing-user-input-location-on-google-map-android-api-v2/
 	 * 	and Google Play Services demos
 	 * **/
 
 	private GoogleMap googleMap;
+	private Marker googleMarker;
 	private LatLng latLng;
 	private Address address;
 	StandardUserModel user;
+	private RootCommentModel commentModel;
+	
+	private String MAP_VIEW_TYPE = "mapviewtype";
+	private String THREAD_VIEW = "threadview";
+	private String SUBMIT_VIEW = "submitvew";
+	private String EDIT_COMMENT_VIEW = "editview";
+	private String EDIT_USER_LOCATION_VIEW = "userlocationview";
+	private String EDIT_COMMENT_MODEL = "editcomment";
+	String INTENT_OBJECT;
+	private String INTENT_PURPOSE;
+	
+	Gson gson = new Gson();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +76,35 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		initMarker();
 
+		Intent extrasData = getIntent();
+
+		INTENT_PURPOSE = extrasData.getStringExtra(MAP_VIEW_TYPE);
+		
+		// The following checks conditions to determine how to display the map
+		// depending on where the intent was sent from and with what purpose
+		if (INTENT_PURPOSE.equals(THREAD_VIEW)){
+			;
+		}
+		else if (INTENT_PURPOSE.equals(SUBMIT_VIEW)) {
+			latLng = new LatLng(user.getAddress().getLatitude(), user.getAddress().getLongitude());
+			address = user.getAddress();
+			commentMarker();
+		}
+		else if (INTENT_PURPOSE.equals(EDIT_COMMENT_VIEW)) {
+			INTENT_OBJECT = extrasData.getStringExtra(EDIT_COMMENT_MODEL);
+			commentModel = gson.fromJson(INTENT_OBJECT, RootCommentModel.class);
+			// Open the map at the location where the comment was made
+			latLng = new LatLng(commentModel.getAddress().getLatitude(), commentModel.getAddress().getLongitude());
+			address = commentModel.getAddress();
+			Log.e("Comment", String.valueOf(commentModel));
+			Log.e("address", String.valueOf(address));			
+			commentMarker();
+		}
+		else if (INTENT_PURPOSE.equals(EDIT_USER_LOCATION_VIEW)) {
+			;
+		}
+				
 		// Getting reference to btn_find of the layout maps_view
 		Button btn_find = (Button) findViewById(R.id.btn_find);
 
@@ -117,19 +160,11 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	/**
 	 * Initialize the marker when the map view is opened
 	 */
-	private void initMarker() {
-//		LocationManager service = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
-//		String provider = getBestProvider(service);
-//		Location location = service.getLastKnownLocation(provider);
-		latLng = new LatLng(user.getAddress().getLatitude(), user.getAddress().getLongitude());
-
+	private void commentMarker() {
+		// Clear all marker currently on the map
 		googleMap.clear();
 		
-		// Get an address for current marker
-		List<Address> addresses = addresses(1);
-		address = (Address) addresses.get(0);
-
-		Marker googleMarker = googleMap.addMarker(new MarkerOptions()
+		googleMarker = googleMap.addMarker(new MarkerOptions()
 		.position(latLng)
 		.title("I'm here @ " + address.getAddressLine(0))
 		.draggable(true)
@@ -326,7 +361,7 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	 * Called when a marker starts being dragged
 	 */
 	@Override
-	public void onMarkerDragStart(Marker arg0) {
+	public void onMarkerDragStart(Marker marker) {
 		// Minimize the keyboard after the 'Find' button is pressed
 		// Source: http://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
 		InputMethodManager inputManager = (InputMethodManager)
@@ -334,5 +369,10 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 
 		inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
 				InputMethodManager.HIDE_NOT_ALWAYS);
+	}
+
+	@Override
+	public void onMapClick(LatLng point) {
+		googleMarker.showInfoWindow();		
 	}
 }

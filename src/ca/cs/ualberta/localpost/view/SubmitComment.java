@@ -44,12 +44,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
-
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
@@ -74,6 +74,10 @@ public class SubmitComment extends Activity {
 	private Button postButton;
 	/** Constant pic request code */
 	public static final int OBTAIN_PIC_REQUEST_CODE = 117;
+	public static final int OBTAIN_ADDRESS_REQUEST_CODE = 101;
+	private String SUBMIT_VIEW = "submitvew";
+	private String MAP_VIEW_TYPE = "mapviewtype";
+	private String INTENT_PURPOSE;
 
 	/** Carries the currently save picture waiting for submission */
 	private Bitmap currentPicture = null;
@@ -84,8 +88,6 @@ public class SubmitComment extends Activity {
 	private Address address;
 	
 	/**Gson writer */
-
-
 	private Gson gson = new Gson();
 
 	LatLng latlng;
@@ -145,9 +147,10 @@ public class SubmitComment extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(),
+				Intent intentLocation = new Intent(getApplicationContext(),
 						MapsView.class);
-				startActivityForResult(intent, 1);
+				intentLocation.putExtra(MAP_VIEW_TYPE, SUBMIT_VIEW);
+				startActivityForResult(intentLocation, OBTAIN_ADDRESS_REQUEST_CODE);
 			}
 		});
 
@@ -270,7 +273,7 @@ public class SubmitComment extends Activity {
 						newWidth, newHeight, false);
 			}
 		}
-		if (requestCode == 1) {
+		if (requestCode == OBTAIN_ADDRESS_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				String intentIndex = data.getStringExtra("address");
 				address = gson.fromJson(intentIndex,

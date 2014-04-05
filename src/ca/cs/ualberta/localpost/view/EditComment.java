@@ -59,6 +59,10 @@ public class EditComment extends Activity {
 	private EditText contentView;
 	
 	public static final int OBTAIN_EDIT_COMMENT_CODE = 100;
+	private String EDIT_COMMENT_VIEW = "editview";
+	private String MAP_VIEW_TYPE = "mapviewtype";
+	private String EDIT_COMMENT_MODEL = "editcomment";
+	private String INTENT_PURPOSE;
 	
 	/**Object and index obtained via intent */
 	private RootCommentModel intentObj;
@@ -103,8 +107,11 @@ public class EditComment extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), MapsView.class);
-				startActivityForResult(intent, OBTAIN_EDIT_COMMENT_CODE);
+				Intent intentEdit = new Intent(getApplicationContext(), MapsView.class);
+				intentEdit.putExtra(MAP_VIEW_TYPE, EDIT_COMMENT_VIEW);
+				String comment = gson.toJson(intentObj);
+				intentEdit.putExtra(EDIT_COMMENT_MODEL, comment);
+				startActivityForResult(intentEdit, OBTAIN_EDIT_COMMENT_CODE);
 			}
 
 		});

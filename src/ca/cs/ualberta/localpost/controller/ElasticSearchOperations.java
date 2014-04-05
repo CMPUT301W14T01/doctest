@@ -58,7 +58,7 @@ public class ElasticSearchOperations extends
 
 	private static Gson gson;
 	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/chautran/";
-	//http://cmput301.softwareprocess.es:8080/testing/chautran/_search?pretty=1&size=100
+	//private static String URL = "http://cmput301.softwareprocess.es:8080/testing/timotei/";
 
 	private HttpClient httpclient = new DefaultHttpClient();
 	private Integer index;

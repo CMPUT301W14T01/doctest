@@ -63,6 +63,9 @@ public class FreshestTabView extends Fragment {
 	private ListView listView;
 	private CommentListAdapter adapter;
 	ArrayList<CommentModel> model;
+	private String THREAD_VIEW = "threadview";
+	private String MAP_VIEW_TYPE = "mapviewtype";
+	private String INTENT_PASS_COMMENT_MODEL = "commentmodel";
 
 	public void setIsPictures(int option) {
 		this.isPictures = option;
@@ -219,7 +222,8 @@ public class FreshestTabView extends Fragment {
 		case Menu.FIRST + 4:
 			if(conn.isConnectingToInternet()){
 				Intent intentMapThread = new Intent(getActivity(), MapsView.class);
-				intentMapThread.putExtra("mapthread", String.valueOf(model));
+				intentMapThread.putExtra(MAP_VIEW_TYPE, THREAD_VIEW);
+				intentMapThread.putExtra(INTENT_PASS_COMMENT_MODEL, String.valueOf(model));
 				startActivity(intentMapThread);
 				return true;	
 			}

@@ -69,7 +69,7 @@ public class UserProfile extends Activity implements OnClickListener {
 	private RelativeLayout geoLayout;
 	
 	public static final int OBTAIN_EDIT_COMMENT_CODE = 100;
-	public static final int OBTAIN_EDIT_USER_LOCATION_CODE = 101;
+	public static final int OBTAIN_ADDRESS_REQUEST_CODE = 101;
 
 //	/**Grabs Username via preferences*/
 //	private SharedPreferences app_preferences;
@@ -167,7 +167,7 @@ public class UserProfile extends Activity implements OnClickListener {
 			break;
 		case R.id.profileGeoLayout:
 			Intent intentUserLocation = new Intent(getApplicationContext(), MapsView.class);
-			startActivityForResult(intentUserLocation, OBTAIN_EDIT_USER_LOCATION_CODE);
+			startActivityForResult(intentUserLocation, OBTAIN_ADDRESS_REQUEST_CODE);
 			break;
 		}
 	}
@@ -192,7 +192,7 @@ public class UserProfile extends Activity implements OnClickListener {
 				}
 			}
 		}
-		if (requestCode == OBTAIN_EDIT_USER_LOCATION_CODE) {
+		if (requestCode == OBTAIN_ADDRESS_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				String intentIndex = data.getStringExtra("address");
 				address = gson.fromJson(intentIndex,
