@@ -1,6 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/readLater"
+        android:icon="@drawable/ic_menu_save"
+        android:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/plotThread"
+        android:icon="@drawable/ic_menu_mapmode"
+        android:showAsAction="ifRoom"
+        android:title="Plot Thread"/>
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"

@@ -25,5 +25,6 @@
     <string name="no">NO</string>
     <string name="title_activity_pic_tab">PicTab</string>
     <string name="title_activity_no_pic_tab_view">NoPicTabView</string>
+    <string name="title_activity_read_later_view">ReadLaterView</string>
 
 </resources>

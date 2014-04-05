@@ -67,6 +67,7 @@ public class UserProfile extends Activity implements OnClickListener {
 	private RelativeLayout usernameLayout;
 	private RelativeLayout favoriteLayout;
 	private RelativeLayout geoLayout;
+	private RelativeLayout readLaterLayout;
 
 //	/**Grabs Username via preferences*/
 //	private SharedPreferences app_preferences;
@@ -102,11 +103,13 @@ public class UserProfile extends Activity implements OnClickListener {
 		usernameLayout = (RelativeLayout) findViewById(R.id.profileUsernameLayout);
 		favoriteLayout = (RelativeLayout) findViewById(R.id.profileFavoriteLayout);
 		geoLayout = (RelativeLayout) findViewById(R.id.profileGeoLayout);
+		readLaterLayout = (RelativeLayout) findViewById(R.id.profileReadLater);
 
 		// Makes the Layouts clickable
 		usernameLayout.setOnClickListener(this);
 		favoriteLayout.setOnClickListener(this);
 		geoLayout.setOnClickListener(this);
+		readLaterLayout.setOnClickListener(this);
 
 		userNameText.setText(user.getUsername());
 		
@@ -176,6 +179,10 @@ public class UserProfile extends Activity implements OnClickListener {
 		case R.id.profileGeoLayout:
 			Intent intent1 = new Intent(getApplicationContext(), MapsView.class);
 			startActivityForResult(intent1,2);
+			break;
+		case R.id.profileReadLater:
+			Intent intent2 = new Intent(getApplicationContext(), ReadLaterView.class);
+			startActivity(intent2);
 			break;
 		}
 	}
