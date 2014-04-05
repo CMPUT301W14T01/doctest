@@ -3,9 +3,8 @@
  */
 package ca.cs.ualberta.localpost.test;
 
-import junit.framework.TestCase;
-import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
+import junit.framework.TestCase;
 
 /**
  * @author timotei
@@ -13,61 +12,96 @@ import ca.cs.ualberta.localpost.model.StandardUserModel;
  */
 public class StandardUserModelTest extends TestCase {
 
-	private StandardUserModel model;
-	
+	StandardUserModel model;
+
 	public StandardUserModelTest() {
 		super();
 	}
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
-	
+
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
+
 	/**
 	 * Test whether we can instantiate a new StandardUserModel
 	 */
 	public final void testStandardUserModel() {
 		try {
-			model = new StandardUserModel();
+			model = StandardUserModel.getInstance();
 		} catch (Exception e) {
 			// Auto-generated catch block
 			e.printStackTrace();
 		}		
 		assertNotNull(model);
 	}
-	
+
+	/**
+	 * Test method for {@link ca.cs.ualberta.localpost.model.StandardUserModel#getInstance()}.
+	 */
+	public final void testGetInstance() {
+		fail("Not yet implemented"); // TODO
+	}
+
 	/**
 	 * Test whether we can retrieve the username after creating the 
 	 * StandardUserModel
 	 */
 	public final void testGetUsername() {
 		try {
-			model = new StandardUserModel();
+			model = StandardUserModel.getInstance();
 		} catch (Exception e) {
 			// Auto-generated catch block
 			e.printStackTrace();
-		}		
-		assertEquals("anonymous",model.getUsername());
+		}	
+		assertNotNull(model.getUsername());
 	}
 
 	/**
-	 * Test method for {@link ca.cs.ualberta.localpost.model.StandardUserModel#setUsername(java.lang.String)}.
+	 * Test whether we can retrieve the address after creating the 
+	 * StandardUserModel
 	 */
-	public final void testSetUsername() {
-		// Instantiate a new StandardUserModel
+	public final void testGetAddress() {
 		try {
-			model = new StandardUserModel();
+			model = StandardUserModel.getInstance();
 		} catch (Exception e) {
 			// Auto-generated catch block
 			e.printStackTrace();
-		}		
-		
+		}	
+		fail("Not yet implemented"); // TODO
+	}
+
+	/**
+	 * Test whether we can set the address after creating the 
+	 * StandardUserModel
+	 */
+	public final void testSetAddress() {
+		try {
+			model = StandardUserModel.getInstance();
+		} catch (Exception e) {
+			// Auto-generated catch block
+			e.printStackTrace();
+		}	
+		fail("Not yet implemented"); // TODO
+	}
+
+	/**
+	 * Test whether we set retrieve the username after creating the 
+	 * StandardUserModel
+	 */
+	public final void testSetUsername() {
+		try {
+			model = StandardUserModel.getInstance();
+		} catch (Exception e) {
+			// Auto-generated catch block
+			e.printStackTrace();
+		}	
 		// Create a new username string
 		String username = "TestUsername";
-		
+
 		// Set the username to the string created above
 		try {
 			model.setUsername(username);
@@ -75,54 +109,47 @@ public class StandardUserModelTest extends TestCase {
 			// Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		assertEquals(username,model.getUsername());
 	}
 
 	/**
-	 * Test whether we can retrieve the mac address after creating the 
-	 * StandardUserModel
+	 * Test method for {@link ca.cs.ualberta.localpost.model.UserModel#getTripcode()}.
 	 */
-	public final void testGetMac() {
-		/*try {
-			model = new StandardUserModel();
+	public final void testGetTripcode() {
+		try {
+			model = StandardUserModel.getInstance();
 		} catch (Exception e) {
 			// Auto-generated catch block
 			e.printStackTrace();
 		}	
-		AndroidMacAddressProvider macprov = new AndroidMacAddressProvider();
-		String macAddress = macprov.getMacAddress();
-		//assertEquals(macAddress,model.getMac());
-*/		fail("Changed method, test broke"); // TODO
-	}
-	
-	/**
-	 * Test whether we can retrieve the tripcode after creating the 
-	 * StandardUserModel
-	 */
-	public final void testGetTripcode() {
-		try {
-			model = new StandardUserModel();
-		} catch (Exception e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}		
-		assertNotNull(model.getTripcode());
-	}
-
-	/**
-	 * Test whether we can generate the tripcode after creating the 
-	 * StandardUserModel
-	 */
-	public final void testGenTripcode() {
 		fail("Not yet implemented"); // TODO
 	}
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
+	/**
+	 * Test method for {@link ca.cs.ualberta.localpost.model.UserModel#genTripcode()}.
 	 */
-	protected void tearDown() throws Exception {
-		super.tearDown();
+	public final void testGenTripcode() {
+		try {
+			model = StandardUserModel.getInstance();
+		} catch (Exception e) {
+			// Auto-generated catch block
+			e.printStackTrace();
+		}	
+		fail("Not yet implemented"); // TODO
+	}
+
+	/**
+	 * Test method for {@link ca.cs.ualberta.localpost.model.UserModel#getMac()}.
+	 */
+	public final void testGetMac() {
+		try {
+			model = StandardUserModel.getInstance();
+		} catch (Exception e) {
+			// Auto-generated catch block
+			e.printStackTrace();
+		}	
+		fail("Not yet implemented"); // TODO
 	}
 
 }
