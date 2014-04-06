@@ -3,10 +3,14 @@
  */
 package ca.cs.ualberta.localpost.view;
 import java.io.IOException;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,11 +18,13 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,12 +41,19 @@ import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.LatLngBounds.Builder;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-public class MapsView extends FragmentActivity implements OnInfoWindowClickListener, OnMarkerDragListener, OnMapClickListener{
+public class MapsView extends FragmentActivity implements OnInfoWindowClickListener, OnMarkerDragListener, OnMapClickListener, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/** Source: http://wptrafficanalyzer.in/blog/android-geocoding-showing-user-input-location-on-google-map-android-api-v2/
 	 * 	and Google Play Services demos
 	 * **/
@@ -50,9 +63,9 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	private LatLng latLng;
 	private Address address;
 	StandardUserModel user;
-	private CommentModel commentThread;
+	private ArrayList<CommentModel> commentThread;
 	private RootCommentModel commentModel;
-	
+
 	private String MAP_VIEW_TYPE = "mapviewtype";
 	private String THREAD_VIEW = "threadview";
 	private String SUBMIT_VIEW = "submitvew";
@@ -62,7 +75,7 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	private String THREAD_COMMENT_MODEL = "threadcommentmodel";
 	String INTENT_OBJECT;
 	private String INTENT_PURPOSE;
-	
+
 	Gson gson = new Gson();
 
 	@Override
@@ -84,40 +97,51 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		Intent extrasData = getIntent();
 
 		INTENT_PURPOSE = extrasData.getStringExtra(MAP_VIEW_TYPE);
-		
+
 		// The following checks conditions to determine how to display the map
 		// depending on where the intent was sent from and with what purpose
 		if (INTENT_PURPOSE.equals(THREAD_VIEW)){
 			// Retrieve the comment model passed through intent
 			INTENT_OBJECT = extrasData.getStringExtra(THREAD_COMMENT_MODEL);
-			
-			// Convert the gson string to a Comment Model
-			commentThread = gson.fromJson(INTENT_OBJECT, RootCommentModel.class);
-			
-			markerThreadView(commentThread);
+
+			// Convert GSON string to ArrayList Type
+			ArrayList<String> arrayComments =
+					gson.fromJson(INTENT_OBJECT, new TypeToken<ArrayList<String>>(){}.getType());
+
+			Log.e("Pass4", "Got here");
+			Log.e("Pass5", String.valueOf(arrayComments.size()));
+
+			//			RootCommentModel fromJson1 = gson.fromJson(arrayComments.get(0), RootCommentModel.class);
+			//			Log.e("Pass6", String.valueOf(fromJson1.getAddress().getAddressLine(0)));
+			//			Log.e("Pass7", arrayComments.get(0));
+			//			Log.e("Pass8", String.valueOf(fromJson1.getAddress()));
+			//			RootCommentModel fromJson = gson.fromJson(arrayComments.get(0), RootCommentModel.class);
+			//					
+			//			Log.e("Pass9", fromJson.getAuthor());
+			markerThreadView(arrayComments);
 		}
 		else if (INTENT_PURPOSE.equals(SUBMIT_VIEW) || INTENT_PURPOSE.equals(EDIT_USER_LOCATION_VIEW)) {
 			// Set address to the users default location
 			address = user.getAddress();
-						
+
 			// Set coordinates to the users default location
 			latLng = new LatLng(address.getLatitude(), address.getLongitude());
-			
+
 			commentMarker();
 		}
 		else if (INTENT_PURPOSE.equals(EDIT_COMMENT_VIEW)) {
 			// Retrieve the comment model passed through intent
 			INTENT_OBJECT = extrasData.getStringExtra(EDIT_COMMENT_MODEL);
-			
+
 			// Convert the gson string to a Root Comment Model
 			commentModel = gson.fromJson(INTENT_OBJECT, RootCommentModel.class);
-			
+
 			// Open the map at the location where the comment was made
 			latLng = new LatLng(commentModel.getAddress().getLatitude(), commentModel.getAddress().getLongitude());
 			address = commentModel.getAddress();		
 			commentMarker();
 		}
-				
+
 		// Getting reference to btn_find of the layout maps_view
 		Button btn_find = (Button) findViewById(R.id.btn_find);
 
@@ -128,13 +152,99 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		btn_find.setOnClickListener(findClickListener);		
 	}	
 
-	private void markerThreadView(CommentModel commentThread) {
-		//googleMap.clear();
-		
-//		ArrayList<String> thread = commentThread.getChildren();
-//		List<Marker> markers = new ArrayList<Marker>();
-		
-		Log.e("Array", commentThread.getAuthor());
+	private void markerThreadView(ArrayList<String> commentThread) {
+		googleMap.clear();
+
+		//		ArrayList<String> thread = commentThread.getChildren();
+		//		List<Marker> markers = new ArrayList<Marker>();
+
+		Log.e("Thread", "It works bitches");
+		//		//Log.e("Thread Author", commentThread.get(0).getAuthor());
+		//		
+		//		Iterator<CommentModel> it = commentThread.iterator();
+		//		
+		//		while(it.hasNext()){
+		//			CommentModel model = it.next();
+		//			Log.e("Model title", model.getTitle());
+		//		}
+
+		RootCommentModel fromJson = gson.fromJson(commentThread.get(0), RootCommentModel.class);
+
+		Log.e("Pass6", String.valueOf(fromJson.getAddress().getAddressLine(0)));
+
+		int i;
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm MM/dd/yy");
+		//		ArrayList<GoogleMap> mapThread = new ArrayList<GoogleMap>();
+		//		ArrayList<MarkerOptions> markerOpt = new ArrayList<MarkerOptions>();
+		final List<Marker> mMarker = new ArrayList<Marker>();
+		latLng = new LatLng(fromJson.getAddress().getLatitude(),fromJson.getAddress().getLongitude());
+		//		LatLngBounds bounds = new LatLngBounds.Builder().include(latLng).build();
+
+		LatLngBounds.Builder mapBounds = LatLngBounds.builder();
+		mapBounds = mapBounds.include(latLng);
+//		final View mapView = getSupportFragmentManager().findFragmentById(R.id.mapView).getView();
+//		if (mapView.getViewTreeObserver().isAlive()) {
+			for(i = 1;i<commentThread.size();i++){				
+
+				RootCommentModel comment =  gson.fromJson(commentThread.get(i), RootCommentModel.class);
+
+				address = comment.getAddress();
+				//Log.e("Pass7", String.valueOf(comment.getAddress().getAddressLine(0)));
+				// Creating an instance of GeoPoint, to display in Google Map
+				latLng = new LatLng(address.getLatitude(), address.getLongitude());
+				//
+				//			String addressText = String.format("%s, %s",
+				//					address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "",
+				//							address.getCountryName());
+				//
+				//			bounds.including(latLng);
+
+				mMarker.add(googleMap.addMarker(new MarkerOptions().position(latLng)
+						.title(comment.getAuthor() + " @ " + format.format(new Date(comment.getTimestamp())))));
+
+//				mapBounds = mapBounds.include(latLng);
+
+				//			mapThread.add(googleMap);
+			}
+//			googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(mapBounds.build(), 50));
+//		}
+		//		googleMap.clear();
+		//		
+		for (Marker markers: mMarker){
+			markers.showInfoWindow();
+		}
+	}
+
+	/**
+	 * Add markers to map
+	 */
+	private void addMarkersToMap(LatLngBounds bounds) {
+		// Pan to see all markers in view.
+		// Cannot zoom to bounds until the map has a size.
+		final View mapView = getSupportFragmentManager().findFragmentById(R.id.mapView).getView();
+		if (mapView.getViewTreeObserver().isAlive()) {
+			mapView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+				@SuppressWarnings("deprecation") // We use the new method when supported
+				@SuppressLint("NewApi") // We check which build version we are using.
+				@Override
+				public void onGlobalLayout() {
+					LatLngBounds bounds = new LatLngBounds.Builder()
+					//					.include(PERTH)
+					//					.include(SYDNEY)
+					//					.include(ADELAIDE)
+					//					.include(BRISBANE)
+					//					.include(MELBOURNE)
+					.build();
+					if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+						mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					} else {
+						mapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					}
+					googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
+				}
+			});
+		}
+
 	}
 
 	@Override
@@ -185,7 +295,7 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	private void commentMarker() {
 		// Clear all marker currently on the map
 		googleMap.clear();
-		
+
 		googleMarker = googleMap.addMarker(new MarkerOptions()
 		.position(latLng)
 		.title("I'm here @ " + address.getAddressLine(0))
@@ -322,13 +432,13 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	 * @param locationManager
 	 * @return the location manager with the best supplier
 	 */
-//	private String getBestProvider(LocationManager locationManager){
-//		Criteria criteria = new Criteria();
-//		criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-//		criteria.setPowerRequirement(Criteria.POWER_LOW);
-//		criteria.setCostAllowed(false);
-//		return locationManager.getBestProvider(criteria, true);
-//	}
+	//	private String getBestProvider(LocationManager locationManager){
+	//		Criteria criteria = new Criteria();
+	//		criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+	//		criteria.setPowerRequirement(Criteria.POWER_LOW);
+	//		criteria.setCostAllowed(false);
+	//		return locationManager.getBestProvider(criteria, true);
+	//	}
 
 	/**
 	 * Method that passes an object of the address of the marker back to the previous activity, whose InfoWindow has been clicked		
@@ -361,7 +471,7 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		latLng = marker.getPosition();
 
 		googleMap.clear();
-		
+
 		// Get an address for current marker
 		List<Address> addresses = addresses(1);
 		address = (Address) addresses.get(0);

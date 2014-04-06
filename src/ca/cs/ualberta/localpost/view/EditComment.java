@@ -90,7 +90,6 @@ public class EditComment extends Activity {
 		Bundle extras = getIntent().getExtras();
 		String temp = extras.getString("ModelObj");
 //		intentIndex = extras.getString("Index");
-		
 		intentObj = gson.fromJson(temp, RootCommentModel.class);
 
 		//Set Previous values back into fields

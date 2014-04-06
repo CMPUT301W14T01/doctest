@@ -28,15 +28,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import org.w3c.dom.Text;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.location.Address;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -57,9 +51,9 @@ import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
-import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 //-- Temporary import for tests
 
@@ -74,6 +68,11 @@ public class ThreadView extends Activity {
 	private final int depthTolerance = 5;
 	private RootCommentModel topLevel;
 	private String parentID = null;
+	ArrayList<String> mapThreadView; 
+	private String THREAD_VIEW = "threadview";
+	private String MAP_VIEW_TYPE = "mapviewtype";
+	private String THREAD_COMMENT_MODEL = "threadcommentmodel";
+	
 	Gson gson = new Gson();
 
 	@Override
@@ -89,6 +88,12 @@ public class ThreadView extends Activity {
 		String temp = extras.getString("CommentModel");
 		topLevel = gson.fromJson(temp, RootCommentModel.class);
 		// Log.e("topLevel",topLevel.getChildren().get(0).toString());
+		mapThreadView = new ArrayList<String>(); 
+		
+		String passToJson = gson.toJson(topLevel);
+		Log.e("PassParent", passToJson);
+		mapThreadView.add(passToJson);
+		
 		threadExpand(topLevel, 0);
 	}
 
@@ -99,6 +104,10 @@ public class ThreadView extends Activity {
 	}
 
 	public void threadExpand(CommentModel comment, int level) {
+		//mapThreadView.add(comment);
+		
+		String passToJson;
+		
 		draw(comment, level);
 		++level;
 		ArrayList<String> commentChildren = comment.getChildren(); // List of
@@ -117,6 +126,11 @@ public class ThreadView extends Activity {
 						Serialize.SaveComment(model.get(0), this, topLevel
 								.getPostId().toString());
 						threadExpand(model.get(0), level);
+						
+						passToJson = gson.toJson(model.get(0));
+						Log.e("PassChildren", passToJson);
+						mapThreadView.add(passToJson);
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -127,6 +141,9 @@ public class ThreadView extends Activity {
 								this);
 				for (String c : commentChildren) {
 					threadExpand(childlist.get(c), level);
+//					passToJson = gson.toJson(childlist.get(c), CommentModel.class);
+//					Log.e("PassChildren", passToJson);
+//					mapThreadView.add(passToJson);
 				}
 			}
 		}
@@ -253,8 +270,20 @@ public class ThreadView extends Activity {
 				return true;
 			}
 		case R.id.plotThread:
-			Toast.makeText(getApplicationContext(), "Plot Thread", Toast.LENGTH_SHORT).show();
-			return true;
+			if(conn.isConnectingToInternet()){
+				Intent intentMapThread = new Intent(getApplicationContext(), MapsView.class);
+				intentMapThread.putExtra(MAP_VIEW_TYPE, THREAD_VIEW);
+				String passArrayComment = gson.toJson(mapThreadView, new TypeToken<ArrayList<String>>(){}.getType());
+				Log.e("Pass3", passArrayComment);
+				intentMapThread.putExtra(THREAD_COMMENT_MODEL, passArrayComment);
+				startActivity(intentMapThread);
+				return true;	
+			}
+			else{
+				Toast.makeText(getApplicationContext(), "Yo you require connectivity to view a map thread",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
 		default:
 			return super.onOptionsItemSelected(item);
 		}
