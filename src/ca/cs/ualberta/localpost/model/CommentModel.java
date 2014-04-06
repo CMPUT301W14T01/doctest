@@ -69,20 +69,17 @@ public abstract class CommentModel extends Observable{
 		} catch (Exception e) {
 			e.printStackTrace();		
 		}
-<<<<<<< HEAD
 		this.title = null;
 		this.content = null;
 		this.picture = null;
-=======
-		this.title = getTitle();
-		this.content = getContent();
->>>>>>> origin/geolocationUseCases
+//		this.title = getTitle();
+//		this.content = getContent();
 		this.radish = rand.nextInt(100);
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
 		this.address = user.getAddress();
-		this.picture = getPicture();
+//		this.picture = getPicture();
 	}
 
 	/**

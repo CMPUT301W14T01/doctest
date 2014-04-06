@@ -57,17 +57,12 @@ public class ElasticSearchOperations extends
 		AsyncTask<Object, Integer, ArrayList<CommentModel>> {
 
 	private static Gson gson;
-<<<<<<< HEAD
-	//private String urlRoot = "http://cmput301.softwareprocess.es:8080/cmput301w14t01/root";
-	//private String urlChild = "http://cmput301.softwareprocess.es:8080/cmput301w14t01/child";
-	private String urlRoot  =  "http://cmput301.softwareprocess.es:8080/testing/chautran/";
-	private String urlChild = "http://cmput301.softwareprocess.es:8080/testing/child/";
-	
-=======
-	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/chautran/";
-	//private static String URL = "http://cmput301.softwareprocess.es:8080/testing/timotei/";
 
->>>>>>> origin/geolocationUseCases
+	//private String urlRoot = "http://cmput301.softwareprocess.es:8080/cmput301w14t01/root/";
+	//private String urlChild = "http://cmput301.softwareprocess.es:8080/cmput301w14t01/child/";
+	private String urlRoot  =  "http://cmput301.softwareprocess.es:8080/testing/chautran/";
+	private String urlChild = "http://cmput301.softwareprocess.es:8080/testing/zerihoun/";
+	
 	private HttpClient httpclient = new DefaultHttpClient();
 	private Integer index;
 	private String uuid;

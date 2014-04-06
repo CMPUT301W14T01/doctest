@@ -31,11 +31,8 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.os.Handler;
 import android.text.TextUtils;
-=======
->>>>>>> origin/geolocationUseCases
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -91,8 +88,7 @@ public class ThreadView extends Activity {
 		final Bundle extras = getIntent().getExtras();
 		String temp = extras.getString("CommentModel");
 		topLevel = gson.fromJson(temp, RootCommentModel.class);
-<<<<<<< HEAD
-=======
+
 		// Log.e("topLevel",topLevel.getChildren().get(0).toString());
 		mapThreadView = new ArrayList<String>(); 
 		
@@ -101,7 +97,6 @@ public class ThreadView extends Activity {
 		mapThreadView.add(passToJson);
 		
 		threadExpand(topLevel, 0);
->>>>>>> origin/geolocationUseCases
 	}
 
 	@Override

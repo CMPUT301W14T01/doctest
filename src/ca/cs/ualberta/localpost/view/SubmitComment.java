@@ -80,13 +80,8 @@ public class SubmitComment extends Activity {
 	/** Variable for the onClickListener that generates the map view **/
 	LatLng latlng;
 	private Address address;
-<<<<<<< HEAD
 
 	/** Gson writer */
-=======
-	
-	/**Gson writer */
->>>>>>> origin/geolocationUseCases
 	private Gson gson = new Gson();
 
 	/** Gets the ID of replies parent */
@@ -176,12 +171,6 @@ public class SubmitComment extends Activity {
 
 		ConnectivityCheck conn = new ConnectivityCheck(this);
 		if (conn.isConnectingToInternet()) {
-<<<<<<< HEAD
-			if (commentType.equals("submit")) {
-				// Log.e("add", "submit");
-				title = titleView.getText().toString();
-				content = contentView.getText().toString();
-=======
 		if (commentType.equals("submit")) {
 			Log.e("add", "submit");
 			title = titleView.getText().toString();
@@ -209,7 +198,12 @@ public class SubmitComment extends Activity {
 				
 				//Find Parent and add to its array
 				ElasticSearchOperations es1 = new ElasticSearchOperations();
-				ArrayList<CommentModel> array = es1.execute(3, null, null,parentID).get();
+				ArrayList<CommentModel> array;
+				if(topLevelID.equals(parentID)){
+					array = es1.execute(3, null, null,parentID).get();
+				}
+				else
+					array = es1.execute(2, null, null,parentID).get();
 				CommentModel temp = array.get(0);
 				Log.e("temp", temp.getPostId().toString());
 				temp.addChild(new_child.getPostId().toString());
@@ -231,51 +225,6 @@ public class SubmitComment extends Activity {
 				e.printStackTrace();
 			}
 		}
->>>>>>> origin/geolocationUseCases
-
-				RootCommentModel new_root = new RootCommentModel(content,title, currentPicture, this);
-				new_root.setAuthor(user.getUsername());
-				new_root.setAddress(user.getAddress());
-				Serialize.SaveComment(new_root, this, "history");
-				ElasticSearchOperations es = new ElasticSearchOperations();
-				es.execute(1, new_root.getPostId(), new_root, null);
-
-			} else if (commentType.equals("reply")) {
-				try {
-					// Create new child
-					content = contentView.getText().toString();
-					ChildCommentModel new_child = new ChildCommentModel(content, null, currentPicture, this);
-					new_child.setAddress(user.getAddress());
-					new_child.setAuthor(user.getUsername());
-
-					ElasticSearchOperations es1 = new ElasticSearchOperations();
-					ArrayList<CommentModel> array;
-					if(topLevelID.equals(parentID)){
-						array = es1.execute(3, null, null,parentID).get();
-					}
-					else
-						array = es1.execute(2, null, null,parentID).get();
-					CommentModel temp = array.get(0);
-					Log.e("temp", temp.getPostId().toString());
-					temp.addChild(new_child.getPostId().toString());
-					Serialize.SaveComment(temp, this, "historycomment.json");
-					Serialize.update(temp, this, "favoritecomment.json");
-					Serialize.update(temp, this, "historycomment.json");
-					
-					
-					//Push to ES
-					ElasticSearchOperations es2 = new ElasticSearchOperations();
-					es2.execute(1, temp.getPostId(), temp, null);
-					
-					Log.e("Pass","This Point");
-					ElasticSearchOperations es3 = new ElasticSearchOperations();
-
-					es3.execute(1, new_child.getPostId(), new_child, null);
-					Log.e("Executed","Executed");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
 			super.onBackPressed();
 		} else {
 			Toast.makeText(this, "You need to be connected!",Toast.LENGTH_SHORT).show();

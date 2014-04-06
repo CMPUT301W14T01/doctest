@@ -261,10 +261,7 @@ public class Serialize {
 			e.printStackTrace();
 		}
 		StandardUserModel.setInstance(user);
-<<<<<<< HEAD
-=======
-		Log.e("user",user.getUsername());
->>>>>>> origin/geolocationUseCases
+
 		return user;
 	}
 	

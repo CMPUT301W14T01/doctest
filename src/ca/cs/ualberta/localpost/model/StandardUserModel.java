@@ -24,9 +24,7 @@ public class StandardUserModel extends UserModel {
 		 return instance = user;
 	 }
 
-	 public static StandardUserModel setInstance(StandardUserModel user) {
-			 return instance = user;
-	   }
+
 
 
 }
