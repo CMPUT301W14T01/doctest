@@ -62,9 +62,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 		case 2:
 			return new GreatestTabView();
 		case 3:
-			return new PicTabView();
-		case 4:
 			return new NoPicTabView();
+		case 4:
+			return new PicTabView();
 		}
 		return null;
 	}

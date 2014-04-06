@@ -11,7 +11,7 @@ import android.content.Context;
 public class StandardUserModel extends UserModel {
 	 private static StandardUserModel instance = null;
 	 
-	 protected StandardUserModel(Context context) {
+	 public StandardUserModel(Context context) {
 	      // Exists only to defeat instantiation.
 		 super(context);
 	   }
@@ -25,6 +25,11 @@ public class StandardUserModel extends UserModel {
 	 public static StandardUserModel getInstance() {
 			 return instance;
 	   }
+
+	 public static StandardUserModel setInstance(StandardUserModel user) {
+			 return instance = user;
+	   }
+
 
 }
 

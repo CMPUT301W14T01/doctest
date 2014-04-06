@@ -49,8 +49,6 @@ public abstract class CommentModel extends Observable{
 	private String content;
 	private Bitmap picture;
 	private long timestamp;
-	private boolean ismarked;
-	private String trueid;
 
 	//Internal data for controllers
 	private ArrayList<String> children = new ArrayList<String>();
@@ -73,6 +71,7 @@ public abstract class CommentModel extends Observable{
 		}
 		this.title = null;
 		this.content = null;
+		this.picture = null;
 		this.radish = rand.nextInt(100);
 		this.setPostId(postId);
 		this.timestamp = date;
@@ -103,8 +102,7 @@ public abstract class CommentModel extends Observable{
 		this.picture = picture;
 		this.author = getAuthor();
 		this.address = user.getAddress();
-		this.ismarked = false;
-		this.trueid = StandardUserModel.getInstance().tripcode;
+
 		
 	}
 	
