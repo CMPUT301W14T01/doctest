@@ -114,8 +114,10 @@ public class FreshestTabView extends Fragment {
 							getActivity());
 
 				}
-				//SortFreshestComments sort = new SortFreshestComments();
-				//model = sort.sortComments(model);
+				SortFreshestComments sort = new SortFreshestComments();
+				ArrayList<CommentModel> model2 = new ArrayList<CommentModel>();
+				model2 = model;
+				model = sort.sortComments(model2);
 
 				adapter = new CommentListAdapter(getActivity(),
 						R.id.custom_adapter, model);
@@ -161,7 +163,7 @@ public class FreshestTabView extends Fragment {
 		switch (item.getItemId()) {
 		case Menu.FIRST:
 			if(conn.isConnectingToInternet()){
-				Log.e("Increment", "UpRad");
+				
 				Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
 				model.get(index).incRadish();
 				es.execute(1, model.get(index).getPostId(), model.get(index),null);
@@ -174,7 +176,7 @@ public class FreshestTabView extends Fragment {
 			}
 		case Menu.FIRST + 1:
 			if(conn.isConnectingToInternet()){
-				Log.e("Decrement", "DownRad");
+				
 				Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
 				model.get(index).decRadish();
 				es.execute(1, model.get(index).getPostId(), model.get(index),null);

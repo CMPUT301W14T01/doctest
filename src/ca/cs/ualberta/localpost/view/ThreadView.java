@@ -243,8 +243,8 @@ public class ThreadView extends Activity {
 		 	if(conn.isConnectingToInternet()){
 				topLevel.setIsmarked(true);
 				es.execute(1, topLevel.getPostId(), topLevel,null);
-//				Serialize.SaveComment(model.get(index), getActivity(), "readlater");
-//				Serialize.update(model.get(index), getActivity(), "readlater.json");
+				Serialize.SaveComment(topLevel, this, "readlater");
+				Serialize.update(topLevel, this, "readlater.json");
 				return true;	
 			}
 			else{

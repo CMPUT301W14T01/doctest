@@ -105,7 +105,7 @@ public abstract class CommentModel extends Observable{
 		this.address = user.getAddress();
 		this.ismarked = false;
 		this.trueid = StandardUserModel.getInstance().tripcode;
-		Log.e("trip", trueid);
+		
 	}
 	
 	/**
@@ -259,6 +259,14 @@ public abstract class CommentModel extends Observable{
 
 	public void setIsmarked(boolean ismarked) {
 		this.ismarked = ismarked;
+	}
+
+	public String getTrueid() {
+		return trueid;
+	}
+
+	public void setTrueid(String trueid) {
+		this.trueid = trueid;
 	}
 
 	

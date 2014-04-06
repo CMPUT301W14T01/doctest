@@ -36,6 +36,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ca.cs.ualberta.localpost.model.CommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 import ca.cs.ualberta.localpost.view.R;
 
 /**
@@ -69,7 +70,7 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 		
 		if(convertView == null){
 			convertView = inflater.inflate(R.layout.comment_list_adapter, null);
-			if(model.Ismarked()){
+			if(model.Ismarked() && model.getTrueid().equals(StandardUserModel.getInstance().getTripcode())){
 				convertView.setBackgroundColor(Color.YELLOW);
 			}
 			holder = new ViewHolder();

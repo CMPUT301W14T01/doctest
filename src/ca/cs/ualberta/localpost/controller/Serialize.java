@@ -91,6 +91,7 @@ public class Serialize {
 		}
 		else if(parentid.equals("readlater")){
 			filename = readlater;
+			
 		}
 		ArrayList<CommentModel> rootlist = loadFromFile(filename, context);
 		for(CommentModel r: rootlist){
@@ -104,20 +105,35 @@ public class Serialize {
 	
 	
 	public static void SaveUser(StandardUserModel user, Context context) {
-		check_if_exist(userprofile, context);
 		filename = userprofile;
 		String modelJson = gson.toJson(user);
-		write(modelJson, context);
+		
+		writeuser(modelJson, context);
 	}
 	
 	public static void write(String modelJson, Context context){
 		try {
+			
 			OutputStream outputStream = context.getApplicationContext()
 					.openFileOutput(filename, Context.MODE_APPEND);
 			OutputStreamWriter fileWriter = new OutputStreamWriter(outputStream);
 			fileWriter.write(modelJson + "\r\n");
 			fileWriter.close();
-			Log.e("Saving", "Finishes writting");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void writeuser(String modelJson, Context context){
+		try {
+			
+			OutputStream outputStream = context.getApplicationContext()
+					.openFileOutput(filename, Context.MODE_PRIVATE);
+			OutputStreamWriter fileWriter = new OutputStreamWriter(outputStream);
+			fileWriter.write(modelJson + "\r\n");
+			fileWriter.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -126,9 +142,9 @@ public class Serialize {
 	public static void check_if_exist(String file, Context context){
 		File listfile = context.getFilesDir();
 		for(String c: listfile.list()){
-			Log.e("SAVING", "list of files");
+			
 			if(c.equals(file)){
-				Log.e("SAVING", "files do exist");
+				
 				File dir = context.getFilesDir();
 				File file1 = new File(dir, file);
 				boolean deleted = file1.delete();
@@ -142,19 +158,22 @@ public class Serialize {
 		String dir = null;
 		if(file.equals(favoritecomment)){
 			dir = "favourite";
-			Log.e("outside", "finds right file");
+			
 		}
-		else{
+		else if(file.equals(readlater)){
+			dir = "readlater";
+		}
+		else {
 			dir = "history";
 		}
 		rootlist = loadFromFile(file, context);
-		Log.e("load", String.valueOf(rootlist.size()));
+		
 		check_if_exist(file, context);
 		for(CommentModel r : rootlist){
 			if(r.getPostId().toString().equals(updatedroot.getPostId().toString())){
 				//r.setChildren(updatedroot.getChildren());
 				r = updatedroot;
-				Log.e("inside loop", "here");
+				
 			}
 			SaveComment(r, context, dir);
 		}
@@ -174,7 +193,7 @@ public class Serialize {
 		constructGson();
 		ArrayList<CommentModel> model = new ArrayList<CommentModel>();
 		FileInputStream FileOpen;
-		Log.e("Loading", "Starts loading");
+		
 		try {
 			FileOpen = context.getApplicationContext().openFileInput(filename);
 			InputStreamReader FileReader = new InputStreamReader(FileOpen);
@@ -182,9 +201,8 @@ public class Serialize {
 			
 			String input;
 			while ((input = buffer.readLine()) != null) {
-				if(filename.equals(cachedrootcomment) || filename.equals(favoritecomment) || filename.equals(historycomment)){
-					Log.e("Loading", "Loads from right file");
-					Log.e("Loading", filename);
+				if(filename.equals(cachedrootcomment) || filename.equals(favoritecomment) || filename.equals(historycomment) || filename.equals(readlater) ){
+					
 					RootCommentModel obj = gson.fromJson(input,RootCommentModel.class);
 					model.add(obj);
 				}
@@ -235,7 +253,8 @@ public class Serialize {
 
 			String input;
 			while ((input = buffer.readLine()) != null) {
-					user = gson.fromJson(input,StandardUserModel.class);	
+					user = gson.fromJson(input,StandardUserModel.class);
+					
 			}
 			return user;
 		} catch (IOException e) {

@@ -49,6 +49,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
+import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
@@ -282,6 +283,9 @@ public class UserProfile extends Activity implements OnClickListener {
 		Gson gson = new Gson();
 		switch (item.getItemId()) {
 		case Menu.FIRST:
+			ConnectivityCheck conn = new ConnectivityCheck(this);
+			if(conn.isConnectingToInternet()){
+			
 			int index = (int) info.id;
 			Intent myIntent = new Intent(this, EditComment.class);
 			String x = gson.toJson(model.get(index));
@@ -289,6 +293,12 @@ public class UserProfile extends Activity implements OnClickListener {
 			myIntent.putExtra("Index", String.valueOf(index));
 			startActivityForResult(myIntent, 1);
 			return true;
+			}
+			else{
+				Toast.makeText(this, "You require connectivity to edit a comment",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
 		}
 		return super.onContextItemSelected(item);
 	}
