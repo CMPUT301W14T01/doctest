@@ -43,6 +43,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
+import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import ca.cs.ualberta.localpost.controller.SortFreshestComments;
 import ca.cs.ualberta.localpost.controller.Serialize;
@@ -89,18 +90,37 @@ public class LastestTabView extends Fragment {
 			ArrayList<CommentModel> model = new ArrayList<CommentModel>();
 
 			public void run() {
+				
+				ConnectivityCheck conn = new ConnectivityCheck(getActivity());
+				if (conn.isConnectingToInternet()) {
 				try {
 					model = new ElasticSearchOperations().execute(3, null,
 							null, null).get();
-					
-					SortLatestComments sort = new SortLatestComments();
-					model = sort.sortComments(model);
-					CommentListAdapter adapter = new CommentListAdapter(
-							getActivity(), R.id.custom_adapter, model);
-					listView.setAdapter(adapter);
+					Serialize.check_if_exist("cachedrootcomment.json",
+							getActivity());
+					for (CommentModel c : model) {
+						Serialize.SaveComment(c, getActivity(), null);
+						Serialize.update(c, getActivity(),
+								"favoritecomment.json");
+						Serialize.update(c, getActivity(),
+								"historycomment.json");
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				} else {
+
+					model = Serialize.loadFromFile("cachedrootcomment.json",
+							getActivity());
+
+				}
+				
+
+				SortLatestComments sort = new SortLatestComments();
+				model = sort.sortComments(model);
+				CommentListAdapter adapter = new CommentListAdapter(
+						getActivity(), R.id.custom_adapter, model);
+				listView.setAdapter(adapter);
 				registerForContextMenu(listView);
 
 				listView.setOnItemClickListener(new OnItemClickListener() {
@@ -129,25 +149,46 @@ public class LastestTabView extends Fragment {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		ConnectivityCheck conn = new ConnectivityCheck(getActivity());
+		
 		// Get item list index
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+		ElasticSearchOperations es = new ElasticSearchOperations();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		int index = (int) info.id;
 		switch (item.getItemId()) {
 		case Menu.FIRST:
-			Log.e("Increment", "UpRad");
-			Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
-
-			return true;
+			if(conn.isConnectingToInternet()){
+				
+				Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
+				model.get(index).incRadish();
+				es.execute(1, model.get(index).getPostId(), model.get(index),null);
+				return true;
+			}
+			else{
+				Toast.makeText(getActivity(), "You require connectivity to Uprad",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
 		case Menu.FIRST + 1:
-			Log.e("Decrement", "DownRad");
-			Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
-			return true;
+			if(conn.isConnectingToInternet()){
+				
+				Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
+				model.get(index).decRadish();
+				es.execute(1, model.get(index).getPostId(), model.get(index),null);
+				return true;
+			}
+			else{
+				Toast.makeText(getActivity(), "You require connectivity to Downrad",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
+
 		case Menu.FIRST + 2:
-			// TODO Check if that comment already exists favorites.json
-			int index = (int) info.id;
+			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
 			Toast.makeText(getActivity(), "Comment has been Favorited",
 					Toast.LENGTH_SHORT).show();
-			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
+			
+			Serialize.update(model.get(index), getActivity(), "favoritecomment.json");
 			return true;
 		}
 		return super.onContextItemSelected(item);

@@ -253,21 +253,6 @@ public abstract class CommentModel extends Observable{
 		this.children = children;
 	}
 
-	public boolean Ismarked() {
-		return ismarked;
-	}
-
-	public void setIsmarked(boolean ismarked) {
-		this.ismarked = ismarked;
-	}
-
-	public String getTrueid() {
-		return trueid;
-	}
-
-	public void setTrueid(String trueid) {
-		this.trueid = trueid;
-	}
 
 	
 }

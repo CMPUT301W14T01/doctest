@@ -239,9 +239,8 @@ public class ThreadView extends Activity {
 		switch (item.getItemId()) {
 		
 		case R.id.readLater:
-			Toast.makeText(getApplicationContext(), "Read Later", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Added to Read Later", Toast.LENGTH_SHORT).show();
 		 	if(conn.isConnectingToInternet()){
-				topLevel.setIsmarked(true);
 				es.execute(1, topLevel.getPostId(), topLevel,null);
 				Serialize.SaveComment(topLevel, this, "readlater");
 				Serialize.update(topLevel, this, "readlater.json");

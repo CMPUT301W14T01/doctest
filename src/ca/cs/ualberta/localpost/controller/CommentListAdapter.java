@@ -70,9 +70,7 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 		
 		if(convertView == null){
 			convertView = inflater.inflate(R.layout.comment_list_adapter, null);
-			if(model.Ismarked() && model.getTrueid().equals(StandardUserModel.getInstance().getTripcode())){
-				convertView.setBackgroundColor(Color.YELLOW);
-			}
+
 			holder = new ViewHolder();
 			holder.username = (TextView) convertView.findViewById(R.id.CommentAuthor);
 			holder.title = (TextView) convertView.findViewById(R.id.commentTitle);
