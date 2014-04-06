@@ -70,6 +70,8 @@ public class UserProfile extends Activity implements OnClickListener {
 	
 	public static final int OBTAIN_EDIT_COMMENT_CODE = 100;
 	public static final int OBTAIN_ADDRESS_REQUEST_CODE = 101;
+	private String EDIT_USER_LOCATION_VIEW = "userlocationview";
+	private String MAP_VIEW_TYPE = "mapviewtype";
 
 //	/**Grabs Username via preferences*/
 //	private SharedPreferences app_preferences;
@@ -167,6 +169,7 @@ public class UserProfile extends Activity implements OnClickListener {
 			break;
 		case R.id.profileGeoLayout:
 			Intent intentUserLocation = new Intent(getApplicationContext(), MapsView.class);
+			intentUserLocation.putExtra(MAP_VIEW_TYPE, EDIT_USER_LOCATION_VIEW);
 			startActivityForResult(intentUserLocation, OBTAIN_ADDRESS_REQUEST_CODE);
 			break;
 		}

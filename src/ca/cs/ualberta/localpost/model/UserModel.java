@@ -39,7 +39,7 @@ import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
 public abstract class UserModel {
 
 	protected String username;
-	protected Address address;
+	protected Address address = null;
 	protected String tripcode;
 
 	/** Constructors
@@ -49,10 +49,8 @@ public abstract class UserModel {
 	public UserModel() {
 		super();
 		this.username = "anonymous";
-		//this.address = getAddress();
+		this.address = getAddress();
 		this.tripcode = genTripcode();
-
-
 	}
 
 	// GET USERNAME

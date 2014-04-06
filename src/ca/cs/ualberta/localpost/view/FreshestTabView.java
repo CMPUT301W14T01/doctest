@@ -49,6 +49,7 @@ import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import ca.cs.ualberta.localpost.controller.SortFreshestComments;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.CommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 import com.google.gson.Gson;
 
@@ -65,7 +66,8 @@ public class FreshestTabView extends Fragment {
 	ArrayList<CommentModel> model;
 	private String THREAD_VIEW = "threadview";
 	private String MAP_VIEW_TYPE = "mapviewtype";
-	private String INTENT_PASS_COMMENT_MODEL = "commentmodel";
+	private String THREAD_COMMENT_MODEL = "threadcommentmodel";
+	StandardUserModel standardUser;
 
 	public void setIsPictures(int option) {
 		this.isPictures = option;
@@ -77,6 +79,13 @@ public class FreshestTabView extends Fragment {
 
 		// Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container, false);
+
+		// Loads existing user or creates a new one
+		try {
+			standardUser = Serialize.loaduser(getActivity());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		// ElasticSearchOperations task = new ElasticSearchOperations();
 		// task.execute(4,null,null);
@@ -223,7 +232,9 @@ public class FreshestTabView extends Fragment {
 			if(conn.isConnectingToInternet()){
 				Intent intentMapThread = new Intent(getActivity(), MapsView.class);
 				intentMapThread.putExtra(MAP_VIEW_TYPE, THREAD_VIEW);
-				intentMapThread.putExtra(INTENT_PASS_COMMENT_MODEL, String.valueOf(model));
+				Gson gson =  new Gson();
+				String commentIntent = gson.toJson(model.get(index));
+				intentMapThread.putExtra(THREAD_COMMENT_MODEL, commentIntent);
 				startActivity(intentMapThread);
 				return true;	
 			}

@@ -3,6 +3,7 @@
  */
 package ca.cs.ualberta.localpost.view;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
@@ -48,6 +50,7 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	private LatLng latLng;
 	private Address address;
 	StandardUserModel user;
+	private CommentModel commentThread;
 	private RootCommentModel commentModel;
 	
 	private String MAP_VIEW_TYPE = "mapviewtype";
@@ -56,6 +59,7 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	private String EDIT_COMMENT_VIEW = "editview";
 	private String EDIT_USER_LOCATION_VIEW = "userlocationview";
 	private String EDIT_COMMENT_MODEL = "editcomment";
+	private String THREAD_COMMENT_MODEL = "threadcommentmodel";
 	String INTENT_OBJECT;
 	private String INTENT_PURPOSE;
 	
@@ -84,25 +88,34 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		// The following checks conditions to determine how to display the map
 		// depending on where the intent was sent from and with what purpose
 		if (INTENT_PURPOSE.equals(THREAD_VIEW)){
-			;
+			// Retrieve the comment model passed through intent
+			INTENT_OBJECT = extrasData.getStringExtra(THREAD_COMMENT_MODEL);
+			
+			// Convert the gson string to a Comment Model
+			commentThread = gson.fromJson(INTENT_OBJECT, RootCommentModel.class);
+			
+			markerThreadView(commentThread);
 		}
-		else if (INTENT_PURPOSE.equals(SUBMIT_VIEW)) {
-			latLng = new LatLng(user.getAddress().getLatitude(), user.getAddress().getLongitude());
+		else if (INTENT_PURPOSE.equals(SUBMIT_VIEW) || INTENT_PURPOSE.equals(EDIT_USER_LOCATION_VIEW)) {
+			// Set address to the users default location
 			address = user.getAddress();
+						
+			// Set coordinates to the users default location
+			latLng = new LatLng(address.getLatitude(), address.getLongitude());
+			
 			commentMarker();
 		}
 		else if (INTENT_PURPOSE.equals(EDIT_COMMENT_VIEW)) {
+			// Retrieve the comment model passed through intent
 			INTENT_OBJECT = extrasData.getStringExtra(EDIT_COMMENT_MODEL);
+			
+			// Convert the gson string to a Root Comment Model
 			commentModel = gson.fromJson(INTENT_OBJECT, RootCommentModel.class);
+			
 			// Open the map at the location where the comment was made
 			latLng = new LatLng(commentModel.getAddress().getLatitude(), commentModel.getAddress().getLongitude());
-			address = commentModel.getAddress();
-			Log.e("Comment", String.valueOf(commentModel));
-			Log.e("address", String.valueOf(address));			
+			address = commentModel.getAddress();		
 			commentMarker();
-		}
-		else if (INTENT_PURPOSE.equals(EDIT_USER_LOCATION_VIEW)) {
-			;
 		}
 				
 		// Getting reference to btn_find of the layout maps_view
@@ -114,6 +127,15 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		// Setting button click event listener for the find button
 		btn_find.setOnClickListener(findClickListener);		
 	}	
+
+	private void markerThreadView(CommentModel commentThread) {
+		//googleMap.clear();
+		
+//		ArrayList<String> thread = commentThread.getChildren();
+//		List<Marker> markers = new ArrayList<Marker>();
+		
+		Log.e("Array", commentThread.getAuthor());
+	}
 
 	@Override
 	protected void onResume() {
