@@ -46,7 +46,6 @@ public class SortFreshestComments implements SortComments {
 			@Override
 			public int compare(CommentModel comment1, CommentModel comment2)
 			{
-				Log.e("fuckthis", String.valueOf(StandardUserModel.getInstance().getAddress()));
 				FreshnessAlgorithm alg1 = new FreshnessAlgorithm(comment1.getRadish(), comment1.getTimestamp(), comment1.getAddress(), StandardUserModel.getInstance().getAddress());
 				FreshnessAlgorithm alg2 = new FreshnessAlgorithm(comment2.getRadish(), comment2.getTimestamp(), comment2.getAddress(), StandardUserModel.getInstance().getAddress());
 				comment1.setFreshness(alg1.getFreshness());

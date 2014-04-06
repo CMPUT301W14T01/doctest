@@ -36,6 +36,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Address;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -71,7 +72,7 @@ import com.google.gson.Gson;
 public class ThreadView extends Activity {
 	private TableLayout table;
 	private final int marginBase = 10;
-	private final int depthTolerance = 5;
+	private final int depthTolerance = 8;
 	private RootCommentModel topLevel;
 	private String parentID = null;
 	Gson gson = new Gson();
@@ -83,19 +84,22 @@ public class ThreadView extends Activity {
 
 		// Creates a Table
 		table = (TableLayout) findViewById(R.id.table_layout);
-		// testDrawable();
 
 		final Bundle extras = getIntent().getExtras();
 		String temp = extras.getString("CommentModel");
 		topLevel = gson.fromJson(temp, RootCommentModel.class);
-		// Log.e("topLevel",topLevel.getChildren().get(0).toString());
-		threadExpand(topLevel, 0);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		  new Handler().postDelayed(new Runnable() {
+		      @Override
+		      public void run() {
+		  		table.removeAllViews();
+		  		table.invalidate();
+				threadExpand(topLevel, 0);
+		      }}, 250);
 	}
 
 	public void threadExpand(CommentModel comment, int level) {
@@ -110,21 +114,18 @@ public class ThreadView extends Activity {
 				for (String c : commentChildren) {
 					ElasticSearchOperations es = new ElasticSearchOperations();
 					try {
-						ArrayList<CommentModel> model = es.execute(2, null,
-								null, c).get();
-						Serialize.check_if_exist(topLevel.getPostId()
-								.toString(), this);
-						Serialize.SaveComment(model.get(0), this, topLevel
-								.getPostId().toString());
+						ArrayList<CommentModel> model;
+						model= es.execute(2, null,null, c).get();
+							
+						Serialize.check_if_exist(topLevel.getPostId().toString(), this);
+						Serialize.SaveComment(model.get(0), this, topLevel.getPostId().toString());
 						threadExpand(model.get(0), level);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			} else {
-				HashMap<String, ChildCommentModel> childlist = Serialize
-						.loadchildFromFile(topLevel.getPostId().toString(),
-								this);
+				HashMap<String, ChildCommentModel> childlist = Serialize.loadchildFromFile(topLevel.getPostId().toString(),this);
 				for (String c : commentChildren) {
 					threadExpand(childlist.get(c), level);
 				}
@@ -133,10 +134,8 @@ public class ThreadView extends Activity {
 	}
 
 	public void draw(final CommentModel comment, int level) {
-		TableRow row = (TableRow) LayoutInflater.from(this).inflate(
-				R.layout.row, null);
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
+		TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.row, null);
+		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 
 		// Pad root comments vertically and child comments horizontally
 		if (level < depthTolerance) {
@@ -149,7 +148,7 @@ public class ThreadView extends Activity {
 		registerForContextMenu(row);
 
 		// Set Tag for use in threadview context menu
-		Log.e("CommentID", comment.getPostId().toString());
+		//Log.e("CommentID", comment.getPostId().toString());
 		row.setTag(comment.getPostId().toString());
 
 		TextView author = (TextView) row.findViewById(R.id.rowAuthor);
@@ -214,11 +213,10 @@ public class ThreadView extends Activity {
 		switch (item.getItemId()) {
 		case Menu.FIRST:
 			// Log.e("Tag",parentID);
-			Toast.makeText(getApplicationContext(), "Reply", Toast.LENGTH_SHORT)
-					.show();
-			Intent newIntent = new Intent(getApplicationContext(),
-					SubmitComment.class);
+			Toast.makeText(getApplicationContext(), "Reply", Toast.LENGTH_SHORT).show();
+			Intent newIntent = new Intent(getApplicationContext(),SubmitComment.class);
 			newIntent.putExtra("parentID", parentID);
+			newIntent.putExtra("TopLevelID",topLevel.getPostId().toString());
 			newIntent.putExtra("commentType", "reply");
 			startActivity(newIntent);
 			return true;
@@ -247,8 +245,7 @@ public class ThreadView extends Activity {
 				return true;	
 			}
 			else{
-				Toast.makeText(this, "You require connectivity to cache a thread for later read",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "You require connectivity to cache a thread for later read",Toast.LENGTH_SHORT).show();
 				return true;
 			}
 		case R.id.plotThread:
@@ -258,8 +255,4 @@ public class ThreadView extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	/*
-
-	 */
-
 }

@@ -57,9 +57,11 @@ public class ElasticSearchOperations extends
 		AsyncTask<Object, Integer, ArrayList<CommentModel>> {
 
 	private static Gson gson;
-	private static String URL = "http://cmput301.softwareprocess.es:8080/testing/chautran/";
-	//http://cmput301.softwareprocess.es:8080/testing/chautran/_search?pretty=1&size=100
-
+	//private String urlRoot = "http://cmput301.softwareprocess.es:8080/cmput301w14t01/root";
+	//private String urlChild = "http://cmput301.softwareprocess.es:8080/cmput301w14t01/child";
+	private String urlRoot  =  "http://cmput301.softwareprocess.es:8080/testing/chautran/";
+	private String urlChild = "http://cmput301.softwareprocess.es:8080/testing/child/";
+	
 	private HttpClient httpclient = new DefaultHttpClient();
 	private Integer index;
 	private String uuid;
@@ -80,10 +82,10 @@ public class ElasticSearchOperations extends
 			try {
 				if (params[2] instanceof RootCommentModel) {
 					RootCommentModel model = (RootCommentModel) params[2];
-					pushComment(model, UUID);
+					pushComment(model, UUID,urlRoot);
 				} else if (params[2] instanceof ChildCommentModel) {
 					ChildCommentModel model = (ChildCommentModel) params[2];
-					pushComment(model, UUID);
+					pushComment(model, UUID,urlChild);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -101,16 +103,11 @@ public class ElasticSearchOperations extends
 				e.printStackTrace();
 			}
 		}
-		// Remove when unneeded.
-		else if (index == 4) {
-			// deleteComment(1);
-		}
 		return null;
 	}// End doInBackGround
 
-	public void pushComment(CommentModel model, java.util.UUID UUID) {
-		//HttpPost pushRequest = new HttpPost("http://cmput301.softwareprocess.es:8080/testing/child/" + UUID);
-		HttpPost pushRequest = new HttpPost(URL+ UUID.toString());
+	public void pushComment(CommentModel model, UUID uuid,String URL) {
+		HttpPost pushRequest = new HttpPost(URL+ String.valueOf(uuid));
 
 		try {
 			pushRequest.setEntity(new StringEntity(gson.toJson(model)));
@@ -135,7 +132,7 @@ public class ElasticSearchOperations extends
 		ArrayList<CommentModel> returnArray = new ArrayList<CommentModel>();
 
 		try {
-			HttpGet search = new HttpGet("http://cmput301.softwareprocess.es:8080/testing/chautran/_search");
+			HttpGet search = new HttpGet(urlChild+"_search");
 			HttpResponse response = httpclient.execute(search);
 
 			String status = response.getStatusLine().toString();
@@ -148,6 +145,7 @@ public class ElasticSearchOperations extends
 
 			for (ElasticSearchResponse<ChildCommentModel> r : esResponse.getHits()) {
 				ChildCommentModel model = r.getSource();
+				//deleteComment(model.getPostId(),1);
 				if (model.getPostId().toString().equals(uuid)) {
 					returnArray.add(model);
 				}
@@ -160,7 +158,7 @@ public class ElasticSearchOperations extends
 
 	public ArrayList<CommentModel> getAllRootComments(String uuid)throws ClientProtocolException, IOException {
 		ArrayList<CommentModel> returnArray = new ArrayList<CommentModel>();
-			HttpGet search = new HttpGet(URL + "_search");
+			HttpGet search = new HttpGet(urlRoot + "_search");
 			HttpResponse response = httpclient.execute(search);
 
 			String status = response.getStatusLine().toString();
@@ -174,7 +172,7 @@ public class ElasticSearchOperations extends
 			for (ElasticSearchResponse<RootCommentModel> r : esResponse.getHits()) {
 				RootCommentModel model = r.getSource();
 				if(uuid == null){
-					//deleteComment(model.getPostId());
+					//deleteComment(model.getPostId(),2);
 					returnArray.add(model);
 				}
 				if(model.getPostId().toString().equals(uuid)){
@@ -186,8 +184,12 @@ public class ElasticSearchOperations extends
 		return returnArray;
 	}
 
-	public void deleteComment(UUID uuid2) {
-		HttpDelete delRequest = new HttpDelete(URL + String.valueOf(uuid2));
+	public void deleteComment(UUID uuid,int id) {
+		HttpDelete delRequest;
+		if(id == 2)
+			delRequest = new HttpDelete(urlRoot + String.valueOf(uuid));
+		else
+			delRequest = new HttpDelete(urlChild + String.valueOf(uuid));
 		try {
 			HttpResponse response = httpclient.execute(delRequest);
 			HttpEntity entity = response.getEntity();
