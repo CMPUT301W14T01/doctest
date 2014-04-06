@@ -26,6 +26,8 @@ package ca.cs.ualberta.localpost.controller;
 import ca.cs.ualberta.localpost.view.FreshestTabView;
 import ca.cs.ualberta.localpost.view.GreatestTabView;
 import ca.cs.ualberta.localpost.view.LastestTabView;
+import ca.cs.ualberta.localpost.view.NoPicTabView;
+import ca.cs.ualberta.localpost.view.PicTabView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -59,6 +61,10 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 			return new LastestTabView();
 		case 2:
 			return new GreatestTabView();
+		case 3:
+			return new PicTabView();
+		case 4:
+			return new NoPicTabView();
 		}
 		return null;
 	}
@@ -69,6 +75,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 3;
+		return 5;
 	}
 }

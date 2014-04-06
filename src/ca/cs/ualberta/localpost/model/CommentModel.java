@@ -28,8 +28,10 @@ import java.util.Observable;
 import java.util.Random;
 import java.util.UUID;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Address;
+import android.util.Log;
 
 /**
  * This class is the base abstract class for our comment models.
@@ -48,6 +50,7 @@ public abstract class CommentModel extends Observable{
 	private Bitmap picture;
 	private long timestamp;
 	private boolean ismarked;
+	private String trueid;
 
 	//Internal data for controllers
 	private ArrayList<String> children = new ArrayList<String>();
@@ -61,10 +64,10 @@ public abstract class CommentModel extends Observable{
 	 * Basic constructor that was used for testing purposes
 	 * 
 	 */
-	public CommentModel() {
+	public CommentModel(Context context) {
 		super();
 		try {
-			user = StandardUserModel.getInstance();
+			user = StandardUserModel.getInstance(context);
 		} catch (Exception e) {
 			e.printStackTrace();		
 		}
@@ -77,29 +80,6 @@ public abstract class CommentModel extends Observable{
 		this.address = user.getAddress();
 		this.picture = getPicture();
 	}
-	
-	/**
-	 * Basic constructor that assigns the base values for a comment except for the content and title which are parameters that passed
-	 * in. 
-	 * @param content : represents the content of the comment
-	 * @param title : represents the title of a comment
-	 */
-	public CommentModel(String content, String title) {
-		try {
-			user = StandardUserModel.getInstance();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();		
-		}
-		this.title = title;
-		this.content = content;
-		this.radish = 0;
-		this.setPostId(postId);
-		this.timestamp = date;
-		this.author = getAuthor();
-		this.address = user.getAddress();
-		//this.picture = null;
-	}
 
 	/**
 	 * Constructor accepting a picture 
@@ -108,9 +88,9 @@ public abstract class CommentModel extends Observable{
 	 * @param picture : is the picture that is attached to the comment
 	 */
 	public CommentModel(String content, String title,
-			Bitmap picture) {
+			Bitmap picture, Context context) {
 		try {
-			user = StandardUserModel.getInstance();
+			user = StandardUserModel.getInstance(context);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();		
@@ -124,6 +104,8 @@ public abstract class CommentModel extends Observable{
 		this.author = getAuthor();
 		this.address = user.getAddress();
 		this.ismarked = false;
+		this.trueid = StandardUserModel.getInstance().tripcode;
+		
 	}
 	
 	/**
@@ -134,9 +116,9 @@ public abstract class CommentModel extends Observable{
 	 * @param picture : is the picture that is attached to the comment
 	 */
 	public CommentModel(String content, String title, Address address,
-			Bitmap picture) {
+			Bitmap picture, Context context) {
 		try {
-			user = StandardUserModel.getInstance();
+			user = StandardUserModel.getInstance(context);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();		
@@ -277,6 +259,14 @@ public abstract class CommentModel extends Observable{
 
 	public void setIsmarked(boolean ismarked) {
 		this.ismarked = ismarked;
+	}
+
+	public String getTrueid() {
+		return trueid;
+	}
+
+	public void setTrueid(String trueid) {
+		this.trueid = trueid;
 	}
 
 	

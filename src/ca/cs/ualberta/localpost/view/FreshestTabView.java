@@ -80,6 +80,7 @@ public class FreshestTabView extends Fragment {
 		// Inflates the view with a list view. Also populates listview
 		View rootView = inflater.inflate(R.layout.tab, container, false);
 
+<<<<<<< HEAD
 		// Loads existing user or creates a new one
 		try {
 			standardUser = Serialize.loaduser(getActivity());
@@ -89,6 +90,8 @@ public class FreshestTabView extends Fragment {
 
 		// ElasticSearchOperations task = new ElasticSearchOperations();
 		// task.execute(4,null,null);
+=======
+>>>>>>> origin/master
 		listView = (ListView) rootView.findViewById(R.id.commentList);
 		return rootView;
 	}
@@ -129,7 +132,9 @@ public class FreshestTabView extends Fragment {
 
 				}
 				SortFreshestComments sort = new SortFreshestComments();
-				model = sort.sortComments(model);
+				ArrayList<CommentModel> model2 = new ArrayList<CommentModel>();
+				model2 = model;
+				model = sort.sortComments(model2);
 
 				adapter = new CommentListAdapter(getActivity(),
 						R.id.custom_adapter, model);
@@ -162,8 +167,11 @@ public class FreshestTabView extends Fragment {
 		menu.add(0, Menu.FIRST, 0, "UpRad");
 		menu.add(0, Menu.FIRST + 1, 0, "DownRad");
 		menu.add(0, Menu.FIRST + 2, 0, "Favorite");
+<<<<<<< HEAD
 		menu.add(0, Menu.FIRST + 3, 0, "Read Later");
 		menu.add(0, Menu.FIRST + 4, 0, "Map the Thread Yo");
+=======
+>>>>>>> origin/master
 	}
 
 	@Override
@@ -172,10 +180,10 @@ public class FreshestTabView extends Fragment {
 
 		// Get item list index
 		ElasticSearchOperations es = new ElasticSearchOperations();
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		int index = (int) info.id;
 		switch (item.getItemId()) {
+<<<<<<< HEAD
 
 		case Menu.FIRST:
 			if(conn.isConnectingToInternet()){
@@ -183,6 +191,14 @@ public class FreshestTabView extends Fragment {
 				Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
 				model.get(index).incRadish();
 				es.execute(1, model.get(index).getPostId().toString(), model.get(index),null);
+=======
+		case Menu.FIRST:
+			if(conn.isConnectingToInternet()){
+				
+				Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
+				model.get(index).incRadish();
+				es.execute(1, model.get(index).getPostId(), model.get(index),null);
+>>>>>>> origin/master
 				return true;
 			}
 			else{
@@ -192,6 +208,7 @@ public class FreshestTabView extends Fragment {
 			}
 		case Menu.FIRST + 1:
 			if(conn.isConnectingToInternet()){
+<<<<<<< HEAD
 				Log.e("Decrement", "DownRad");
 				Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
 				model.get(index).decRadish();
@@ -215,13 +232,23 @@ public class FreshestTabView extends Fragment {
 				Serialize.update(model.get(index), getActivity(), "readlater.json");
 				return true;	
 			}
+=======
+				
+				Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
+				model.get(index).decRadish();
+				es.execute(1, model.get(index).getPostId(), model.get(index),null);
+				return true;
+			}
+>>>>>>> origin/master
 			else{
-				Toast.makeText(getActivity(), "You require connectivity to cache a thread for later read",
+				Toast.makeText(getActivity(), "You require connectivity to Downrad",
 						Toast.LENGTH_SHORT).show();
 				return true;
 			}
+
 		case Menu.FIRST + 2:
 			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
+<<<<<<< HEAD
 		// TODO Check if that comment already exists favorites.json
 		Toast.makeText(getActivity(), "Comment has been Favorited",
 				Toast.LENGTH_SHORT).show();			
@@ -243,6 +270,13 @@ public class FreshestTabView extends Fragment {
 						Toast.LENGTH_SHORT).show();
 				return true;
 			}
+=======
+			Toast.makeText(getActivity(), "Comment has been Favorited",
+					Toast.LENGTH_SHORT).show();
+			
+			Serialize.update(model.get(index), getActivity(), "favoritecomment.json");
+			return true;
+>>>>>>> origin/master
 		}
 		return super.onContextItemSelected(item);
 	}

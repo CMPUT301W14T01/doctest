@@ -77,31 +77,54 @@
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="1dp" 
-        android:background="#000000">
+        android:layout_height="10dp" >
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/profileReadLater"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.1"
+        android:background="@drawable/layout_border" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Read Later"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#000000" >
     </View>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/layout_border"
         android:gravity="center_vertical"
         android:text="@string/commentHistory"
-        android:textSize="20sp"
-        android:background="@drawable/layout_border" />
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.7" 
-        android:textColor="#000000">
+        android:layout_weight="0.6"
+        android:textColor="#000000" >
 
         <ListView
             android:id="@+id/profileCommentList"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:divider="@android:color/black"
-            android:textColor="#000000"
-            android:dividerHeight="0.5sp" >
+            android:dividerHeight="0.5sp"
+            android:textColor="#000000" >
         </ListView>
     </LinearLayout>
 

@@ -24,9 +24,9 @@
 package ca.cs.ualberta.localpost.model;
 
 
-import java.util.Random;
-
+import android.content.Context;
 import android.location.Address;
+import android.util.Log;
 import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
 
 /**
@@ -46,11 +46,17 @@ public abstract class UserModel {
 	 * 
 
 	 */
-	public UserModel() {
+	public UserModel(Context context) {
 		super();
 		this.username = "anonymous";
 		this.address = getAddress();
+<<<<<<< HEAD
 		this.tripcode = genTripcode();
+=======
+		this.tripcode = genTripcode(context);
+
+
+>>>>>>> origin/master
 	}
 
 	// GET USERNAME
@@ -76,7 +82,7 @@ public abstract class UserModel {
 
 	public void setUsername(String username){
 		this.username = username;
-		this.tripcode = genTripcode();
+		//this.tripcode = genTripcode();
 	}
 
 	// GET TRIPCODE
@@ -89,14 +95,15 @@ public abstract class UserModel {
 	 * @return tripcode
 
 	 */
-	public String genTripcode(){
+	public String genTripcode(Context context){
 		// get the mac address
-		//String macAddress = getMac();
-		Random rand = new Random();
-		AndroidMacAddressProvider mac = new AndroidMacAddressProvider();
-		//mac.getMacAddress().hashCode()
-		String trip = Integer.toString(this.username.hashCode() * rand.nextInt(100));
+		String macAddress = getMac(context);
+		//Random rand = new Random();
 		
+		//mac.getMacAddress().hashCode()
+		//String trip = Integer.toString(this.username.hashCode() * rand.nextInt(100));
+		String trip = Integer.toString(macAddress.hashCode());
+		Log.e("trip", trip);
 		return trip;
 
 	}
@@ -105,9 +112,9 @@ public abstract class UserModel {
 	 * 
 	 * @return Mac Address used for tripcode
 	 */
-	public String getMac() {
+	public String getMac(Context context) {
 		AndroidMacAddressProvider macprov = new AndroidMacAddressProvider();
-		String macAddress = macprov.getMacAddress().toString();
+		String macAddress = macprov.getMacAddress(context).toString();
 		return macAddress;
 	}
 

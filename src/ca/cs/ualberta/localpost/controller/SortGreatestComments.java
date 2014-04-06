@@ -26,7 +26,9 @@ package ca.cs.ualberta.localpost.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
 import android.annotation.SuppressLint;
+import android.content.Context;
 import ca.cs.ualberta.localpost.model.CommentModel;
 
 public class SortGreatestComments implements SortComments {

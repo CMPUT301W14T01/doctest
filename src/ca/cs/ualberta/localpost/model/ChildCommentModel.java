@@ -24,6 +24,7 @@
 
 package ca.cs.ualberta.localpost.model;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Address;
 
@@ -39,19 +40,11 @@ public class ChildCommentModel extends CommentModel {
 	protected CommentModel parent;
 	
 	/**
-	 * Basic constructors for child comment model: 
-	 * This constructor is used for creating the class
+	 * This constructor is used while we can't yet add locations to our comments
+	 * @param context : the content of the comment
 	 */
-	public ChildCommentModel(){
-		super();
-	}
-	/**
-	 * This constructor is used while we can't yet add locations and pictures to our comments
-	 * @param content : the content of the comment
-	 * @param title : the comment's title
-	 */
-	public ChildCommentModel(String content, String title) {
-		super(content, title);
+	public ChildCommentModel(Context context) {
+		super(context);
 	}
 	
 	/**
@@ -60,8 +53,8 @@ public class ChildCommentModel extends CommentModel {
 	 * @param title : the comment's title
 	 * @param picture : the comment's picture
 	 */
-	public ChildCommentModel(String content, String title, Bitmap picture) {
-		super(content, title, picture);
+	public ChildCommentModel(String content, String title, Bitmap picture, Context context) {
+		super(content, title, picture, context);
 	}
 	
 	/**
@@ -71,8 +64,8 @@ public class ChildCommentModel extends CommentModel {
 	 * @param location : it's location
 	 * @param picture : the attached picture
 	 */
-	public ChildCommentModel(String content, String title, Address address, Bitmap picture) {
-		super(content, title, address, picture);
+	public ChildCommentModel(String content, String title, Address address, Bitmap picture, Context context) {
+		super(content, title, address, picture, context);
 		//TODO specify parent
 	}
 }

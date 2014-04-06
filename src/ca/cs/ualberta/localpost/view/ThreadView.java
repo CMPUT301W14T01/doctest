@@ -23,14 +23,20 @@
 
 package ca.cs.ualberta.localpost.view;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.UUID;
+
+import org.w3c.dom.Text;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.location.Address;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -38,8 +44,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableLayout.LayoutParams;
 import android.widget.TableRow;
@@ -51,6 +57,7 @@ import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 import com.google.gson.Gson;
 
@@ -88,7 +95,7 @@ public class ThreadView extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+
 	}
 
 	public void threadExpand(CommentModel comment, int level) {
@@ -103,18 +110,22 @@ public class ThreadView extends Activity {
 				for (String c : commentChildren) {
 					ElasticSearchOperations es = new ElasticSearchOperations();
 					try {
-						ArrayList<CommentModel> model = es.execute(2, null,null, c).get();
-						Serialize.check_if_exist(topLevel.getPostId().toString(), this);
-						Serialize.SaveComment(model.get(0), this, topLevel.getPostId().toString());
+						ArrayList<CommentModel> model = es.execute(2, null,
+								null, c).get();
+						Serialize.check_if_exist(topLevel.getPostId()
+								.toString(), this);
+						Serialize.SaveComment(model.get(0), this, topLevel
+								.getPostId().toString());
 						threadExpand(model.get(0), level);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
-			}
-			else{
-				HashMap<String, ChildCommentModel> childlist = Serialize.loadchildFromFile(topLevel.getPostId().toString(), this);
-				for (String c : commentChildren){
+			} else {
+				HashMap<String, ChildCommentModel> childlist = Serialize
+						.loadchildFromFile(topLevel.getPostId().toString(),
+								this);
+				for (String c : commentChildren) {
 					threadExpand(childlist.get(c), level);
 				}
 			}
@@ -129,7 +140,7 @@ public class ThreadView extends Activity {
 
 		// Pad root comments vertically and child comments horizontally
 		if (level < depthTolerance) {
-			params.setMargins(level * marginBase, 0, 0, 0);
+			params.setMargins(level * marginBase, 5, 0, 0);
 		}
 
 		row.setLayoutParams(params);
@@ -138,33 +149,54 @@ public class ThreadView extends Activity {
 		registerForContextMenu(row);
 
 		// Set Tag for use in threadview context menu
-		row.setTag(comment.getPostId());
+		Log.e("CommentID", comment.getPostId().toString());
+		row.setTag(comment.getPostId().toString());
 
-		// Log.e("getUUID",comment.getPostId().toString());
+		TextView author = (TextView) row.findViewById(R.id.rowAuthor);
+		TextView content = (TextView) row.findViewById(R.id.rowContent);
+		TextView location = (TextView) row.findViewById(R.id.rowLocation);
+		TextView timestamp = (TextView) row.findViewById(R.id.rowDate);
+		TextView radish = (TextView) row.findViewById(R.id.rowRad);
+		ImageView picture = (ImageView) row.findViewById(R.id.rowPicture);
 
-		((TextView) row.findViewById(R.id.commentTitle)).setText(comment
-				.getContent());
+		// Set Sizes
+		author.setTextSize(5 * getApplicationContext().getResources()
+				.getDisplayMetrics().density);
+		content.setTextSize(8 * getApplicationContext().getResources()
+				.getDisplayMetrics().density);
+		timestamp.setTextSize(5 * getApplicationContext().getResources()
+				.getDisplayMetrics().density);
+		location.setTextSize(5 * getApplicationContext().getResources()
+				.getDisplayMetrics().density);
+		radish.setTextSize(5 * getApplicationContext().getResources()
+				.getDisplayMetrics().density);
+
+		// Set text and images
+		SimpleDateFormat format = new SimpleDateFormat("c HH:mm MMM/dd/yyyy");
+
+		author.setText(comment.getAuthor() + " - ");
+		content.setText(comment.getContent());
+
+		if (comment.getAddress() == null) {
+			location.setText(" - @ No location - ");
+		} else {
+			if (comment.getAddress().getAddressLine(0).length() > 27) {
+				String temp = comment.getAddress().getAddressLine(0)
+						.substring(0, 27)
+						+ "...";
+				location.setText(" - @ " + temp + " - ");
+			} else {
+				location.setText(" - @ "
+						+ comment.getAddress().getAddressLine(0) + " - ");
+			}
+		}
+
+		timestamp.setText(format.format(new Date(comment.getTimestamp())));
+		radish.setText(String.valueOf(comment.getRadish()));
+		picture.setImageBitmap(comment.getPicture());
+
 		table.addView(row);
 		row = null;
-	}
-
-	public void testDrawable() {
-		/*
-		 * ("test0","title0") |-- ("test1","title1") |-- ("test2","title2") |--
-		 * ("test3","title3")
-		 */
-
-		// CommentModel testCommentTree = new
-		// RootCommentModel("test0","title0");
-		// CommentModel tct1 = new ChildCommentModel("test1","title1");
-		// CommentModel tct2 = new ChildCommentModel("test2","title2");
-		// tct2.addChild(new ChildCommentModel("test3","title3"));
-		// CommentModel tct4 = new ChildCommentModel("test4","test4");
-		// testCommentTree.addChild((ChildCommentModel) tct1);
-		// testCommentTree.addChild((ChildCommentModel) tct2);
-		// testCommentTree.addChild((ChildCommentModel) tct4);
-
-		// threadExpand(testCommentTree,0);
 	}
 
 	@Override
@@ -196,8 +228,39 @@ public class ThreadView extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.thread_view, menu);
 		return true;
 	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		ConnectivityCheck conn = new ConnectivityCheck(this);
+		ElasticSearchOperations es = new ElasticSearchOperations();
+		switch (item.getItemId()) {
+		
+		case R.id.readLater:
+			Toast.makeText(getApplicationContext(), "Read Later", Toast.LENGTH_SHORT).show();
+		 	if(conn.isConnectingToInternet()){
+				topLevel.setIsmarked(true);
+				es.execute(1, topLevel.getPostId(), topLevel,null);
+				Serialize.SaveComment(topLevel, this, "readlater");
+				Serialize.update(topLevel, this, "readlater.json");
+				return true;	
+			}
+			else{
+				Toast.makeText(this, "You require connectivity to cache a thread for later read",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
+		case R.id.plotThread:
+			Toast.makeText(getApplicationContext(), "Plot Thread", Toast.LENGTH_SHORT).show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	/*
+
+	 */
+
 }

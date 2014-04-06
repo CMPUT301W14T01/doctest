@@ -36,6 +36,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ca.cs.ualberta.localpost.model.CommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 import ca.cs.ualberta.localpost.view.R;
 
 /**
@@ -69,16 +70,22 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 		
 		if(convertView == null){
 			convertView = inflater.inflate(R.layout.comment_list_adapter, null);
-			if(model.Ismarked()){
+			if(model.Ismarked() && model.getTrueid().equals(StandardUserModel.getInstance().getTripcode())){
 				convertView.setBackgroundColor(Color.YELLOW);
 			}
 			holder = new ViewHolder();
-			holder.username = (TextView) convertView.findViewById(R.id.CommentUsername);
+			holder.username = (TextView) convertView.findViewById(R.id.CommentAuthor);
 			holder.title = (TextView) convertView.findViewById(R.id.commentTitle);
-			holder.radish = (TextView) convertView.findViewById(R.id.CommentTurnip);
+			holder.radish = (TextView) convertView.findViewById(R.id.CommentRadish);
 			holder.location = (TextView) convertView.findViewById(R.id.CommentLocation);
 			holder.timestamp = (TextView) convertView.findViewById(R.id.commentDate);
 			holder.picture = (ImageView) convertView.findViewById(R.id.CommentPicture);
+			
+			holder.username.setTextSize(5*getContext().getResources().getDisplayMetrics().density);
+			holder.title.setTextSize(8*getContext().getResources().getDisplayMetrics().density);
+			holder.radish.setTextSize(5*getContext().getResources().getDisplayMetrics().density);
+			holder.location.setTextSize(5*getContext().getResources().getDisplayMetrics().density);
+			holder.timestamp.setTextSize(5*getContext().getResources().getDisplayMetrics().density);
 			convertView.setTag(holder);
 		}
 		else{
@@ -87,16 +94,22 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 		SimpleDateFormat format = new SimpleDateFormat("c HH:mm MMM/dd/yyyy");
 		
 		holder.title.setText(model.getTitle());
-		holder.username.setText(model.getAuthor());
+		holder.username.setText(model.getAuthor()+ " - ");
 		holder.radish.setText(Integer.toString(model.getRadish()));
 		holder.picture.setImageBitmap(model.getPicture());
 		if (model.getAddress() == null){
-			holder.location.setText("@ No location");
+			holder.location.setText(" - @ No location - ");
 		}
-		else
-			holder.location.setText("@ " + model.getAddress().getAddressLine(0));
+		else{
+			if(model.getAddress().getAddressLine(0).length()>27){
+				String temp = model.getAddress().getAddressLine(0).substring(0,27)+"...";
+				holder.location.setText(" - @ " + temp +" - ");
+			}
+			else
+				holder.location.setText(" - @ " + model.getAddress().getAddressLine(0)+" - ");
+		}
 		//Log.e("Address", model.getAddress().getAddressLine(0).toString());
-		holder.timestamp.setText(format.format(new Date(model.getTimestamp())));		
+		holder.timestamp.setText(format.format(new Date(model.getTimestamp())));				
 		return convertView;
 	}
 }

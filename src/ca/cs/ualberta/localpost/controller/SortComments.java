@@ -25,8 +25,8 @@ package ca.cs.ualberta.localpost.controller;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import ca.cs.ualberta.localpost.model.CommentModel;
-import ca.cs.ualberta.localpost.model.RootCommentModel;
 /**
  * This is an interface for the three different browse comment controllers
  * @author team01

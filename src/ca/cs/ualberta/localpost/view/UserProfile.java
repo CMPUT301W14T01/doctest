@@ -49,6 +49,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
+import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
@@ -67,11 +68,15 @@ public class UserProfile extends Activity implements OnClickListener {
 	private RelativeLayout usernameLayout;
 	private RelativeLayout favoriteLayout;
 	private RelativeLayout geoLayout;
+<<<<<<< HEAD
 	
 	public static final int OBTAIN_EDIT_COMMENT_CODE = 100;
 	public static final int OBTAIN_ADDRESS_REQUEST_CODE = 101;
 	private String EDIT_USER_LOCATION_VIEW = "userlocationview";
 	private String MAP_VIEW_TYPE = "mapviewtype";
+=======
+	private RelativeLayout readLaterLayout;
+>>>>>>> origin/master
 
 //	/**Grabs Username via preferences*/
 //	private SharedPreferences app_preferences;
@@ -107,11 +112,13 @@ public class UserProfile extends Activity implements OnClickListener {
 		usernameLayout = (RelativeLayout) findViewById(R.id.profileUsernameLayout);
 		favoriteLayout = (RelativeLayout) findViewById(R.id.profileFavoriteLayout);
 		geoLayout = (RelativeLayout) findViewById(R.id.profileGeoLayout);
+		readLaterLayout = (RelativeLayout) findViewById(R.id.profileReadLater);
 
 		// Makes the Layouts clickable
 		usernameLayout.setOnClickListener(this);
 		favoriteLayout.setOnClickListener(this);
 		geoLayout.setOnClickListener(this);
+		readLaterLayout.setOnClickListener(this);
 
 		userNameText.setText(user.getUsername());
 		
@@ -171,6 +178,10 @@ public class UserProfile extends Activity implements OnClickListener {
 			Intent intentUserLocation = new Intent(getApplicationContext(), MapsView.class);
 			intentUserLocation.putExtra(MAP_VIEW_TYPE, EDIT_USER_LOCATION_VIEW);
 			startActivityForResult(intentUserLocation, OBTAIN_ADDRESS_REQUEST_CODE);
+			break;
+		case R.id.profileReadLater:
+			Intent intent2 = new Intent(getApplicationContext(), ReadLaterView.class);
+			startActivity(intent2);
 			break;
 		}
 	}
@@ -269,6 +280,9 @@ public class UserProfile extends Activity implements OnClickListener {
 		Gson gson = new Gson();
 		switch (item.getItemId()) {
 		case Menu.FIRST:
+			ConnectivityCheck conn = new ConnectivityCheck(this);
+			if(conn.isConnectingToInternet()){
+			
 			int index = (int) info.id;
 			Intent myIntent = new Intent(this, EditComment.class);
 			String x = gson.toJson(model.get(index));
@@ -276,6 +290,12 @@ public class UserProfile extends Activity implements OnClickListener {
 			myIntent.putExtra("Index", String.valueOf(index));
 			startActivityForResult(myIntent, OBTAIN_EDIT_COMMENT_CODE);
 			return true;
+			}
+			else{
+				Toast.makeText(this, "You require connectivity to edit a comment",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
 		}
 		return super.onContextItemSelected(item);
 	}
