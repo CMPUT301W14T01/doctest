@@ -79,17 +79,17 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 			holder.timestamp = (TextView) convertView.findViewById(R.id.commentDate);
 			holder.picture = (ImageView) convertView.findViewById(R.id.CommentPicture);
 			
-			holder.username.setTextSize(5*getContext().getResources().getDisplayMetrics().density);
-			holder.title.setTextSize(8*getContext().getResources().getDisplayMetrics().density);
-			holder.radish.setTextSize(5*getContext().getResources().getDisplayMetrics().density);
-			holder.location.setTextSize(5*getContext().getResources().getDisplayMetrics().density);
-			holder.timestamp.setTextSize(5*getContext().getResources().getDisplayMetrics().density);
+			holder.username.setTextSize(4*getContext().getResources().getDisplayMetrics().density);
+			holder.title.setTextSize(5*getContext().getResources().getDisplayMetrics().density);
+			holder.radish.setTextSize(4*getContext().getResources().getDisplayMetrics().density);
+			holder.location.setTextSize(4*getContext().getResources().getDisplayMetrics().density);
+			holder.timestamp.setTextSize(4*getContext().getResources().getDisplayMetrics().density);
 			convertView.setTag(holder);
 		}
 		else{
 			holder = (ViewHolder) convertView.getTag();
 		}
-		SimpleDateFormat format = new SimpleDateFormat("c HH:mm MMM/dd/yyyy");
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm MM/dd/yy");
 		
 		holder.title.setText(model.getTitle());
 		holder.username.setText(model.getAuthor()+ " - ");
@@ -99,8 +99,8 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 			holder.location.setText(" - @ No location - ");
 		}
 		else{
-			if(model.getAddress().getAddressLine(0).length()>27){
-				String temp = model.getAddress().getAddressLine(0).substring(0,27)+"...";
+			if(model.getAddress().getAddressLine(0).length()>20){
+				String temp = model.getAddress().getAddressLine(0).substring(0,20)+"...";
 				holder.location.setText(" - @ " + temp +" - ");
 			}
 			else

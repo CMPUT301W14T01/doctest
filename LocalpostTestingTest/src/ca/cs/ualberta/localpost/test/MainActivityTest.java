@@ -6,7 +6,7 @@ import ca.cs.ualberta.localpost.view.MainActivity;
 public class MainActivityTest extends
 		ActivityInstrumentationTestCase2<MainActivity> {
 
-	public MainActivityTest(Class<MainActivity> name) {
+	public MainActivityTest() {
 		super(MainActivity.class);
 		//Intent intent = new Intent(getInstrumentation().getTargetContext(), MainActivity.class);
 		//startActivity(intent);

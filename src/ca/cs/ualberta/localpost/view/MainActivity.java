@@ -56,7 +56,7 @@ import ca.cs.ualberta.localpost.model.StandardUserModel;
 // http://www.androidhive.info/2013/10/android-tab-layout-with-swipeable-views-1/
 
 public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener, Observer {
+		ActionBar.TabListener {
 
 	/** Adapters used to create the tabbed views/fragments */
 	private ViewPager viewPager;
@@ -81,7 +81,6 @@ public class MainActivity extends FragmentActivity implements
 			standardUser = Serialize.loaduser(getApplicationContext());
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.e("user", "gets here");
 		}
 		ConnectivityCheck conn = new ConnectivityCheck(this);
 		if (conn.isConnectingToInternet()) {
@@ -92,8 +91,6 @@ public class MainActivity extends FragmentActivity implements
 		}
 		// Save users current location in file
 		Serialize.SaveUser(standardUser, getApplicationContext());
-
-		Log.e("user", String.valueOf(standardUser));
 		
 		/** Generate The Tab Views */
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -189,8 +186,4 @@ public class MainActivity extends FragmentActivity implements
 		}
 	}
 
-	@Override
-	public void update(Observable observable, Object data) {
-		// TODO Auto-generated method stub
-	}
 }

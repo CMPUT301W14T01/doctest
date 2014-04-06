@@ -58,6 +58,12 @@ public class EditComment extends Activity {
 	private EditText titleView;
 	private EditText contentView;
 	
+	public static final int OBTAIN_EDIT_COMMENT_CODE = 100;
+	private String EDIT_COMMENT_VIEW = "editview";
+	private String MAP_VIEW_TYPE = "mapviewtype";
+	private String EDIT_COMMENT_MODEL = "editcomment";
+	private String INTENT_PURPOSE;
+	
 	/**Object and index obtained via intent */
 	private RootCommentModel intentObj;
 	
@@ -84,7 +90,6 @@ public class EditComment extends Activity {
 		Bundle extras = getIntent().getExtras();
 		String temp = extras.getString("ModelObj");
 //		intentIndex = extras.getString("Index");
-		
 		intentObj = gson.fromJson(temp, RootCommentModel.class);
 
 		//Set Previous values back into fields
@@ -101,8 +106,11 @@ public class EditComment extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), MapsView.class);
-				startActivityForResult(intent, 1);
+				Intent intentEdit = new Intent(getApplicationContext(), MapsView.class);
+				intentEdit.putExtra(MAP_VIEW_TYPE, EDIT_COMMENT_VIEW);
+				String comment = gson.toJson(intentObj);
+				intentEdit.putExtra(EDIT_COMMENT_MODEL, comment);
+				startActivityForResult(intentEdit, OBTAIN_EDIT_COMMENT_CODE);
 			}
 
 		});
@@ -111,7 +119,7 @@ public class EditComment extends Activity {
 	@Override
     public void onActivityResult(int requestCode,int resultCode,Intent data)
     {
-		if (requestCode == 1){
+		if (requestCode == OBTAIN_EDIT_COMMENT_CODE){
 			if (resultCode == RESULT_OK){
 				String intentIndex = data.getStringExtra("address");
 				address = gson.fromJson(intentIndex, android.location.Address.class);

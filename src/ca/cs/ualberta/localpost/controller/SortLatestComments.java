@@ -28,7 +28,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import ca.cs.ualberta.localpost.model.CommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 public class SortLatestComments implements SortComments {
 	
@@ -45,7 +47,5 @@ public class SortLatestComments implements SortComments {
 	    });
 		return comments;
 	}
-
-
 	
 }

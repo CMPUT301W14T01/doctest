@@ -49,6 +49,7 @@ import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
 import ca.cs.ualberta.localpost.controller.SortFreshestComments;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.CommentModel;
+import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 import com.google.gson.Gson;
 
@@ -63,6 +64,10 @@ public class FreshestTabView extends Fragment {
 	private ListView listView;
 	private CommentListAdapter adapter;
 	ArrayList<CommentModel> model;
+	private String THREAD_VIEW = "threadview";
+	private String MAP_VIEW_TYPE = "mapviewtype";
+	private String THREAD_COMMENT_MODEL = "threadcommentmodel";
+	StandardUserModel standardUser;
 
 	public void setIsPictures(int option) {
 		this.isPictures = option;
@@ -124,7 +129,7 @@ public class FreshestTabView extends Fragment {
 				listView.setAdapter(adapter);
 				registerForContextMenu(listView);
 
-		
+
 				listView.setOnItemClickListener(new OnItemClickListener() {
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
@@ -150,17 +155,20 @@ public class FreshestTabView extends Fragment {
 		menu.add(0, Menu.FIRST, 0, "UpRad");
 		menu.add(0, Menu.FIRST + 1, 0, "DownRad");
 		menu.add(0, Menu.FIRST + 2, 0, "Favorite");
+		menu.add(0, Menu.FIRST + 3, 0, "Read Later");
+		menu.add(0, Menu.FIRST + 4, 0, "Map the Thread Yo");
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		ConnectivityCheck conn = new ConnectivityCheck(getActivity());
-		
+
 		// Get item list index
 		ElasticSearchOperations es = new ElasticSearchOperations();
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		int index = (int) info.id;
 		switch (item.getItemId()) {
+
 		case Menu.FIRST:
 			if(conn.isConnectingToInternet()){
 				
@@ -175,13 +183,13 @@ public class FreshestTabView extends Fragment {
 				return true;
 			}
 		case Menu.FIRST + 1:
-			if(conn.isConnectingToInternet()){
-				
+			if(conn.isConnectingToInternet()){				
 				Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
 				model.get(index).decRadish();
 				es.execute(1, model.get(index).getPostId(), model.get(index),null);
 				return true;
 			}
+
 			else{
 				Toast.makeText(getActivity(), "You require connectivity to Downrad",
 						Toast.LENGTH_SHORT).show();

@@ -44,12 +44,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
-
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.ChildCommentModel;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
@@ -69,6 +69,10 @@ public class SubmitComment extends Activity {
 	private Button postButton;
 	/** Constant pic request code */
 	public static final int OBTAIN_PIC_REQUEST_CODE = 117;
+	public static final int OBTAIN_ADDRESS_REQUEST_CODE = 101;
+	private String SUBMIT_VIEW = "submitvew";
+	private String MAP_VIEW_TYPE = "mapviewtype";
+	private String INTENT_PURPOSE;
 
 	/** Carries the currently save picture waiting for submission */
 	private Bitmap currentPicture = null;
@@ -76,8 +80,13 @@ public class SubmitComment extends Activity {
 	/** Variable for the onClickListener that generates the map view **/
 	LatLng latlng;
 	private Address address;
+<<<<<<< HEAD
 
 	/** Gson writer */
+=======
+	
+	/**Gson writer */
+>>>>>>> origin/geolocationUseCases
 	private Gson gson = new Gson();
 
 	/** Gets the ID of replies parent */
@@ -137,9 +146,10 @@ public class SubmitComment extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(),
+				Intent intentLocation = new Intent(getApplicationContext(),
 						MapsView.class);
-				startActivityForResult(intent, 1);
+				intentLocation.putExtra(MAP_VIEW_TYPE, SUBMIT_VIEW);
+				startActivityForResult(intentLocation, OBTAIN_ADDRESS_REQUEST_CODE);
 			}
 		});
 	}
@@ -166,10 +176,62 @@ public class SubmitComment extends Activity {
 
 		ConnectivityCheck conn = new ConnectivityCheck(this);
 		if (conn.isConnectingToInternet()) {
+<<<<<<< HEAD
 			if (commentType.equals("submit")) {
 				// Log.e("add", "submit");
 				title = titleView.getText().toString();
 				content = contentView.getText().toString();
+=======
+		if (commentType.equals("submit")) {
+			Log.e("add", "submit");
+			title = titleView.getText().toString();
+			content = contentView.getText().toString();
+
+			RootCommentModel new_root = new RootCommentModel(content, title,
+					currentPicture, this);
+			new_root.setAuthor(user.getUsername());
+			new_root.setAddress(user.getAddress());
+			if (address != null)
+				new_root.setAddress(address);
+			Serialize.SaveComment(new_root, this, "history");
+			ElasticSearchOperations es = new ElasticSearchOperations();
+			es.execute(1, new_root.getPostId(), new_root, null);
+
+		} else if (commentType.equals("reply")) {
+			try {
+				//Create new child
+				content = contentView.getText().toString();
+				ChildCommentModel new_child = new ChildCommentModel(content,null, currentPicture, this);
+				new_child.setAddress(user.getAddress());
+				if (address != null)
+					new_child.setAddress(address);
+				new_child.setAuthor(user.getUsername());
+				
+				//Find Parent and add to its array
+				ElasticSearchOperations es1 = new ElasticSearchOperations();
+				ArrayList<CommentModel> array = es1.execute(3, null, null,parentID).get();
+				CommentModel temp = array.get(0);
+				Log.e("temp", temp.getPostId().toString());
+				temp.addChild(new_child.getPostId().toString());
+				Serialize.SaveComment(temp, this, "history");
+				Serialize.update(temp, this, "favoritecomment.json");
+				Serialize.update(temp, this, "historycomment.json");
+				
+				
+				//Push to ES
+				ElasticSearchOperations es2 = new ElasticSearchOperations();
+				es2.execute(1, temp.getPostId(), temp, null);
+				
+				Log.e("Pass","This Point");
+				ElasticSearchOperations es3 = new ElasticSearchOperations();
+
+				es3.execute(1, new_child.getPostId(), new_child, null);
+				Log.e("Executed","Executed");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+>>>>>>> origin/geolocationUseCases
 
 				RootCommentModel new_root = new RootCommentModel(content,title, currentPicture, this);
 				new_root.setAuthor(user.getUsername());
@@ -244,7 +306,7 @@ public class SubmitComment extends Activity {
 						newWidth, newHeight, false);
 			}
 		}
-		if (requestCode == 1) {
+		if (requestCode == OBTAIN_ADDRESS_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				String intentIndex = data.getStringExtra("address");
 				address = gson.fromJson(intentIndex,

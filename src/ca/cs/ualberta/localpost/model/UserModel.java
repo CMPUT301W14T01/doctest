@@ -51,8 +51,6 @@ public abstract class UserModel {
 		this.username = "anonymous";
 		this.address = getAddress();
 		this.tripcode = genTripcode(context);
-
-
 	}
 
 	// GET USERNAME

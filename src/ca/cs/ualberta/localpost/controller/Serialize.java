@@ -253,8 +253,7 @@ public class Serialize {
 
 			String input;
 			while ((input = buffer.readLine()) != null) {
-					user = gson.fromJson(input,StandardUserModel.class);
-					
+					user = gson.fromJson(input,StandardUserModel.class);					
 			}
 			StandardUserModel.setInstance(user);
 			return user;
@@ -262,6 +261,10 @@ public class Serialize {
 			e.printStackTrace();
 		}
 		StandardUserModel.setInstance(user);
+<<<<<<< HEAD
+=======
+		Log.e("user",user.getUsername());
+>>>>>>> origin/geolocationUseCases
 		return user;
 	}
 	

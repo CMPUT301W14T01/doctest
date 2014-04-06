@@ -1,11 +1,5 @@
 package ca.cs.ualberta.localpost.model;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import ca.cs.ualberta.localpost.controller.Serialize;
-
 import android.content.Context;
 
 public class StandardUserModel extends UserModel {
@@ -25,6 +19,10 @@ public class StandardUserModel extends UserModel {
 	 public static StandardUserModel getInstance() {
 			 return instance;
 	   }
+	 
+	 public static StandardUserModel setInstance(StandardUserModel user) {
+		 return instance = user;
+	 }
 
 	 public static StandardUserModel setInstance(StandardUserModel user) {
 			 return instance = user;
