@@ -68,15 +68,12 @@ public class UserProfile extends Activity implements OnClickListener {
 	private RelativeLayout usernameLayout;
 	private RelativeLayout favoriteLayout;
 	private RelativeLayout geoLayout;
-<<<<<<< HEAD
-	
+
 	public static final int OBTAIN_EDIT_COMMENT_CODE = 100;
 	public static final int OBTAIN_ADDRESS_REQUEST_CODE = 101;
 	private String EDIT_USER_LOCATION_VIEW = "userlocationview";
 	private String MAP_VIEW_TYPE = "mapviewtype";
-=======
 	private RelativeLayout readLaterLayout;
->>>>>>> origin/master
 
 //	/**Grabs Username via preferences*/
 //	private SharedPreferences app_preferences;

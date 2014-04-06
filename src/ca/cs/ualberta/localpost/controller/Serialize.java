@@ -243,7 +243,7 @@ public class Serialize {
 	
 	public static StandardUserModel loaduser(Context context) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		constructGson();
-		StandardUserModel user = StandardUserModel.getInstance(context);
+		StandardUserModel user = new StandardUserModel(context);
 		filename = userprofile;
 		FileInputStream FileOpen;
 		try {
@@ -253,13 +253,15 @@ public class Serialize {
 
 			String input;
 			while ((input = buffer.readLine()) != null) {
-					user = gson.fromJson(input,StandardUserModel.class);
-					
+					user = gson.fromJson(input,StandardUserModel.class);					
 			}
+			StandardUserModel.setInstance(user);
 			return user;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		StandardUserModel.setInstance(user);
+		Log.e("user",user.getUsername());
 		return user;
 	}
 	
