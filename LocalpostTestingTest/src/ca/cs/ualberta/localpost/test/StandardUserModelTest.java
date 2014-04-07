@@ -1,19 +1,20 @@
-/**
- * 
- */
 package ca.cs.ualberta.localpost.test;
 
+import android.location.Address;
+import android.test.InstrumentationTestCase;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
-import junit.framework.TestCase;
+import ca.cs.ualberta.localpost.view.GPSLocation;
 
 /**
- * @author timotei
+ * Test the StandardUserModelTest which is used to instantiate new 
+ * users
+ * @author team01
  *
  */
-public class StandardUserModelTest extends TestCase {
+public class StandardUserModelTest extends InstrumentationTestCase {
 
 	StandardUserModel model;
-
+	
 	public StandardUserModelTest() {
 		super();
 	}
@@ -27,129 +28,125 @@ public class StandardUserModelTest extends TestCase {
 	}
 
 	/**
-	 * Test whether we can instantiate a new StandardUserModel
+	 * Test instantiating a new StandardUserModel
 	 */
 	public final void testStandardUserModel() {
-		try {
-			model = StandardUserModel.getInstance();
-		} catch (Exception e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}		
+		model = new StandardUserModel(getInstrumentation().getTargetContext());
+		
+		assertNotNull(model);		
+	}
+
+	/**
+	 * Test getting the instance context
+	 */
+	public final void testGetInstanceContext() {
+		model = new StandardUserModel(getInstrumentation().getTargetContext());
+		
 		assertNotNull(model);
 	}
 
 	/**
-	 * Test method for {@link ca.cs.ualberta.localpost.model.StandardUserModel#getInstance()}.
+	 * Test getting the instance
 	 */
 	public final void testGetInstance() {
-		fail("Not yet implemented"); // TODO
+		assertNotNull(StandardUserModel.getInstance());
 	}
 
 	/**
-	 * Test whether we can retrieve the username after creating the 
-	 * StandardUserModel
+	 * Test getters for the username
 	 */
 	public final void testGetUsername() {
-		try {
-			model = StandardUserModel.getInstance();
-		} catch (Exception e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}	
-		assertNotNull(model.getUsername());
+		String testUsername = "testUsername";
+		model = new StandardUserModel(getInstrumentation().getTargetContext());
+		
+		model.setUsername(testUsername);
+		
+		assertEquals(model.getUsername(), testUsername);
 	}
 
 	/**
-	 * Test whether we can retrieve the address after creating the 
-	 * StandardUserModel
+	 * Test getters for the address
 	 */
 	public final void testGetAddress() {
-		try {
-			model = StandardUserModel.getInstance();
-		} catch (Exception e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}	
-		fail("Not yet implemented"); // TODO
+		model = new StandardUserModel(getInstrumentation().getTargetContext());
+		
+		GPSLocation gpsLocation = new GPSLocation(getInstrumentation().getTargetContext());
+		Address address = gpsLocation.getAddress();
+		
+		model.setAddress(address);
+		
+		assertEquals(model.getAddress(), address);
 	}
 
 	/**
-	 * Test whether we can set the address after creating the 
-	 * StandardUserModel
+	 * Test setters for the address
 	 */
 	public final void testSetAddress() {
-		try {
-			model = StandardUserModel.getInstance();
-		} catch (Exception e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}	
-		fail("Not yet implemented"); // TODO
+		model = new StandardUserModel(getInstrumentation().getTargetContext());
+		
+		GPSLocation gpsLocation = new GPSLocation(getInstrumentation().getTargetContext());
+		Address address = gpsLocation.getAddress();
+		
+		model.setAddress(address);
+		
+		assertNotNull(model.getAddress());
 	}
 
 	/**
-	 * Test whether we set retrieve the username after creating the 
-	 * StandardUserModel
+	 * Test setters for the username
 	 */
 	public final void testSetUsername() {
-		try {
-			model = StandardUserModel.getInstance();
-		} catch (Exception e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}	
-		// Create a new username string
-		String username = "TestUsername";
-
-		// Set the username to the string created above
-		try {
-			model.setUsername(username);
-		} catch (Exception e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		assertEquals(username,model.getUsername());
+		String testUsername = null;
+		model = new StandardUserModel(getInstrumentation().getTargetContext());
+		
+		model.setUsername(testUsername);
+		
+		assertNull(model.getUsername());
 	}
 
 	/**
-	 * Test method for {@link ca.cs.ualberta.localpost.model.UserModel#getTripcode()}.
+	 * Test getters for the tripcode
 	 */
 	public final void testGetTripcode() {
-		try {
-			model = StandardUserModel.getInstance();
-		} catch (Exception e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}	
-		fail("Not yet implemented"); // TODO
+		model = new StandardUserModel(getInstrumentation().getTargetContext());
+		
+		model.genTripcode(getInstrumentation().getTargetContext());
+		
+		assertNotNull(model.getTripcode());
 	}
 
 	/**
-	 * Test method for {@link ca.cs.ualberta.localpost.model.UserModel#genTripcode()}.
+	 * Test generating the tripcode
 	 */
 	public final void testGenTripcode() {
-		try {
-			model = StandardUserModel.getInstance();
-		} catch (Exception e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}	
-		fail("Not yet implemented"); // TODO
+		model = new StandardUserModel(getInstrumentation().getTargetContext());
+		
+		model.genTripcode(getInstrumentation().getTargetContext());
+		
+		assertNotNull(model.getTripcode());
 	}
 
 	/**
-	 * Test method for {@link ca.cs.ualberta.localpost.model.UserModel#getMac()}.
+	 * Test getters for the mac address
 	 */
 	public final void testGetMac() {
-		try {
-			model = StandardUserModel.getInstance();
-		} catch (Exception e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}	
-		fail("Not yet implemented"); // TODO
+		model = new StandardUserModel(getInstrumentation().getTargetContext());
+		
+		assertNotNull(model.getMac(getInstrumentation().getTargetContext()));
+	}
+
+	/**
+	 * Test setters for the author
+	 */
+	public final void testSetAuthor() {
+		model = new StandardUserModel(getInstrumentation().getContext());
+		
+		String author = "testAuthor";
+		
+		model.setAuthor(author);
+		
+		assertEquals(model.getUsername(), author);
+		
 	}
 
 }
