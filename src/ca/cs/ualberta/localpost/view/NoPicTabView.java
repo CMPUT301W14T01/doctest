@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -60,6 +61,7 @@ public class NoPicTabView extends Fragment {
 	private ListView listView;
 	private CommentListAdapter adapter;
 	ArrayList<CommentModel> model;
+	ArrayList<CommentModel> model2;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,13 +102,11 @@ public class NoPicTabView extends Fragment {
 					model = Serialize.loadFromFile("cachedrootcomment.json",
 							getActivity());
 				}
-				
-				PictureSort sort = new PictureSort();
-				ArrayList<CommentModel> model2 = new ArrayList<CommentModel>();
-				model2 = model;
-				model = sort.NoPictures(model2);
 
-				adapter = new CommentListAdapter(getActivity(),R.id.custom_adapter, model);
+				PictureSort sort = new PictureSort();
+				model2 = sort.NoPictures(model);
+				Log.e("model sorted", String.valueOf(model2));
+				adapter = new CommentListAdapter(getActivity(),R.id.custom_adapter, model2);
 				listView.setAdapter(adapter);
 				registerForContextMenu(listView);
 
@@ -115,7 +115,7 @@ public class NoPicTabView extends Fragment {
 							int position, long id) {
 
 						Gson gson = new Gson();
-						String modelString = gson.toJson(model.get(position));
+						String modelString = gson.toJson(model2.get(position));
 						Intent myIntent = new Intent(getActivity(),ThreadView.class);
 						myIntent.putExtra("CommentModel", modelString);
 
@@ -139,7 +139,7 @@ public class NoPicTabView extends Fragment {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		ConnectivityCheck conn = new ConnectivityCheck(getActivity());
-		
+
 		// Get item list index
 		ElasticSearchOperations es = new ElasticSearchOperations();
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
@@ -170,9 +170,9 @@ public class NoPicTabView extends Fragment {
 
 		case Menu.FIRST + 2:
 			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
-			Toast.makeText(getActivity(), "Comment has been Favorited",Toast.LENGTH_SHORT).show();
-			Serialize.update(model.get(index), getActivity(), "favoritecomment.json");
-			return true;
+		Toast.makeText(getActivity(), "Comment has been Favorited",Toast.LENGTH_SHORT).show();
+		Serialize.update(model.get(index), getActivity(), "favoritecomment.json");
+		return true;
 		}
 		return super.onContextItemSelected(item);
 	}

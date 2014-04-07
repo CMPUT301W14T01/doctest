@@ -38,12 +38,13 @@ public class PictureSort {
 	 * @return ArrayList with pictures
 	 */
 	public ArrayList<CommentModel> WithPictures(ArrayList<CommentModel> comments){
+		ArrayList<CommentModel> modelPic = new ArrayList<CommentModel>();
 		for (int i = 0; i < comments.size(); i++ ){
-			if (comments.get(i).getPicture() == null){
-				comments.remove(i);
+			if (comments.get(i).getPicture() != null){
+				modelPic.add(comments.get(i));
 			}
 		}
-		return comments;
+		return modelPic;
 	}
 	/**
 	 * takes in an arraylist of comment models and removes all that have pictures
@@ -51,12 +52,13 @@ public class PictureSort {
 	 * @return ArrayList with no pictures
 	 */
 	public ArrayList<CommentModel> NoPictures(ArrayList<CommentModel> comments){
+		ArrayList<CommentModel> modelNoPic = new ArrayList<CommentModel>();
 		for (int i = 0; i < comments.size(); i++ ){
-			if (comments.get(i).getPicture() != null){
-				comments.remove(i);
+			if (comments.get(i).getPicture() == null){
+				modelNoPic.add(comments.get(i));
 			}
 		}
-		return comments;
+		return modelNoPic;
 	}
 
 

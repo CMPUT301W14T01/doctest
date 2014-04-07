@@ -46,7 +46,7 @@ public abstract class CommentModel extends Observable{
 	private Address address;
 	private String author;
 	private String content;
-	private Bitmap picture;
+	private Bitmap picture = null;
 	private long timestamp;
 
 	//Internal data for controllers
