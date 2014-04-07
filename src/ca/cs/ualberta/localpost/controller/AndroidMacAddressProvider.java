@@ -27,12 +27,16 @@ import android.app.Application;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
+/**
+ * Get the Mac Address from hardware used to generate the tripcode
+ * @author team01
+ *
+ */
 public class AndroidMacAddressProvider extends Application implements MacAddressProvider {
 
 	/**
-	 * gets the hardware mac address from the hardware and returns it as a string
-	 */
-	
+	 * Gets the hardware mac address from the hardware and returns it as a string
+	 */	
 	public String getMacAddress(Context context) {
 		
 	    WifiManager wimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);

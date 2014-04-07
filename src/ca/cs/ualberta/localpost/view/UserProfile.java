@@ -62,7 +62,7 @@ import com.google.gson.Gson;
  * The user will be able to change their user name, 
  * view their comment history, view their favourited comments
  * and their read later 
- * @author Team 01
+ * @author team01
  */
 public class UserProfile extends Activity implements OnClickListener {
 	/** Grabs the layouts respect to their functionality*/
@@ -75,10 +75,6 @@ public class UserProfile extends Activity implements OnClickListener {
 	private String EDIT_USER_LOCATION_VIEW = "userlocationview";
 	private String MAP_VIEW_TYPE = "mapviewtype";
 	private RelativeLayout readLaterLayout;
-
-//	/**Grabs Username via preferences*/
-//	private SharedPreferences app_preferences;
-//	private SharedPreferences.Editor editor;
 
 	/**Views related to the activity view*/
 	private TextView userNameText;
@@ -162,6 +158,9 @@ public class UserProfile extends Activity implements OnClickListener {
 		listView.setAdapter(adapter);
 	}
 
+	/**
+	 * Different activities (change username, view favorites, change location or read later) are started based on selection.
+	 */
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {

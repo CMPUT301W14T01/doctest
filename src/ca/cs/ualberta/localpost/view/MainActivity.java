@@ -23,9 +23,6 @@
 
 package ca.cs.ualberta.localpost.view;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -36,10 +33,8 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.controller.TabsPagerAdapter;
@@ -49,14 +44,13 @@ import ca.cs.ualberta.localpost.model.StandardUserModel;
  * Main code was provided from Android Hive. Code was changed to fix project
  * requirements.
  * Creates the Tab Views
- * @author Team 01
+ * @author team01
  * 
  */
 // Some code was provided from:
 // http://www.androidhive.info/2013/10/android-tab-layout-with-swipeable-views-1/
-
 public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener {
+ActionBar.TabListener {
 
 	/** Adapters used to create the tabbed views/fragments */
 	private ViewPager viewPager;
@@ -91,7 +85,7 @@ public class MainActivity extends FragmentActivity implements
 		}
 		// Save users current location in file
 		Serialize.SaveUser(standardUser, getApplicationContext());
-		
+
 		/** Generate The Tab Views */
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
@@ -100,7 +94,7 @@ public class MainActivity extends FragmentActivity implements
 		viewPager.setAdapter(mAdapter);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		
+
 		for (String tab : tabs) {
 			actionBar.addTab(actionBar.newTab().setText(tab)
 					.setTabListener(this));

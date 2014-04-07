@@ -1,16 +1,34 @@
 /**
+ * The MIT License (MIT)
+ * Copyright (c) 2014 Timotei Albu, David Chau-Tran, Alain Clark, Shawn Anderson, Mickael Zerihoun
  * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ *	this software and associated documentation files (the "Software"), to deal in
+ *	the Software without restriction, including without limitation the rights to
+ *	use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ *	the Software, and to permit persons to whom the Software is furnished to do so,
+ *	subject to the following conditions:
+ *	
+ *	The above copyright notice and this permission notice shall be included in all
+ *	copies or substantial portions of the Software.
+ *	
+ *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ *  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ *  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ *  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *  
  */
+
 package ca.cs.ualberta.localpost.view;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,54 +36,54 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.Serialize;
-import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.LatLngBounds.Builder;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class MapsView extends FragmentActivity implements OnInfoWindowClickListener, OnMarkerDragListener, OnMapClickListener, Serializable {
+/**
+ * MapsView is a class that communicates with several other views to display users or comments location on map
+ * Called when user submits or edits a comment; when user location is changed and when the map thread option is selected
+ * @author team01
+ *
+ */
+public class MapsView extends FragmentActivity implements OnInfoWindowClickListener, OnMarkerDragListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/** Source: http://wptrafficanalyzer.in/blog/android-geocoding-showing-user-input-location-on-google-map-android-api-v2/
-	 * 	and Google Play Services demos
-	 * **/
-
+	// Google map object
 	private GoogleMap googleMap;
+	// Google marker to display on map
 	private Marker googleMarker;
+	// Coordinates based on latitude and longitude
 	private LatLng latLng;
+	// Address object containing all info about a certain point on map
 	private Address address;
-	StandardUserModel user;
-	private ArrayList<CommentModel> commentThread;
+	// Model of the user
+	private StandardUserModel user;
+	// Array containing all comments
+	private ArrayList<String> arrayComments;
 	private RootCommentModel commentModel;
 
+	// Variables used for receiving/reading intent from different applications using Google Maps
 	private String MAP_VIEW_TYPE = "mapviewtype";
 	private String THREAD_VIEW = "threadview";
 	private String SUBMIT_VIEW = "submitvew";
@@ -73,7 +91,7 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	private String EDIT_USER_LOCATION_VIEW = "userlocationview";
 	private String EDIT_COMMENT_MODEL = "editcomment";
 	private String THREAD_COMMENT_MODEL = "threadcommentmodel";
-	String INTENT_OBJECT;
+	private String INTENT_OBJECT;
 	private String INTENT_PURPOSE;
 
 	Gson gson = new Gson();
@@ -86,40 +104,32 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		// If map is not already setUp, then set it up
 		setUpMapIfNeeded();		
 
-		// Initialize the marker
-		// TODO Change to make it display the new user selected location
+		// Load current user
 		try {
 			user = Serialize.loaduser(getApplicationContext());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+		// Receive intent
 		Intent extrasData = getIntent();
-
 		INTENT_PURPOSE = extrasData.getStringExtra(MAP_VIEW_TYPE);
 
 		// The following checks conditions to determine how to display the map
 		// depending on where the intent was sent from and with what purpose
+		//
+		// Thread View
 		if (INTENT_PURPOSE.equals(THREAD_VIEW)){
 			// Retrieve the comment model passed through intent
 			INTENT_OBJECT = extrasData.getStringExtra(THREAD_COMMENT_MODEL);
 
 			// Convert GSON string to ArrayList Type
-			ArrayList<String> arrayComments =
+			arrayComments =
 					gson.fromJson(INTENT_OBJECT, new TypeToken<ArrayList<String>>(){}.getType());
 
-			Log.e("Pass4", "Got here");
-			Log.e("Pass5", String.valueOf(arrayComments.size()));
-
-			//			RootCommentModel fromJson1 = gson.fromJson(arrayComments.get(0), RootCommentModel.class);
-			//			Log.e("Pass6", String.valueOf(fromJson1.getAddress().getAddressLine(0)));
-			//			Log.e("Pass7", arrayComments.get(0));
-			//			Log.e("Pass8", String.valueOf(fromJson1.getAddress()));
-			//			RootCommentModel fromJson = gson.fromJson(arrayComments.get(0), RootCommentModel.class);
-			//					
-			//			Log.e("Pass9", fromJson.getAuthor());
 			markerThreadView(arrayComments);
 		}
+		// Evaluates true when submitting a comment
 		else if (INTENT_PURPOSE.equals(SUBMIT_VIEW) || INTENT_PURPOSE.equals(EDIT_USER_LOCATION_VIEW)) {
 			// Set address to the users default location
 			address = user.getAddress();
@@ -129,6 +139,7 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 
 			commentMarker();
 		}
+		// Evaluates true when editing a comment
 		else if (INTENT_PURPOSE.equals(EDIT_COMMENT_VIEW)) {
 			// Retrieve the comment model passed through intent
 			INTENT_OBJECT = extrasData.getStringExtra(EDIT_COMMENT_MODEL);
@@ -152,99 +163,64 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		btn_find.setOnClickListener(findClickListener);		
 	}	
 
+	/**
+	 * Arraylist of comments are sent to be displayed as markers on map
+	 * @param commentThread
+	 */
 	private void markerThreadView(ArrayList<String> commentThread) {
+		// Counter var and a date format one
+		int i;
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm MM/dd/yy");
+
+		// Clear all markers on map
 		googleMap.clear();
-
-		//		ArrayList<String> thread = commentThread.getChildren();
-		//		List<Marker> markers = new ArrayList<Marker>();
-
-		Log.e("Thread", "It works bitches");
-		//		//Log.e("Thread Author", commentThread.get(0).getAuthor());
-		//		
-		//		Iterator<CommentModel> it = commentThread.iterator();
-		//		
-		//		while(it.hasNext()){
-		//			CommentModel model = it.next();
-		//			Log.e("Model title", model.getTitle());
-		//		}
 
 		RootCommentModel fromJson = gson.fromJson(commentThread.get(0), RootCommentModel.class);
 
-		Log.e("Pass6", String.valueOf(fromJson.getAddress().getAddressLine(0)));
-
-		int i;
-		SimpleDateFormat format = new SimpleDateFormat("HH:mm MM/dd/yy");
-		//		ArrayList<GoogleMap> mapThread = new ArrayList<GoogleMap>();
-		//		ArrayList<MarkerOptions> markerOpt = new ArrayList<MarkerOptions>();
+		// ArrayList of markers
 		final List<Marker> mMarker = new ArrayList<Marker>();
 		latLng = new LatLng(fromJson.getAddress().getLatitude(),fromJson.getAddress().getLongitude());
-		//		LatLngBounds bounds = new LatLngBounds.Builder().include(latLng).build();
+
+		// Store the location of the Top level comment for zooming purposes
+		LatLng rootLocation = latLng;
+
+		mMarker.add(googleMap.addMarker(new MarkerOptions()
+		.position(latLng)
+		.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+		.title(fromJson.getContent() + " @ " + format.format(new Date(fromJson.getTimestamp())))));
+
 
 		LatLngBounds.Builder mapBounds = LatLngBounds.builder();
-		mapBounds = mapBounds.include(latLng);
-//		final View mapView = getSupportFragmentManager().findFragmentById(R.id.mapView).getView();
-//		if (mapView.getViewTreeObserver().isAlive()) {
-			for(i = 1;i<commentThread.size();i++){				
+		mapBounds = mapBounds.include(rootLocation);
 
-				RootCommentModel comment =  gson.fromJson(commentThread.get(i), RootCommentModel.class);
+		for(i = 1;i<commentThread.size();i++){				
 
-				address = comment.getAddress();
-				//Log.e("Pass7", String.valueOf(comment.getAddress().getAddressLine(0)));
-				// Creating an instance of GeoPoint, to display in Google Map
-				latLng = new LatLng(address.getLatitude(), address.getLongitude());
-				//
-				//			String addressText = String.format("%s, %s",
-				//					address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "",
-				//							address.getCountryName());
-				//
-				//			bounds.including(latLng);
+			RootCommentModel comment =  gson.fromJson(commentThread.get(i), RootCommentModel.class);
 
-				mMarker.add(googleMap.addMarker(new MarkerOptions().position(latLng)
-						.title(comment.getAuthor() + " @ " + format.format(new Date(comment.getTimestamp())))));
+			address = comment.getAddress();
 
-//				mapBounds = mapBounds.include(latLng);
+			// Creating an instance of GeoPoint, to display in Google Map
+			latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
-				//			mapThread.add(googleMap);
-			}
-//			googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(mapBounds.build(), 50));
-//		}
-		//		googleMap.clear();
-		//		
-		for (Marker markers: mMarker){
-			markers.showInfoWindow();
+			mapBounds.include(latLng);
+
+			mMarker.add(googleMap.addMarker(new MarkerOptions()
+			.position(latLng)
+			.title(comment.getAuthor() + " @ " + format.format(new Date(comment.getTimestamp())))));
+
 		}
-	}
+		LatLngBounds bounds = mapBounds.build();
 
-	/**
-	 * Add markers to map
-	 */
-	private void addMarkersToMap(LatLngBounds bounds) {
-		// Pan to see all markers in view.
-		// Cannot zoom to bounds until the map has a size.
-		final View mapView = getSupportFragmentManager().findFragmentById(R.id.mapView).getView();
-		if (mapView.getViewTreeObserver().isAlive()) {
-			mapView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-				@SuppressWarnings("deprecation") // We use the new method when supported
-				@SuppressLint("NewApi") // We check which build version we are using.
-				@Override
-				public void onGlobalLayout() {
-					LatLngBounds bounds = new LatLngBounds.Builder()
-					//					.include(PERTH)
-					//					.include(SYDNEY)
-					//					.include(ADELAIDE)
-					//					.include(BRISBANE)
-					//					.include(MELBOURNE)
-					.build();
-					if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-						mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-					} else {
-						mapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-					}
-					googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
-				}
-			});
+		// Calculates where all markers would be and positions camera appropriately.
+		// Source: http://stackoverflow.com/a/17825157
+		try{
+			googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50)); //This line will cause the exception first times when map is still not "inflated"
+			System.out.println("Set with padding");
+		} catch(IllegalStateException e) {
+			e.printStackTrace();
+			googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 400, 400, 0));
+			System.out.println("Set with wh");
 		}
-
 	}
 
 	@Override
@@ -257,7 +233,6 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	public void onPause() {
 		super.onPause();
 	}
-
 
 	/**
 	 * This is where we can add markers or lines, add listeners or move the camera. In this case, we
@@ -324,6 +299,11 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		return addresses;
 	}
 
+	/**
+	 * Looks up a location
+	 * @author timotei
+	 *
+	 */
 	private final class FindButton implements OnClickListener {
 		@Override
 		public void onClick(View v) {
@@ -426,19 +406,6 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		AlertDialog dialog = builder.create();
 		dialog.show();
 	}
-	/**
-	 * Method that finds a good supplier
-	 * Source: http://proquest.safaribooksonline.com.login.ezproxy.library.ualberta.ca/book/programming/android/9780132776622/9dot-determining-locations-and-using-maps/ch09?query=((android+google+maps))&reader=html&imagepage=#X2ludGVybmFsX0h0bWxWaWV3P3htbGlkPTk3ODAxMzI3NzY2MjIlMkZjaDA5bGV2MXNlYzEmcXVlcnk9KChhbmRyb2lkJTIwZ29vZ2xlJTIwbWFwcykp
-	 * @param locationManager
-	 * @return the location manager with the best supplier
-	 */
-	//	private String getBestProvider(LocationManager locationManager){
-	//		Criteria criteria = new Criteria();
-	//		criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-	//		criteria.setPowerRequirement(Criteria.POWER_LOW);
-	//		criteria.setCostAllowed(false);
-	//		return locationManager.getBestProvider(criteria, true);
-	//	}
 
 	/**
 	 * Method that passes an object of the address of the marker back to the previous activity, whose InfoWindow has been clicked		
@@ -450,7 +417,6 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 		String string = gson.toJson(address);
 		returnIntent.putExtra("address", string);
 		setResult(RESULT_OK, returnIntent);
-		//Log.e("Coordinates", string);
 		alertDialog();			
 	}
 
@@ -460,7 +426,6 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	@Override
 	public void onMarkerDrag(Marker arg0) {
 		// Do no thing
-
 	}
 
 	/**
@@ -501,10 +466,5 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 
 		inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
 				InputMethodManager.HIDE_NOT_ALWAYS);
-	}
-
-	@Override
-	public void onMapClick(LatLng point) {
-		googleMarker.showInfoWindow();		
 	}
 }
