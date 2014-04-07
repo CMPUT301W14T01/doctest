@@ -57,8 +57,6 @@ import ca.cs.ualberta.localpost.model.RootCommentModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-//-- Temporary import for tests
-
 /**
  * Displays a comment and all the replies associated with the comment
  * 
@@ -98,7 +96,10 @@ public class ThreadView extends Activity {
 		
 		threadExpand(topLevel, 0);
 	}
-
+	/**
+	 * Overrides onResume. Clears TableView and
+	 * repopulates table.
+	 */
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -110,10 +111,13 @@ public class ThreadView extends Activity {
 				threadExpand(topLevel, 0);
 		      }}, 250);
 	}
-
+	
+	/**
+	 * Recursively iterates through nested arraylist of comments
+	 * @param comment TopLevel Comment
+	 * @param level level of identation
+	 */
 	public void threadExpand(CommentModel comment, int level) {
-		//mapThreadView.add(comment);
-		
 		String passToJson;
 		
 		draw(comment, level);
@@ -153,7 +157,12 @@ public class ThreadView extends Activity {
 			}
 		}
 	}
-
+	
+	/**
+	 * Creates a table row and and appends it to TableView
+	 * @param comment Comment that is being drawn
+	 * @param level	level of indentation
+	 */
 	public void draw(final CommentModel comment, int level) {
 		TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.row, null);
 		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);

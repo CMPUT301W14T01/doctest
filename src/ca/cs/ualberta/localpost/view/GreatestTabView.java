@@ -52,10 +52,8 @@ import ca.cs.ualberta.localpost.model.CommentModel;
 import com.google.gson.Gson;
 
 /**
- * This View will show all the comments that are in the area around the user.
- * 
+ * Displays and orders comments that are sorted by greatest points
  * @author Team 01
- * 
  */
 public class GreatestTabView extends Fragment {
 	public int isPictures;
@@ -78,10 +76,11 @@ public class GreatestTabView extends Fragment {
 	}
 
 	/**
-	 * Overrides onResume. This will update the listView with data that has been
-	 * added.
+	 * Overrides onResume. 
+	 * Sorts comments with Greatness Algorithm(Greatest Points First)
+	 * This will update the listView with the sorted data.
 	 */
-	// @Override
+	@Override
 	public void onResume() {
 		super.onResume();
 		new Handler().postDelayed(new Runnable() {
@@ -134,7 +133,7 @@ public class GreatestTabView extends Fragment {
 					}
 				});
 			}
-		}, 750);
+		}, 500);
 	}
 
 	@Override
@@ -155,9 +154,8 @@ public class GreatestTabView extends Fragment {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		int index = (int) info.id;
 		switch (item.getItemId()) {
-		case Menu.FIRST:
+		case Menu.FIRST://UpRad
 			if(conn.isConnectingToInternet()){
-				
 				Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
 				model.get(index).incRadish();
 				es.execute(1, model.get(index).getPostId(), model.get(index),null);
@@ -168,9 +166,8 @@ public class GreatestTabView extends Fragment {
 						Toast.LENGTH_SHORT).show();
 				return true;
 			}
-		case Menu.FIRST + 1:
+		case Menu.FIRST + 1: //DownRad
 			if(conn.isConnectingToInternet()){
-				
 				Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
 				model.get(index).decRadish();
 				es.execute(1, model.get(index).getPostId(), model.get(index),null);
@@ -181,12 +178,9 @@ public class GreatestTabView extends Fragment {
 						Toast.LENGTH_SHORT).show();
 				return true;
 			}
-
-		case Menu.FIRST + 2:
+		case Menu.FIRST + 2: //Favorites
 			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
-			Toast.makeText(getActivity(), "Comment has been Favorited",
-					Toast.LENGTH_SHORT).show();
-			
+			Toast.makeText(getActivity(), "Comment has been Favorited",Toast.LENGTH_SHORT).show();
 			Serialize.update(model.get(index), getActivity(), "favoritecomment.json");
 			return true;
 		}

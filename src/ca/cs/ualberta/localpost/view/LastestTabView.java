@@ -54,8 +54,8 @@ import ca.cs.ualberta.localpost.model.CommentModel;
 import com.google.gson.Gson;
 
 /**
- * This View will show all the comments that are in the area around the user.
- * 
+ * Displays and order comments that were sorted by date
+ * (Most Recent dates will be first)
  * @author Team 01
  * 
  */
@@ -80,10 +80,11 @@ public class LastestTabView extends Fragment {
 	}
 
 	/**
-	 * Overrides onResume. This will update the listView with data that has been
-	 * added.
+	 * Overrides onResume. 
+	 * Sorts comments with Lastest Alg.(Most recent First)
+	 * This will update the listView with the sorted data
 	 */
-	// @Override
+	@Override
 	public void onResume() {
 		super.onResume();
 		new Handler().postDelayed(new Runnable() {
@@ -112,10 +113,8 @@ public class LastestTabView extends Fragment {
 
 					model = Serialize.loadFromFile("cachedrootcomment.json",
 							getActivity());
-
 				}
 				
-
 				SortLatestComments sort = new SortLatestComments();
 				model = sort.sortComments(model);
 				CommentListAdapter adapter = new CommentListAdapter(
@@ -146,11 +145,10 @@ public class LastestTabView extends Fragment {
 		menu.add(0, Menu.FIRST + 1, 0, "DownRad");
 		menu.add(0, Menu.FIRST + 2, 0, "Favorite");
 	}
-
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		ConnectivityCheck conn = new ConnectivityCheck(getActivity());
-		
 		// Get item list index
 		ElasticSearchOperations es = new ElasticSearchOperations();
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
@@ -158,7 +156,6 @@ public class LastestTabView extends Fragment {
 		switch (item.getItemId()) {
 		case Menu.FIRST:
 			if(conn.isConnectingToInternet()){
-				
 				Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
 				model.get(index).incRadish();
 				es.execute(1, model.get(index).getPostId(), model.get(index),null);
@@ -171,23 +168,19 @@ public class LastestTabView extends Fragment {
 			}
 		case Menu.FIRST + 1:
 			if(conn.isConnectingToInternet()){
-				
 				Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
 				model.get(index).decRadish();
 				es.execute(1, model.get(index).getPostId(), model.get(index),null);
 				return true;
 			}
 			else{
-				Toast.makeText(getActivity(), "You require connectivity to Downrad",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "You require connectivity to Downrad",Toast.LENGTH_SHORT).show();
 				return true;
 			}
 
 		case Menu.FIRST + 2:
 			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
-			Toast.makeText(getActivity(), "Comment has been Favorited",
-					Toast.LENGTH_SHORT).show();
-			
+			Toast.makeText(getActivity(), "Comment has been Favorited",Toast.LENGTH_SHORT).show();
 			Serialize.update(model.get(index), getActivity(), "favoritecomment.json");
 			return true;
 		}

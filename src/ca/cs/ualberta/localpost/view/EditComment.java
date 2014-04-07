@@ -48,7 +48,8 @@ import ca.cs.ualberta.localpost.model.StandardUserModel;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
-/**This Activity allows users to edit a previously posted comments
+/**This Activity allows users to edit a previously posted comment
+ * or reply
  * @author Team 01
  *
  */

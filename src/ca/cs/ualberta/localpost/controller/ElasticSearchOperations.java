@@ -51,14 +51,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-
+/**
+ * Handles all requests to and from the Elastic Search Servers
+ * Some code taken from PicPoster repo by zjullion
+ * and ESDemo
+ * @author Team 01
+ *
+ */
 
 public class ElasticSearchOperations extends
 		AsyncTask<Object, Integer, ArrayList<CommentModel>> {
 
 	private static Gson gson;
-
-
 	private String urlRoot  =  "http://cmput301.softwareprocess.es:8080/testing/chautran/";
 	private String urlChild = "http://cmput301.softwareprocess.es:8080/testing/zerihoun/";
 	
@@ -69,7 +73,7 @@ public class ElasticSearchOperations extends
 	public ElasticSearchOperations() {
 		constructGson();
 	}
-
+	
 	@Override
 	// Params(Used to determine function,postID used for pushing, CommentModel)
 	protected ArrayList<CommentModel> doInBackground(Object... params) { // parms[]
@@ -106,6 +110,12 @@ public class ElasticSearchOperations extends
 		return null;
 	}// End doInBackGround
 
+	/**
+	 * Pushes a comment model to ES servers
+	 * @param model comment model that is being pushed
+	 * @param uuid index that the model will be stored at
+	 * @param URL model is pushed to this URL
+	 */
 	public void pushComment(CommentModel model, UUID uuid,String URL) {
 		HttpPost pushRequest = new HttpPost(URL+ String.valueOf(uuid));
 
@@ -119,7 +129,12 @@ public class ElasticSearchOperations extends
 			Log.e("Error", "Error sending Model: " + e.getMessage());
 		}
 	}
-
+	
+	/**
+	 * Gets all children models from ES
+	 * @param uuid Pulls Model from ES using UUID
+	 * @return	ArrayList of child comment models
+	 */
 	public ArrayList<CommentModel> getAllChildren(String uuid) {
 		ArrayList<CommentModel> returnArray = new ArrayList<CommentModel>();
 
@@ -147,7 +162,14 @@ public class ElasticSearchOperations extends
 		}
 		return returnArray;
 	}
-
+	
+	/**
+	 * 
+	 * @param uuid Pulls Model from ES using UUID
+	 * @return	Arraylist of Root(Top Leve) Comment models
+	 * @throws ClientProtocolException	Internet Exception
+	 * @throws IOException	Handles IO exceptions
+	 */
 	public ArrayList<CommentModel> getAllRootComments(String uuid)throws ClientProtocolException, IOException {
 		ArrayList<CommentModel> returnArray = new ArrayList<CommentModel>();
 			HttpGet search = new HttpGet(urlRoot + "_search");
@@ -175,6 +197,11 @@ public class ElasticSearchOperations extends
 			}
 		return returnArray;
 	}
+	/**
+	 * Deletes comment(s) from ES server
+	 * @param uuid deletes model from ES using uuid
+	 * @param id	Used to signifiy what URL to delete from
+	 */
 
 	public void deleteComment(UUID uuid,int id) {
 		HttpDelete delRequest = delRequest(uuid, id);
@@ -189,7 +216,13 @@ public class ElasticSearchOperations extends
 			e.printStackTrace();
 		}
 	}// End deleteComment
-
+	
+	/**
+	 * Determines what URL to delet from
+	 * @param uuid	deletes model from ES using uuid
+	 * @param id	Used to signifiy what URL to delete from
+	 * @return
+	 */
 	private HttpDelete delRequest(UUID uuid, int id) {
 		HttpDelete delRequest;
 		if (id == 2)
@@ -198,7 +231,11 @@ public class ElasticSearchOperations extends
 			delRequest = new HttpDelete(urlChild + String.valueOf(uuid));
 		return delRequest;
 	}
-
+	
+	/**
+	 * get the http response and return json string
+	 * Provided from ESDemo Lab
+	 */
 	String getEntityContent(HttpResponse response) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				(response.getEntity().getContent())));

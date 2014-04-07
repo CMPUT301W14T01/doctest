@@ -60,7 +60,8 @@ import com.google.gson.Gson;
 /**
  * This view will display a users information
  * The user will be able to change their user name, 
- * view their comment history and view their favourited comments
+ * view their comment history, view their favourited comments
+ * and their read later 
  * @author Team 01
  */
 public class UserProfile extends Activity implements OnClickListener {

@@ -48,7 +48,7 @@ import ca.cs.ualberta.localpost.model.StandardUserModel;
 /**
  * Main code was provided from Android Hive. Code was changed to fix project
  * requirements.
- * 
+ * Creates the Tab Views
  * @author Team 01
  * 
  */

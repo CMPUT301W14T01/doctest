@@ -54,8 +54,7 @@ import ca.cs.ualberta.localpost.model.CommentModel;
 import com.google.gson.Gson;
 
 /**
- * This View will show all the comments that are in the area around the user.
- * 
+ * Displays comments that have pictures
  * @author Team 01
  * 
  */
@@ -81,10 +80,10 @@ public class PicTabView extends Fragment {
 	}
 
 	/**
-	 * Overrides onResume. This will update the listView with data that has been
-	 * added.
+	 * Sorts comments without Pictures
+	 * This will update the listView with the sorted data
 	 */
-	// @Override
+	@Override
 	public void onResume() {
 		super.onResume();
 		new Handler().postDelayed(new Runnable() {
@@ -164,36 +163,29 @@ public class PicTabView extends Fragment {
 		switch (item.getItemId()) {
 		case Menu.FIRST:
 			if(conn.isConnectingToInternet()){
-				
 				Toast.makeText(getActivity(), "UpRad", Toast.LENGTH_SHORT).show();
 				model.get(index).incRadish();
 				es.execute(1, model.get(index).getPostId(), model.get(index),null);
 				return true;
 			}
 			else{
-				Toast.makeText(getActivity(), "You require connectivity to Uprad",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "You require connectivity to Uprad",Toast.LENGTH_SHORT).show();
 				return true;
 			}
 		case Menu.FIRST + 1:
 			if(conn.isConnectingToInternet()){
-				
 				Toast.makeText(getActivity(), "DownRad", Toast.LENGTH_SHORT).show();
 				model.get(index).decRadish();
 				es.execute(1, model.get(index).getPostId(), model.get(index),null);
 				return true;
 			}
 			else{
-				Toast.makeText(getActivity(), "You require connectivity to Downrad",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "You require connectivity to Downrad",Toast.LENGTH_SHORT).show();
 				return true;
 			}
-
 		case Menu.FIRST + 2:
 			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
-			Toast.makeText(getActivity(), "Comment has been Favorited",
-					Toast.LENGTH_SHORT).show();
-			
+			Toast.makeText(getActivity(), "Comment has been Favorited",Toast.LENGTH_SHORT).show();
 			Serialize.update(model.get(index), getActivity(), "favoritecomment.json");
 			return true;
 		}

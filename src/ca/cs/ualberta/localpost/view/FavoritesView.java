@@ -21,8 +21,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * View that Displays all of the users
- * favorited comments
+ * View that Displays all of the users favourited comments
  * @author Team 01
  *
  */
