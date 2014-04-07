@@ -29,7 +29,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -59,7 +58,6 @@ import com.google.gson.Gson;
 public class GreatestTabView extends Fragment {
 	public int isPictures;
 	private ListView listView;
-	private CommentListAdapter adapter;
 	ArrayList<CommentModel> model;
 
 	public void setIsPictures(int option) {

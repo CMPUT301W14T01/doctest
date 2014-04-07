@@ -26,7 +26,6 @@ package ca.cs.ualberta.localpost.model;
 
 import android.content.Context;
 import android.location.Address;
-import android.util.Log;
 import ca.cs.ualberta.localpost.controller.AndroidMacAddressProvider;
 
 /**
@@ -67,7 +66,7 @@ public abstract class UserModel {
 
 	/**
 	 * @param address the address to set
-	 * @return 
+	 * @return user address
 	 */
 	public Address setAddress(Address address) {
 		return this.address = address;

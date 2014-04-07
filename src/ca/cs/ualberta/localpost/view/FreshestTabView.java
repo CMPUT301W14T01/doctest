@@ -26,11 +26,9 @@ package ca.cs.ualberta.localpost.view;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -46,8 +44,8 @@ import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.CommentListAdapter;
 import ca.cs.ualberta.localpost.controller.ConnectivityCheck;
 import ca.cs.ualberta.localpost.controller.ElasticSearchOperations;
-import ca.cs.ualberta.localpost.controller.SortFreshestComments;
 import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.controller.SortFreshestComments;
 import ca.cs.ualberta.localpost.model.CommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
 
@@ -64,9 +62,6 @@ public class FreshestTabView extends Fragment {
 	private ListView listView;
 	private CommentListAdapter adapter;
 	ArrayList<CommentModel> model;
-	private String THREAD_VIEW = "threadview";
-	private String MAP_VIEW_TYPE = "mapviewtype";
-	private String THREAD_COMMENT_MODEL = "threadcommentmodel";
 	StandardUserModel standardUser;
 
 	@Override

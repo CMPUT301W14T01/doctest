@@ -33,9 +33,9 @@ public class PictureSort {
 		
 	}
 	/**
-	 * takes in an arraylist of comment models and removes all that dont have pictures
-	 * @param comments
-	 * @return
+	 * Takes in an ArrayList of comment models and removes all that don't have pictures
+	 * @param comments with both pic/no pic 
+	 * @return ArrayList with pictures
 	 */
 	public ArrayList<CommentModel> WithPictures(ArrayList<CommentModel> comments){
 		for (int i = 0; i < comments.size(); i++ ){
@@ -48,7 +48,7 @@ public class PictureSort {
 	/**
 	 * takes in an arraylist of comment models and removes all that have pictures
 	 * @param comments
-	 * @return
+	 * @return ArrayList with no pictures
 	 */
 	public ArrayList<CommentModel> NoPictures(ArrayList<CommentModel> comments){
 		for (int i = 0; i < comments.size(); i++ ){

@@ -31,7 +31,6 @@ import java.util.UUID;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Address;
-import android.util.Log;
 
 /**
  * This class is the base abstract class for our comment models.
@@ -110,7 +109,8 @@ public abstract class CommentModel extends Observable{
 	 * Final constructor that will be used once location and pictures are added to our comments
 	 * known error : title needs to be added as a parameter 
 	 * @param content : represents the content of the comment
-	 * @param location : is the location the comment was made from or said to be made from by the user
+	 * @param title   : title of the comment
+	 * @param address : is the location the comment was made from or said to be made from by the user
 	 * @param picture : is the picture that is attached to the comment
 	 * @param context : context is passed down from the activity to get the standard user model instance
 	 */
@@ -119,12 +119,10 @@ public abstract class CommentModel extends Observable{
 		try {
 			user = StandardUserModel.getInstance(context);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();		
 		}
 		this.content = content;
 		
-		//random for testing:
 		this.radish = 0;
 		this.setPostId(UUID.randomUUID());
 		this.address = address;
@@ -137,10 +135,7 @@ public abstract class CommentModel extends Observable{
 	public String getTitle() {
 		return title;
 	}
-	/**
-	 * Fetches the user's username
-	 * 
-	 */
+
 	public String getAuthor() {
 		this.author = user.getUsername();
 		return this.author;
@@ -170,16 +165,10 @@ public abstract class CommentModel extends Observable{
 		this.content = content;
 	}
 
-	/**
-	 * @return the latlng
-	 */
 	public Address getAddress() {
 		return address;
 	}
 
-	/**
-	 * @param latlng the latlng to set
-	 */
 	public void setAddress(Address address) {
 		this.address = address;
 	}
@@ -202,33 +191,22 @@ public abstract class CommentModel extends Observable{
 	public int setFreshness(int fresh) {
 		return this.freshness = fresh;
 	}
-	/**
-	 * Increment the radish count aka ratings
-	 */
+ 
 	public void incRadish() {
 		this.radish += 1;
 	}
-	/**
-	 * Decrement radish count
-	 */
+ 
 	public void decRadish() {
 		this.radish -= 1;
 	}
 
-	/**
-	 * @return the postId
-	 */
 	public java.util.UUID getPostId() {
 		return postId;
 	}
 
-	/**
-	 * @param postId : the postId to set
-	 */
 	public void setPostId(java.util.UUID postId) {
 		this.postId = postId;
 	}
-
 
 	public ArrayList<String> getChildren() {
 		return children;
@@ -238,11 +216,7 @@ public abstract class CommentModel extends Observable{
 		this.children.add(string);
 	}
 
-
 	public void setChildren(ArrayList<String> children) {
 		this.children = children;
 	}
-
-
-	
 }

@@ -28,9 +28,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import ca.cs.ualberta.localpost.model.CommentModel;
-import ca.cs.ualberta.localpost.model.StandardUserModel;
 
 	/**
 	 * Sorts comment array by dates

@@ -24,11 +24,9 @@
 package ca.cs.ualberta.localpost.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import android.location.Address;
 import android.location.Location;
-import android.util.Log;
 
 /**
  * This algorithm takes data from a comment and also the location of a user and combines that information to determining the relative freshness of

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.AlertDialog;
-import android.app.Application;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;

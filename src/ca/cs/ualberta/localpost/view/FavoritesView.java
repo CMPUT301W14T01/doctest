@@ -3,22 +3,20 @@ package ca.cs.ualberta.localpost.view;
 
 import java.util.ArrayList;
 
-import com.google.gson.Gson;
-
-import ca.cs.ualberta.localpost.controller.CommentListAdapter;
-import ca.cs.ualberta.localpost.controller.Serialize;
-import ca.cs.ualberta.localpost.model.CommentModel;
-import ca.cs.ualberta.localpost.model.RootCommentModel;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import ca.cs.ualberta.localpost.controller.CommentListAdapter;
+import ca.cs.ualberta.localpost.controller.Serialize;
+import ca.cs.ualberta.localpost.model.CommentModel;
+
+import com.google.gson.Gson;
 
 /**
  * View that Displays all of the users favourited comments

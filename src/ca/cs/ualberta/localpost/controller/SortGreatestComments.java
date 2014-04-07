@@ -28,7 +28,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import ca.cs.ualberta.localpost.model.CommentModel;
 
 	/**

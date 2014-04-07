@@ -188,6 +188,8 @@ public class CommentModelTest extends InstrumentationTestCase {
 		
 		model = new RootCommentModel(comment_content, comment_title, address, picture, getInstrumentation().getContext());
 		
+		model.setAddress(address);
+		
 		assertNotNull(model.getAddress());
 	}
 
@@ -389,7 +391,7 @@ public class CommentModelTest extends InstrumentationTestCase {
 		ArrayList<String> children = new ArrayList<String>();
 		
 		children.add(postId.toString());
-;
+
 		model.setChildren(children);
 		
 		assertEquals(model.getChildren(), children);

@@ -221,7 +221,7 @@ public class ElasticSearchOperations extends
 	 * Determines what URL to delet from
 	 * @param uuid	deletes model from ES using uuid
 	 * @param id	Used to signifiy what URL to delete from
-	 * @return
+	 * @return      URL
 	 */
 	private HttpDelete delRequest(UUID uuid, int id) {
 		HttpDelete delRequest;

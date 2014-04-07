@@ -51,7 +51,8 @@ public class RootCommentModel extends CommentModel {
 	 * This will be our final constructor when we are able to add locations and pictures to our comments
 	 * known error : a title needs to be added 
 	 * @param content : the content of the comment
-	 * @param location : it's location
+	 * @param title   : the title of the comment
+	 * @param address : it's location
 	 * @param picture : the attached picture
 	 * @param context : context is passed down from the activity to get the standard user model instance
 	 */

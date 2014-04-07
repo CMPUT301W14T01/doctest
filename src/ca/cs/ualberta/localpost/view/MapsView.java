@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -47,7 +47,6 @@ import android.widget.Toast;
 import ca.cs.ualberta.localpost.controller.Serialize;
 import ca.cs.ualberta.localpost.model.RootCommentModel;
 import ca.cs.ualberta.localpost.model.StandardUserModel;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -167,6 +166,7 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	 * Arraylist of comments are sent to be displayed as markers on map
 	 * @param commentThread
 	 */
+	@SuppressLint("SimpleDateFormat")
 	private void markerThreadView(ArrayList<String> commentThread) {
 		// Counter var and a date format one
 		int i;
