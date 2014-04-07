@@ -13,15 +13,7 @@
             android:layout_height="wrap_content"
             android:text="This is a Comment Title" />
 
-        <TextView
-            android:id="@+id/rowRad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/rowLocation"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="1dp"
-            android:layout_toRightOf="@+id/rowLocation"
-            android:text="1000" />
+
 
         <TextView
             android:id="@+id/rowDate"
