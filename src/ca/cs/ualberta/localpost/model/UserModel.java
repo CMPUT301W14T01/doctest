@@ -35,7 +35,6 @@ import ca.cs.ualberta.localpost.controller.AndroidMacAddressProvider;
  * @author team01
  *
  */
-
 public abstract class UserModel {
 
 	protected String username;

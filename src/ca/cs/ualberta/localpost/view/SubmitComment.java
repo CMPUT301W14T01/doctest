@@ -34,7 +34,6 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,7 +56,7 @@ import com.google.gson.Gson;
  * This activity allows the user to submit a new comment
  * or a new reply
  * 
- * @author Team 01
+ * @author team01
  * 
  */
 public class SubmitComment extends Activity {
@@ -72,7 +71,6 @@ public class SubmitComment extends Activity {
 	public static final int OBTAIN_ADDRESS_REQUEST_CODE = 101;
 	private String SUBMIT_VIEW = "submitvew";
 	private String MAP_VIEW_TYPE = "mapviewtype";
-	private String INTENT_PURPOSE;
 
 	/** Carries the currently save picture waiting for submission */
 	private Bitmap currentPicture = null;
@@ -112,11 +110,9 @@ public class SubmitComment extends Activity {
 		if (extras != null) {
 			if (extras.containsKey("TopLevelID")) {
 				topLevelID = extras.getString("TopLevelID");
-				Log.e("topLevelIDD", topLevelID);
 			}
 			if (extras.containsKey("parentID")) {
 				parentID = extras.getString("parentID");
-				// Log.e("SubmitID", parentID);
 			}
 			if (extras.containsKey("commentType")) {
 				commentType = extras.getString("commentType");
@@ -131,7 +127,6 @@ public class SubmitComment extends Activity {
 
 		// Hides the Title Edit Field if reply
 		if (commentType.equals("reply")) {
-			// Log.e("Reply",commentType);
 			titleView.setVisibility(View.GONE);
 		}
 
@@ -163,7 +158,7 @@ public class SubmitComment extends Activity {
 	 *             Checks if there is an encoding problem
 	 */
 	public void add_root(View view) throws InvalidKeyException,
-			NoSuchAlgorithmException, UnsupportedEncodingException {
+	NoSuchAlgorithmException, UnsupportedEncodingException {
 		user = Serialize.loaduser(getApplicationContext());
 
 		String title;
@@ -171,60 +166,56 @@ public class SubmitComment extends Activity {
 
 		ConnectivityCheck conn = new ConnectivityCheck(this);
 		if (conn.isConnectingToInternet()) {
-		if (commentType.equals("submit")) {
-			Log.e("add", "submit");
-			title = titleView.getText().toString();
-			content = contentView.getText().toString();
-
-			RootCommentModel new_root = new RootCommentModel(content, title,
-					currentPicture, this);
-			new_root.setAuthor(user.getUsername());
-			new_root.setAddress(user.getAddress());
-			if (address != null)
-				new_root.setAddress(address);
-			Serialize.SaveComment(new_root, this, "history");
-			ElasticSearchOperations es = new ElasticSearchOperations();
-			es.execute(1, new_root.getPostId(), new_root, null);
-
-		} else if (commentType.equals("reply")) {
-			try {
-				//Create new child
+			if (commentType.equals("submit")) {
+				title = titleView.getText().toString();
 				content = contentView.getText().toString();
-				ChildCommentModel new_child = new ChildCommentModel(content,null, currentPicture, this);
-				new_child.setAddress(user.getAddress());
-				if (address != null)
-					new_child.setAddress(address);
-				new_child.setAuthor(user.getUsername());
-				
-				//Find Parent and add to its array
-				ElasticSearchOperations es1 = new ElasticSearchOperations();
-				ArrayList<CommentModel> array;
-				if(topLevelID.equals(parentID)){
-					array = es1.execute(3, null, null,parentID).get();
-				}
-				else
-					array = es1.execute(2, null, null,parentID).get();
-				CommentModel temp = array.get(0);
-				Log.e("temp", temp.getPostId().toString());
-				temp.addChild(new_child.getPostId().toString());
-				Serialize.SaveComment(temp, this, "history");
-				Serialize.update(temp, this, "favoritecomment.json");
-				Serialize.update(temp, this, "historycomment.json");
-				
-				
-				//Push to ES
-				ElasticSearchOperations es2 = new ElasticSearchOperations();
-				es2.execute(1, temp.getPostId(), temp, null);
-				
-				Log.e("Pass","This Point");
-				ElasticSearchOperations es3 = new ElasticSearchOperations();
 
-				es3.execute(1, new_child.getPostId(), new_child, null);
-				Log.e("Executed","Executed");
-			} catch (Exception e) {
-				e.printStackTrace();
+				RootCommentModel new_root = new RootCommentModel(content, title,
+						currentPicture, this);
+				new_root.setAuthor(user.getUsername());
+				new_root.setAddress(user.getAddress());
+				if (address != null)
+					new_root.setAddress(address);
+				Serialize.SaveComment(new_root, this, "history");
+				ElasticSearchOperations es = new ElasticSearchOperations();
+				es.execute(1, new_root.getPostId(), new_root, null);
+
+			} else if (commentType.equals("reply")) {
+				try {
+					//Create new child
+					content = contentView.getText().toString();
+					ChildCommentModel new_child = new ChildCommentModel(content,null, currentPicture, this);
+					new_child.setAddress(user.getAddress());
+					if (address != null)
+						new_child.setAddress(address);
+					new_child.setAuthor(user.getUsername());
+
+					//Find Parent and add to its array
+					ElasticSearchOperations es1 = new ElasticSearchOperations();
+					ArrayList<CommentModel> array;
+					if(topLevelID.equals(parentID)){
+						array = es1.execute(3, null, null,parentID).get();
+					}
+					else
+						array = es1.execute(2, null, null,parentID).get();
+					CommentModel temp = array.get(0);
+					temp.addChild(new_child.getPostId().toString());
+					Serialize.SaveComment(temp, this, "history");
+					Serialize.update(temp, this, "favoritecomment.json");
+					Serialize.update(temp, this, "historycomment.json");
+
+
+					//Push to ES
+					ElasticSearchOperations es2 = new ElasticSearchOperations();
+					es2.execute(1, temp.getPostId(), temp, null);
+
+					ElasticSearchOperations es3 = new ElasticSearchOperations();
+
+					es3.execute(1, new_child.getPostId(), new_child, null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-		}
 			super.onBackPressed();
 		} else {
 			Toast.makeText(this, "You need to be connected!",Toast.LENGTH_SHORT).show();

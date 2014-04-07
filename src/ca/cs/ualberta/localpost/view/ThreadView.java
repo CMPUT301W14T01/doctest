@@ -32,7 +32,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -60,7 +59,7 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Displays a comment and all the replies associated with the comment
  * 
- * @author Team 01
+ * @author team01
  */
 public class ThreadView extends Activity {
 	private TableLayout table;
@@ -72,7 +71,7 @@ public class ThreadView extends Activity {
 	private String THREAD_VIEW = "threadview";
 	private String MAP_VIEW_TYPE = "mapviewtype";
 	private String THREAD_COMMENT_MODEL = "threadcommentmodel";
-	
+
 	Gson gson = new Gson();
 
 	@Override
@@ -87,13 +86,12 @@ public class ThreadView extends Activity {
 		String temp = extras.getString("CommentModel");
 		topLevel = gson.fromJson(temp, RootCommentModel.class);
 
-		
+
 		mapThreadView = new ArrayList<String>(); 
-		
+
 		String passToJson = gson.toJson(topLevel);
-		//Log.e("PassParent", passToJson);
 		mapThreadView.add(passToJson);
-		
+
 		threadExpand(topLevel, 0);
 	}
 	/**
@@ -103,15 +101,15 @@ public class ThreadView extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		  new Handler().postDelayed(new Runnable() {
-		      @Override
-		      public void run() {
-		  		table.removeAllViews();
-		  		table.invalidate();
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				table.removeAllViews();
+				table.invalidate();
 				threadExpand(topLevel, 0);
-		      }}, 250);
+			}}, 250);
 	}
-	
+
 	/**
 	 * Recursively iterates through nested arraylist of comments
 	 * @param comment TopLevel Comment
@@ -119,11 +117,11 @@ public class ThreadView extends Activity {
 	 */
 	public void threadExpand(CommentModel comment, int level) {
 		String passToJson;
-		
+
 		draw(comment, level);
 		++level;
 		ArrayList<String> commentChildren = comment.getChildren(); // List of
-																	// UUIDS
+		// UUIDS
 
 		if (level < depthTolerance && !commentChildren.isEmpty()) {
 			ConnectivityCheck conn = new ConnectivityCheck(this);
@@ -133,15 +131,14 @@ public class ThreadView extends Activity {
 					try {
 						ArrayList<CommentModel> model;
 						model= es.execute(2, null,null, c).get();
-							
+
 						Serialize.check_if_exist(topLevel.getPostId().toString(), this);
 						Serialize.SaveComment(model.get(0), this, topLevel.getPostId().toString());
 						threadExpand(model.get(0), level);
-						
+
 						passToJson = gson.toJson(model.get(0));
-						//Log.e("PassChildren", passToJson);
 						mapThreadView.add(passToJson);
-						
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -150,14 +147,11 @@ public class ThreadView extends Activity {
 				HashMap<String, ChildCommentModel> childlist = Serialize.loadchildFromFile(topLevel.getPostId().toString(),this);
 				for (String c : commentChildren) {
 					threadExpand(childlist.get(c), level);
-//					passToJson = gson.toJson(childlist.get(c), CommentModel.class);
-//					Log.e("PassChildren", passToJson);
-//					mapThreadView.add(passToJson);
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Creates a table row and and appends it to TableView
 	 * @param comment Comment that is being drawn
@@ -178,7 +172,6 @@ public class ThreadView extends Activity {
 		registerForContextMenu(row);
 
 		// Set Tag for use in threadview context menu
-		//Log.e("CommentID", comment.getPostId().toString());
 		row.setTag(comment.getPostId().toString());
 
 		TextView author = (TextView) row.findViewById(R.id.rowAuthor);
@@ -188,15 +181,15 @@ public class ThreadView extends Activity {
 		ImageView picture = (ImageView) row.findViewById(R.id.rowPicture);
 
 		// Set Sizes
-		author.setTextSize(5 * getApplicationContext().getResources()
+		author.setTextSize(4 * getApplicationContext().getResources()
 				.getDisplayMetrics().density);
-		content.setTextSize(8 * getApplicationContext().getResources()
+		content.setTextSize(5 * getApplicationContext().getResources()
 				.getDisplayMetrics().density);
-		timestamp.setTextSize(5 * getApplicationContext().getResources()
+		timestamp.setTextSize(4 * getApplicationContext().getResources()
 				.getDisplayMetrics().density);
-		location.setTextSize(5 * getApplicationContext().getResources()
+		location.setTextSize(4 * getApplicationContext().getResources()
 				.getDisplayMetrics().density);
-		
+
 
 		// Set text and images
 		SimpleDateFormat format = new SimpleDateFormat("c HH:mm MMM/dd/yyyy");
@@ -239,8 +232,6 @@ public class ThreadView extends Activity {
 				.getMenuInfo();
 		switch (item.getItemId()) {
 		case Menu.FIRST:
-			// Log.e("Tag",parentID);
-			Toast.makeText(getApplicationContext(), "Reply", Toast.LENGTH_SHORT).show();
 			Intent newIntent = new Intent(getApplicationContext(),SubmitComment.class);
 			newIntent.putExtra("parentID", parentID);
 			newIntent.putExtra("TopLevelID",topLevel.getPostId().toString());
@@ -262,10 +253,10 @@ public class ThreadView extends Activity {
 		ConnectivityCheck conn = new ConnectivityCheck(this);
 		ElasticSearchOperations es = new ElasticSearchOperations();
 		switch (item.getItemId()) {
-		
+
 		case R.id.readLater:
 			Toast.makeText(getApplicationContext(), "Added to Read Later", Toast.LENGTH_SHORT).show();
-		 	if(conn.isConnectingToInternet()){
+			if(conn.isConnectingToInternet()){
 				es.execute(1, topLevel.getPostId(), topLevel,null);
 				Serialize.SaveComment(topLevel, this, "readlater");
 				Serialize.update(topLevel, this, "readlater.json");
@@ -280,7 +271,6 @@ public class ThreadView extends Activity {
 				Intent intentMapThread = new Intent(getApplicationContext(), MapsView.class);
 				intentMapThread.putExtra(MAP_VIEW_TYPE, THREAD_VIEW);
 				String passArrayComment = gson.toJson(mapThreadView, new TypeToken<ArrayList<String>>(){}.getType());
-				Log.e("Pass3", passArrayComment);
 				intentMapThread.putExtra(THREAD_COMMENT_MODEL, passArrayComment);
 				startActivity(intentMapThread);
 				return true;	

@@ -27,7 +27,7 @@ import android.util.Log;
 /**
  * Class that implements the location services
  * Source: http://www.androidhive.info/2012/07/android-gps-location-manager-tutorial/
- * @author timotei
+ * @author team01
  *
  */
 public class GPSLocation extends Service implements LocationListener {

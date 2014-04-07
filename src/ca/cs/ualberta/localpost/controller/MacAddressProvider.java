@@ -29,7 +29,6 @@ import android.content.Context;
  * @author team01
  *
  */
-
 public interface MacAddressProvider {
 	public String getMacAddress(Context context);
 }

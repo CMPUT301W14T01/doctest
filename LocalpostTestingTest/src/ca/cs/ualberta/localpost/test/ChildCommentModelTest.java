@@ -34,7 +34,8 @@ public class ChildCommentModelTest extends TestCase {
 	 * Test whether we can instantiate a ChilCommentModel
 	 */
 	public final void testChildCommentModel() {
-		model = new ChildCommentModel();
+		// TODO test this
+		model = new ChildCommentModel(null);
 		
 		assertNotNull(model);		
 	}
