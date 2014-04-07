@@ -23,34 +23,24 @@
 
 package ca.cs.ualberta.localpost.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import android.app.Application;
+import android.content.Context;
+import android.net.wifi.WifiManager;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
-import ca.cs.ualberta.localpost.model.CommentModel;
-import ca.cs.ualberta.localpost.model.StandardUserModel;
+public class AndroidMacAddressProvider extends Application implements MacAddressProvider {
 
 	/**
-	 * Sorts comment array by dates
-	 * @author Team01
-	 *
+	 * gets the hardware mac address from the hardware and returns it as a string
 	 */
-public class SortLatestComments implements SortComments {
 	
-	@Override
-	public ArrayList<CommentModel> sortComments(ArrayList<CommentModel> comments) {
-		Collections.sort(comments, new Comparator<CommentModel>() {
-	        @SuppressLint("NewApi")
-			@Override
-	        public int compare(CommentModel  comment1, CommentModel  comment2)
-	        {
-
-	            return  Long.compare(comment2.getTimestamp(), comment1.getTimestamp());
-	        }
-	    });
-		return comments;
+	public String getMacAddress(Context context) {
+		
+	    WifiManager wimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+	    String macAddress = wimanager.getConnectionInfo().getMacAddress();
+	    if (macAddress == null) {
+	        macAddress = "Device don't have mac address or wi-fi is disabled";
+	    }
+	    return macAddress;
 	}
-	
+
 }

@@ -59,7 +59,7 @@ public abstract class CommentModel extends Observable{
 	StandardUserModel user;
 	
 	/**
-	 * Basic constructor that was used for testing purposes
+	 * Basic constructor that was used for testing purposes and creating holders
 	 * 
 	 */
 	public CommentModel(Context context) {
@@ -72,14 +72,11 @@ public abstract class CommentModel extends Observable{
 		this.title = null;
 		this.content = null;
 		this.picture = null;
-//		this.title = getTitle();
-//		this.content = getContent();
 		this.radish = rand.nextInt(100);
 		this.setPostId(postId);
 		this.timestamp = date;
 		this.author = getAuthor();
 		this.address = user.getAddress();
-//		this.picture = getPicture();
 	}
 
 	/**
@@ -87,6 +84,7 @@ public abstract class CommentModel extends Observable{
 	 * @param content : represents the content of the comment
 	 * @param title : represents the title of a comment
 	 * @param picture : is the picture that is attached to the comment
+	 * @param context : context is passed down from the activity to get the standard user model instance
 	 */
 	public CommentModel(String content, String title,
 			Bitmap picture, Context context) {
@@ -114,6 +112,7 @@ public abstract class CommentModel extends Observable{
 	 * @param content : represents the content of the comment
 	 * @param location : is the location the comment was made from or said to be made from by the user
 	 * @param picture : is the picture that is attached to the comment
+	 * @param context : context is passed down from the activity to get the standard user model instance
 	 */
 	public CommentModel(String content, String title, Address address,
 			Bitmap picture, Context context) {
@@ -148,12 +147,7 @@ public abstract class CommentModel extends Observable{
 	}
 
 	public void setAuthor(String author) {
-		try {
-			user.setUsername(author);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
+		user.setAuthor(author); 
 	}
 
 	public void setTitle(String title) {
@@ -243,11 +237,7 @@ public abstract class CommentModel extends Observable{
 	public void addChild(String string) {
 		this.children.add(string);
 	}
-//	public void addChildren(ArrayList<ChildCommentModel> children) {
-//		for(ChildCommentModel child : children){
-//			this.addChild(child);
-//		}
-//	}
+
 
 	public void setChildren(ArrayList<String> children) {
 		this.children = children;

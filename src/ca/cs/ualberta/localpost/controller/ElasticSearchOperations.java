@@ -58,8 +58,7 @@ public class ElasticSearchOperations extends
 
 	private static Gson gson;
 
-	//private String urlRoot = "http://cmput301.softwareprocess.es:8080/cmput301w14t01/root/";
-	//private String urlChild = "http://cmput301.softwareprocess.es:8080/cmput301w14t01/child/";
+
 	private String urlRoot  =  "http://cmput301.softwareprocess.es:8080/testing/chautran/";
 	private String urlChild = "http://cmput301.softwareprocess.es:8080/testing/zerihoun/";
 	
@@ -116,14 +115,6 @@ public class ElasticSearchOperations extends
 			HttpResponse response = httpclient.execute(pushRequest);
 			HttpEntity entity = response.getEntity();
 
-			// For Printing; Remove when unneeded
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					entity.getContent()));
-
-			String output = reader.readLine();
-			while (output != null) {
-				output = reader.readLine();
-			}
 		} catch (Exception e) {
 			Log.e("Error", "Error sending Model: " + e.getMessage());
 		}
@@ -137,7 +128,7 @@ public class ElasticSearchOperations extends
 			HttpResponse response = httpclient.execute(search);
 
 			String status = response.getStatusLine().toString();
-			System.out.println(status);
+			//System.out.println(status);
 
 			String json = getEntityContent(response);
 
@@ -163,7 +154,7 @@ public class ElasticSearchOperations extends
 			HttpResponse response = httpclient.execute(search);
 
 			String status = response.getStatusLine().toString();
-			System.out.println(status);
+			//System.out.println(status);
 
 			String json = getEntityContent(response);
 
@@ -186,11 +177,7 @@ public class ElasticSearchOperations extends
 	}
 
 	public void deleteComment(UUID uuid,int id) {
-		HttpDelete delRequest;
-		if(id == 2)
-			delRequest = new HttpDelete(urlRoot + String.valueOf(uuid));
-		else
-			delRequest = new HttpDelete(urlChild + String.valueOf(uuid));
+		HttpDelete delRequest = delRequest(uuid, id);
 		try {
 			HttpResponse response = httpclient.execute(delRequest);
 			HttpEntity entity = response.getEntity();
@@ -203,16 +190,25 @@ public class ElasticSearchOperations extends
 		}
 	}// End deleteComment
 
+	private HttpDelete delRequest(UUID uuid, int id) {
+		HttpDelete delRequest;
+		if (id == 2)
+			delRequest = new HttpDelete(urlRoot + String.valueOf(uuid));
+		else
+			delRequest = new HttpDelete(urlChild + String.valueOf(uuid));
+		return delRequest;
+	}
+
 	String getEntityContent(HttpResponse response) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				(response.getEntity().getContent())));
 		String output;
 		String json = "";
 		while ((output = br.readLine()) != null) {
-			System.err.println(output);
+			//System.err.println(output);
 			json += output;
 		}
-		System.err.println("JSON:" + json);
+		//System.err.println("JSON:" + json);
 		return json;
 	}
 

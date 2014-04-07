@@ -120,9 +120,6 @@ public class FreshestTabView extends Fragment {
 
 				}
 				SortFreshestComments sort = new SortFreshestComments();
-				//ArrayList<CommentModel> model2 = new ArrayList<CommentModel>();
-				//model2 = model;
-				Log.e("model", String.valueOf(model));
 				model = sort.sortComments(model);
 
 				adapter = new CommentListAdapter(getActivity(),

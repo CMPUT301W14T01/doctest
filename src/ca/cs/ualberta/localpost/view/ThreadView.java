@@ -89,11 +89,11 @@ public class ThreadView extends Activity {
 		String temp = extras.getString("CommentModel");
 		topLevel = gson.fromJson(temp, RootCommentModel.class);
 
-		// Log.e("topLevel",topLevel.getChildren().get(0).toString());
+		
 		mapThreadView = new ArrayList<String>(); 
 		
 		String passToJson = gson.toJson(topLevel);
-		Log.e("PassParent", passToJson);
+		//Log.e("PassParent", passToJson);
 		mapThreadView.add(passToJson);
 		
 		threadExpand(topLevel, 0);
@@ -135,7 +135,7 @@ public class ThreadView extends Activity {
 						threadExpand(model.get(0), level);
 						
 						passToJson = gson.toJson(model.get(0));
-						Log.e("PassChildren", passToJson);
+						//Log.e("PassChildren", passToJson);
 						mapThreadView.add(passToJson);
 						
 					} catch (Exception e) {
@@ -176,7 +176,6 @@ public class ThreadView extends Activity {
 		TextView content = (TextView) row.findViewById(R.id.rowContent);
 		TextView location = (TextView) row.findViewById(R.id.rowLocation);
 		TextView timestamp = (TextView) row.findViewById(R.id.rowDate);
-		TextView radish = (TextView) row.findViewById(R.id.rowRad);
 		ImageView picture = (ImageView) row.findViewById(R.id.rowPicture);
 
 		// Set Sizes
@@ -188,8 +187,7 @@ public class ThreadView extends Activity {
 				.getDisplayMetrics().density);
 		location.setTextSize(5 * getApplicationContext().getResources()
 				.getDisplayMetrics().density);
-		radish.setTextSize(5 * getApplicationContext().getResources()
-				.getDisplayMetrics().density);
+		
 
 		// Set text and images
 		SimpleDateFormat format = new SimpleDateFormat("c HH:mm MMM/dd/yyyy");
@@ -212,7 +210,6 @@ public class ThreadView extends Activity {
 		}
 
 		timestamp.setText(format.format(new Date(comment.getTimestamp())));
-		radish.setText(String.valueOf(comment.getRadish()));
 		picture.setImageBitmap(comment.getPicture());
 
 		table.addView(row);

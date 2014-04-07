@@ -27,7 +27,7 @@ package ca.cs.ualberta.localpost.model;
 import android.content.Context;
 import android.location.Address;
 import android.util.Log;
-import ca.cs.ualberta.localpost.AndroidMacAddressProvider;
+import ca.cs.ualberta.localpost.controller.AndroidMacAddressProvider;
 
 /**
  * This class is a model of a user. It has attributes username and tripcode. It also has a function that generates the tripcode as a function of 
@@ -92,12 +92,7 @@ public abstract class UserModel {
 	public String genTripcode(Context context){
 		// get the mac address
 		String macAddress = getMac(context);
-		//Random rand = new Random();
-		
-		//mac.getMacAddress().hashCode()
-		//String trip = Integer.toString(this.username.hashCode() * rand.nextInt(100));
 		String trip = Integer.toString(macAddress.hashCode());
-		Log.e("trip", trip);
 		return trip;
 
 	}
@@ -110,6 +105,14 @@ public abstract class UserModel {
 		AndroidMacAddressProvider macprov = new AndroidMacAddressProvider();
 		String macAddress = macprov.getMacAddress(context).toString();
 		return macAddress;
+	}
+
+	public void setAuthor(String author) {
+		try {
+			setUsername(author);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

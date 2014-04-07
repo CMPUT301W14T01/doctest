@@ -31,6 +31,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import ca.cs.ualberta.localpost.model.CommentModel;
 
+	/**
+	 * Sorts comment array by Radish 
+	 * @author Team01
+	 *
+	 */
 public class SortGreatestComments implements SortComments {
 	
 	@Override

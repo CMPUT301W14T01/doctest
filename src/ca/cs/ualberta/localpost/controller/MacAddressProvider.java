@@ -23,34 +23,13 @@
 
 package ca.cs.ualberta.localpost.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import android.content.Context;
+/**
+ * Injection dependency to keep the mac address adaptable incase proting to different systems.
+ * @author team01
+ *
+ */
 
-import android.annotation.SuppressLint;
-import android.util.Log;
-import ca.cs.ualberta.localpost.model.CommentModel;
-import ca.cs.ualberta.localpost.model.StandardUserModel;
-
-	/**
-	 * Sorts comment array by dates
-	 * @author Team01
-	 *
-	 */
-public class SortLatestComments implements SortComments {
-	
-	@Override
-	public ArrayList<CommentModel> sortComments(ArrayList<CommentModel> comments) {
-		Collections.sort(comments, new Comparator<CommentModel>() {
-	        @SuppressLint("NewApi")
-			@Override
-	        public int compare(CommentModel  comment1, CommentModel  comment2)
-	        {
-
-	            return  Long.compare(comment2.getTimestamp(), comment1.getTimestamp());
-	        }
-	    });
-		return comments;
-	}
-	
+public interface MacAddressProvider {
+	public String getMacAddress(Context context);
 }

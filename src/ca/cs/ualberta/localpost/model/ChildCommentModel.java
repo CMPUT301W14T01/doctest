@@ -41,7 +41,7 @@ public class ChildCommentModel extends CommentModel {
 	
 	/**
 	 * This constructor is used while we can't yet add locations to our comments
-	 * @param context : the content of the comment
+	 * @param context : context is passed down from the activity to get the standard user model instance
 	 */
 	public ChildCommentModel(Context context) {
 		super(context);
@@ -52,6 +52,7 @@ public class ChildCommentModel extends CommentModel {
 	 * @param content : the content of the comment
 	 * @param title : the comment's title
 	 * @param picture : the comment's picture
+	 * @param context : context is passed down from the activity to get the standard user model instance
 	 */
 	public ChildCommentModel(String content, String title, Bitmap picture, Context context) {
 		super(content, title, picture, context);
@@ -63,6 +64,7 @@ public class ChildCommentModel extends CommentModel {
 	 * @param content : the content of the comment
 	 * @param location : it's location
 	 * @param picture : the attached picture
+	 * @param context : context is passed down from the activity to get the standard user model instance
 	 */
 	public ChildCommentModel(String content, String title, Address address, Bitmap picture, Context context) {
 		super(content, title, address, picture, context);
