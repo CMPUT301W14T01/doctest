@@ -56,7 +56,7 @@ ActionBar.TabListener {
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
-	private String[] tabs = { "Fresh", "Lastest", "Greatest","No Pics","Pics" };
+	private String[] tabs = { "Fresh", "Latest", "Greatest","No Pics","Pics" };
 
 	// public Bitmap picture;
 	/** Creates a model object of StandardUserModel.class */
