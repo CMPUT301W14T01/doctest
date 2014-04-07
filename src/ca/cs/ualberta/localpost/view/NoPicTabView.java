@@ -64,10 +64,6 @@ public class NoPicTabView extends Fragment {
 	private CommentListAdapter adapter;
 	ArrayList<CommentModel> model;
 
-	public void setIsPictures(int option) {
-		this.isPictures = option;
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -88,28 +84,22 @@ public class NoPicTabView extends Fragment {
 	public void onResume() {
 		super.onResume();
 		new Handler().postDelayed(new Runnable() {
-			// ArrayList<CommentModel> model = new ArrayList<CommentModel>();
 			public void run() {
 				ConnectivityCheck conn = new ConnectivityCheck(getActivity());
 				if (conn.isConnectingToInternet()) {
-
 					try {
 						model = new ElasticSearchOperations().execute(3, null,
 								null, null).get();
-						Serialize.check_if_exist("cachedrootcomment.json",
-								getActivity());
+						Serialize.check_if_exist("cachedrootcomment.json",getActivity());
 						for (CommentModel c : model) {
 							Serialize.SaveComment(c, getActivity(), null);
-							Serialize.update(c, getActivity(),
-									"favoritecomment.json");
-							Serialize.update(c, getActivity(),
-									"historycomment.json");
+							Serialize.update(c, getActivity(),"favoritecomment.json");
+							Serialize.update(c, getActivity(),"historycomment.json");
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				} else {
-
 					model = Serialize.loadFromFile("cachedrootcomment.json",
 							getActivity());
 				}
@@ -129,8 +119,7 @@ public class NoPicTabView extends Fragment {
 
 						Gson gson = new Gson();
 						String modelString = gson.toJson(model.get(position));
-						Intent myIntent = new Intent(getActivity(),
-								ThreadView.class);
+						Intent myIntent = new Intent(getActivity(),ThreadView.class);
 						myIntent.putExtra("CommentModel", modelString);
 
 						startActivity(myIntent);
@@ -138,7 +127,7 @@ public class NoPicTabView extends Fragment {
 					}
 				});
 			}
-		}, 750);
+		}, 500);
 	}
 
 	@Override

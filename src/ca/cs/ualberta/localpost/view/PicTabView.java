@@ -64,10 +64,6 @@ public class PicTabView extends Fragment {
 	private CommentListAdapter adapter;
 	ArrayList<CommentModel> model;
 
-	public void setIsPictures(int option) {
-		this.isPictures = option;
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -87,60 +83,44 @@ public class PicTabView extends Fragment {
 	public void onResume() {
 		super.onResume();
 		new Handler().postDelayed(new Runnable() {
-			// ArrayList<CommentModel> model = new ArrayList<CommentModel>();
 			public void run() {
-
 				ConnectivityCheck conn = new ConnectivityCheck(getActivity());
 				if (conn.isConnectingToInternet()) {
-
 					try {
-						model = new ElasticSearchOperations().execute(3, null,
-								null, null).get();
-						Serialize.check_if_exist("cachedrootcomment.json",
-								getActivity());
+						model = new ElasticSearchOperations().execute(3, null,null, null).get();
+						Serialize.check_if_exist("cachedrootcomment.json",getActivity());
 						for (CommentModel c : model) {
 							Serialize.SaveComment(c, getActivity(), null);
-							Serialize.update(c, getActivity(),
-									"favoritecomment.json");
-							Serialize.update(c, getActivity(),
-									"historycomment.json");
+							Serialize.update(c, getActivity(),"favoritecomment.json");
+							Serialize.update(c, getActivity(),"historycomment.json");
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				} else {
-
-					model = Serialize.loadFromFile("cachedrootcomment.json",
-							getActivity());
-
+					model = Serialize.loadFromFile("cachedrootcomment.json",getActivity());
 				}
 				PictureSort sort = new PictureSort();
 				ArrayList<CommentModel> model2 = new ArrayList<CommentModel>();
 				model2 = model;
 				model = sort.WithPictures(model2);
 
-				adapter = new CommentListAdapter(getActivity(),
-						R.id.custom_adapter, model);
+				adapter = new CommentListAdapter(getActivity(),R.id.custom_adapter, model);
 				listView.setAdapter(adapter);
 				registerForContextMenu(listView);
 
 		
 				listView.setOnItemClickListener(new OnItemClickListener() {
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
-
+					public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
 						Gson gson = new Gson();
 						String modelString = gson.toJson(model.get(position));
-						Intent myIntent = new Intent(getActivity(),
-								ThreadView.class);
+						Intent myIntent = new Intent(getActivity(),ThreadView.class);
 						myIntent.putExtra("CommentModel", modelString);
-
 						startActivity(myIntent);
-
 					}
 				});
 			}
-		}, 750);
+		}, 500);
 	}
 
 	@Override

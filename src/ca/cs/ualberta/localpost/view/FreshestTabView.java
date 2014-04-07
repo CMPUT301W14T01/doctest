@@ -69,10 +69,6 @@ public class FreshestTabView extends Fragment {
 	private String THREAD_COMMENT_MODEL = "threadcommentmodel";
 	StandardUserModel standardUser;
 
-	public void setIsPictures(int option) {
-		this.isPictures = option;
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -94,38 +90,27 @@ public class FreshestTabView extends Fragment {
 	public void onResume() {
 		super.onResume();
 		new Handler().postDelayed(new Runnable() {
-			// ArrayList<CommentModel> model = new ArrayList<CommentModel>();
 			public void run() {
-
 				ConnectivityCheck conn = new ConnectivityCheck(getActivity());
 				if (conn.isConnectingToInternet()) {
-
 					try {
-						model = new ElasticSearchOperations().execute(3, null,
-								null, null).get();
-						Serialize.check_if_exist("cachedrootcomment.json",
-								getActivity());
+						model = new ElasticSearchOperations().execute(3, null,null, null).get();
+						Serialize.check_if_exist("cachedrootcomment.json",getActivity());
 						for (CommentModel c : model) {
 							Serialize.SaveComment(c, getActivity(), null);
-							Serialize.update(c, getActivity(),
-									"favoritecomment.json");
-							Serialize.update(c, getActivity(),
-									"historycomment.json");
+							Serialize.update(c, getActivity(),"favoritecomment.json");
+							Serialize.update(c, getActivity(),"historycomment.json");
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				} else {
-
-					model = Serialize.loadFromFile("cachedrootcomment.json",
-							getActivity());
-
+					model = Serialize.loadFromFile("cachedrootcomment.json",getActivity());
 				}
 				SortFreshestComments sort = new SortFreshestComments();
 				model = sort.sortComments(model);
 
-				adapter = new CommentListAdapter(getActivity(),
-						R.id.custom_adapter, model);
+				adapter = new CommentListAdapter(getActivity(),R.id.custom_adapter, model);
 				listView.setAdapter(adapter);
 				registerForContextMenu(listView);
 
@@ -136,12 +121,10 @@ public class FreshestTabView extends Fragment {
 
 						Gson gson = new Gson();
 						String modelString = gson.toJson(model.get(position));
-						Intent myIntent = new Intent(getActivity(),
-								ThreadView.class);
+						Intent myIntent = new Intent(getActivity(),ThreadView.class);
 						myIntent.putExtra("CommentModel", modelString);
 
 						startActivity(myIntent);
-
 					}
 				});
 			}
@@ -191,7 +174,6 @@ public class FreshestTabView extends Fragment {
 						Toast.LENGTH_SHORT).show();
 				return true;
 			}
-
 		case Menu.FIRST + 2://Favorites
 			Serialize.SaveComment(model.get(index), getActivity(), "favourite");
 			Toast.makeText(getActivity(), "Comment has been Favorited",Toast.LENGTH_SHORT).show();
