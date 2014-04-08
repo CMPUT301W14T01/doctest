@@ -410,15 +410,22 @@ public class MapsView extends FragmentActivity implements OnInfoWindowClickListe
 	/**
 	 * Method that passes an object of the address of the marker back to the previous activity, whose InfoWindow has been clicked		
 	 */
-	@Override
-	public void onInfoWindowClick(Marker marker) {
-		Intent returnIntent = new Intent();
-		Gson gson = new Gson();
-		String string = gson.toJson(address);
-		returnIntent.putExtra("address", string);
-		setResult(RESULT_OK, returnIntent);
-		alertDialog();			
-	}
+		@Override
+		public void onInfoWindowClick(Marker marker) {
+			if(INTENT_PURPOSE.equals(THREAD_VIEW))
+			{
+				;
+			}
+			else
+			{
+				Intent returnIntent = new Intent();
+				Gson gson = new Gson();
+				String string = gson.toJson(address);
+				returnIntent.putExtra("address", string);
+				setResult(RESULT_OK, returnIntent);
+				alertDialog();	
+			}
+		}
 
 	/**
 	 * Called repeatedly while marker is being dragged
